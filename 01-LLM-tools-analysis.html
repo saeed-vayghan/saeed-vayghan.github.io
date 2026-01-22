@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Control Frameworks | Interactive Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .card-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+        .transition-all-300 { transition: all 0.3s ease; }
+        
+        /* Chart Container Styling as per requirements */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Max width to prevent excessive stretching */
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px; /* Base height */
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+    </style>
+    <!-- Chosen Palette: Slate (Neutral Background) with Indigo (Primary) and Emerald/Amber/Rose (Status/Highlights) -->
+    <!-- Application Structure Plan: 
+         1. Hero Section: Sets the context "Taming the LLM".
+         2. Interactive Radar: "The Landscape". A visual comparison of the 5 tools across 5 abstract metrics (Control, Ease, Abstraction, Safety, Speed).
+         3. The Decision Engine: Task-oriented flow. Users click "I want to..." and the UI highlights the best tool.
+         4. Deep Dive Matrix: A detailed interactive grid. Clicking a tool reveals its "Signature" (Code style, Philosophy, Pros/Cons).
+         5. Footer: Links to sources.
+    -->
+    <!-- Visualization & Content Choices:
+         - Radar Chart: Goal -> Compare abstract qualities (e.g., Learning Curve vs Control). Viz -> Chart.js Radar. Interaction -> Toggle datasets.
+         - Decision Engine: Goal -> Guide user selection. Viz -> Interactive Buttons/Cards. Interaction -> Filter logic highlights best match.
+         - Comparison Matrix: Goal -> Detailed specs. Viz -> Styled Grid. Interaction -> Expand/Collapse details.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-indigo-600 tracking-tight">LLM<span class="text-slate-800">Control</span></span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="#landscape" class="text-sm font-medium text-slate-600 hover:text-indigo-600">Landscape</a>
+                    <a href="#decision-engine" class="text-sm font-medium text-slate-600 hover:text-indigo-600">Recommendation</a>
+                    <a href="#deep-dive" class="text-sm font-medium text-slate-600 hover:text-indigo-600">Deep Dive</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl mb-4">
+                Taming the Chaos
+            </h1>
+            <p class="text-xl text-slate-500 max-w-2xl mx-auto">
+                Comparing the top 5 libraries for controlling, structuring, and optimizing Large Language Models: 
+                <span class="font-semibold text-indigo-600">DSPy</span>, 
+                <span class="font-semibold text-indigo-600">Instructor</span>, 
+                <span class="font-semibold text-indigo-600">Guardrails</span>, 
+                <span class="font-semibold text-indigo-600">Guidance</span>, and 
+                <span class="font-semibold text-indigo-600">Outlines</span>.
+            </p>
+        </div>
+    </header>
+
+    <!-- Section 1: The Landscape (Radar Chart) -->
+    <section id="landscape" class="py-12 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-slate-900">The Control Landscape</h2>
+                <p class="mt-2 text-slate-600">A visual comparison of how these libraries balance trade-offs. Click the legend items to toggle tools.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                <!-- Chart Column -->
+                <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <div class="chart-container">
+                        <canvas id="radarChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Context Column -->
+                <div class="lg:col-span-1 space-y-6">
+                    <div class="bg-indigo-50 p-4 rounded-lg border border-indigo-100">
+                        <h3 class="font-bold text-indigo-900 mb-2">Metrics Explained</h3>
+                        <ul class="space-y-3 text-sm text-indigo-800">
+                            <li><strong>Ease of Use:</strong> How quickly can a new dev start?</li>
+                            <li><strong>Control Level:</strong> Precision over token generation.</li>
+                            <li><strong>Abstraction:</strong> How much "magic" is hidden?</li>
+                            <li><strong>Optimization:</strong> Does it auto-improve prompts?</li>
+                            <li><strong>Reliability:</strong> Guaranteed schema adherence.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg border border-slate-200">
+                        <h3 class="font-bold text-slate-800 mb-2">Quick Take</h3>
+                        <p id="chart-insight" class="text-sm text-slate-600">
+                            Hover over the chart data points to see specific scores. Notice how <strong>DSPy</strong> spikes in Optimization, while <strong>Instructor</strong> leads in Ease of Use.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: The Decision Engine -->
+    <section id="decision-engine" class="py-12 bg-white border-y border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-slate-900">What do you need to do?</h2>
+                <p class="mt-2 text-slate-600">Select a goal to find the perfect tool for your stack.</p>
+            </div>
+
+            <!-- Goal Buttons -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button onclick="selectGoal('structure')" class="goal-btn px-6 py-3 rounded-full border border-slate-300 font-medium text-slate-600 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-700 transition-all-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" data-goal="structure">
+                    Get Valid JSON
+                </button>
+                <button onclick="selectGoal('optimize')" class="goal-btn px-6 py-3 rounded-full border border-slate-300 font-medium text-slate-600 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-700 transition-all-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" data-goal="optimize">
+                    Auto-Optimize Prompts
+                </button>
+                <button onclick="selectGoal('safety')" class="goal-btn px-6 py-3 rounded-full border border-slate-300 font-medium text-slate-600 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-700 transition-all-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" data-goal="safety">
+                    Validate & Filter
+                </button>
+                <button onclick="selectGoal('control')" class="goal-btn px-6 py-3 rounded-full border border-slate-300 font-medium text-slate-600 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-700 transition-all-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" data-goal="control">
+                    Complex Flow Control
+                </button>
+            </div>
+
+            <!-- Recommendation Display -->
+            <div id="recommendation-area" class="grid grid-cols-1 md:grid-cols-2 gap-8 hidden animate-fade-in">
+                <!-- Winner Card -->
+                <div class="bg-gradient-to-br from-indigo-600 to-indigo-700 rounded-2xl p-8 text-white shadow-xl">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-indigo-200 text-sm font-bold uppercase tracking-wider">Top Recommendation</span>
+                        <span class="text-2xl">🏆</span>
+                    </div>
+                    <h3 id="rec-title" class="text-4xl font-extrabold mb-2">Tool Name</h3>
+                    <p id="rec-tagline" class="text-xl text-indigo-100 font-light mb-6">The tagline goes here.</p>
+                    <p id="rec-desc" class="text-indigo-50 mb-6 leading-relaxed">Description.</p>
+                    <div class="bg-indigo-800 bg-opacity-50 rounded-lg p-4">
+                        <span class="text-sm font-semibold text-indigo-200 block mb-1">Why it wins:</span>
+                        <p id="rec-reason" class="text-white">Reasoning.</p>
+                    </div>
+                </div>
+
+                <!-- Runner Up / Alternative -->
+                <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-slate-500 text-sm font-bold uppercase tracking-wider">Alternative Choice</span>
+                    </div>
+                    <h3 id="alt-title" class="text-2xl font-bold text-slate-800 mb-2">Tool Name</h3>
+                    <p id="alt-desc" class="text-slate-600 mb-6 leading-relaxed">Description.</p>
+                    <ul id="alt-points" class="space-y-2 text-slate-600 text-sm">
+                        <!-- LI populated by JS -->
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Default State -->
+            <div id="default-state" class="text-center py-12">
+                <div class="inline-block p-4 rounded-full bg-slate-100 mb-4 text-4xl">👆</div>
+                <p class="text-slate-500">Select a goal above to see the best tool for the job.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Deep Dive Matrix -->
+    <section id="deep-dive" class="py-16 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-10">
+                <h2 class="text-2xl font-bold text-slate-900">Deep Dive Comparison</h2>
+                <p class="mt-2 text-slate-600">Select a tool to analyze its syntax, philosophy, and unique strengths.</p>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-6">
+                <!-- Sidebar Selection -->
+                <div class="w-full md:w-1/4 space-y-2">
+                    <button onclick="showDeepDive('dspy')" class="tool-select-btn w-full text-left px-4 py-3 rounded-lg bg-white hover:bg-indigo-50 border border-slate-200 focus:ring-2 focus:ring-indigo-500 transition-all font-medium text-slate-700 active-tool" data-tool="dspy">
+                        DSPy
+                    </button>
+                    <button onclick="showDeepDive('instructor')" class="tool-select-btn w-full text-left px-4 py-3 rounded-lg bg-white hover:bg-indigo-50 border border-slate-200 focus:ring-2 focus:ring-indigo-500 transition-all font-medium text-slate-700" data-tool="instructor">
+                        Instructor
+                    </button>
+                    <button onclick="showDeepDive('guardrails')" class="tool-select-btn w-full text-left px-4 py-3 rounded-lg bg-white hover:bg-indigo-50 border border-slate-200 focus:ring-2 focus:ring-indigo-500 transition-all font-medium text-slate-700" data-tool="guardrails">
+                        Guardrails
+                    </button>
+                    <button onclick="showDeepDive('guidance')" class="tool-select-btn w-full text-left px-4 py-3 rounded-lg bg-white hover:bg-indigo-50 border border-slate-200 focus:ring-2 focus:ring-indigo-500 transition-all font-medium text-slate-700" data-tool="guidance">
+                        Guidance
+                    </button>
+                    <button onclick="showDeepDive('outlines')" class="tool-select-btn w-full text-left px-4 py-3 rounded-lg bg-white hover:bg-indigo-50 border border-slate-200 focus:ring-2 focus:ring-indigo-500 transition-all font-medium text-slate-700" data-tool="outlines">
+                        Outlines
+                    </button>
+                </div>
+
+                <!-- Detail Panel -->
+                <div class="w-full md:w-3/4 bg-white rounded-xl shadow-sm border border-slate-200 p-8">
+                    <div id="detail-content">
+                        <!-- Dynamic Content populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-white border-t border-slate-200 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center text-slate-500 text-sm">
+            <p>Analysis based on latest repository states. Generated for Canvas.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- Data ---
+        const toolsData = {
+            dspy: {
+                name: "DSPy",
+                tagline: "Programming—not prompting",
+                description: "Stanford's framework that treats language models like PyTorch modules. It abstracts away prompts and optimizes them automatically using 'Teleprompters'.",
+                syntax: "class GenerateAnswer(dspy.Signature):\n    context = dspy.InputField()\n    question = dspy.InputField()\n    answer = dspy.OutputField()",
+                pros: ["Auto-optimizes prompts", "Modular & composable", "Agnostic to model backend"],
+                cons: ["Steep learning curve", "Paradigm shift required"],
+                bestFor: "Complex pipelines & RAG"
+            },
+            instructor: {
+                name: "Instructor",
+                tagline: "Structured output made simple",
+                description: "A lightweight wrapper around Pydantic. It leverages the model's function-calling API to ensure outputs strictly adhere to your data schema.",
+                syntax: "class User(BaseModel):\n    name: str\n    age: int\n\nuser = client.chat.completions.create(\n    response_model=User,...)",
+                pros: ["Extremely easy to use", "Native Pydantic integration", "Reliable JSON"],
+                cons: ["Dependent on model's tool-use capability"],
+                bestFor: "Data extraction & Tools"
+            },
+            guardrails: {
+                name: "Guardrails",
+                tagline: "The Safety Net",
+                description: "A validation wrapper that enforces rules (RAILs) on input and output. It can detect PII, toxic content, or invalid SQL and trigger retries.",
+                syntax: "<rail version='0.1'>\n<output>\n  <string name='sql' format='valid-sql'/>\n</output>\n</rail>",
+                pros: ["Extensive validator library", "Safety & Compliance focus", "Auto-correction"],
+                cons: ["Adds latency (validation step)", "XML config can be verbose"],
+                bestFor: "Enterprise Compliance"
+            },
+            guidance: {
+                name: "Guidance",
+                tagline: "The Steering Wheel",
+                description: "Allows you to interleave generation and prompting. You control the loop, injecting variables and logic directly into the generation stream.",
+                syntax: "lm + f'Do you want a joke? {select(['yes', 'no'], name='choice')}'",
+                pros: ["High efficiency", "Granular control", "Reduces hallucination"],
+                cons: ["Syntax can be complex", "Model integration varies"],
+                bestFor: "Complex Control Flow"
+            },
+            outlines: {
+                name: "Outlines",
+                tagline: "The Architect",
+                description: "Uses Finite State Machines and Regex to guarantee structure. It masks invalid tokens during generation, making it mathematically impossible to break schema.",
+                syntax: "model = outlines.models.transformers(name)\ngenerator = outlines.generate.json(model, schema)",
+                pros: ["Guaranteed structure", "High performance", "Great for local models"],
+                cons: ["Less focus on prompt logic, more on constraints"],
+                bestFor: "High-perf Structured Gen"
+            }
+        };
+
+        const decisionLogic = {
+            structure: {
+                winner: "instructor",
+                reason: "For pure structured output (JSON), Instructor provides the smoothest developer experience by leveraging Pydantic directly.",
+                alt: "outlines",
+                altReason: "If you need structure guarantees on LOCAL models, Outlines is the superior choice."
+            },
+            optimize: {
+                winner: "dspy",
+                reason: "DSPy is the only tool in this list that actively treats prompts as trainable parameters and optimizes them for you.",
+                alt: "guidance",
+                altReason: "Guidance offers manual optimization through tight control, but lacks the auto-optimization of DSPy."
+            },
+            safety: {
+                winner: "guardrails",
+                reason: "Guardrails is purpose-built for validation. It has a massive library of pre-built validators for PII, toxicity, and logic.",
+                alt: "instructor",
+                altReason: "Instructor validates schemas (types), but lacks the semantic validators (e.g., 'is this text toxic?') of Guardrails."
+            },
+            control: {
+                winner: "guidance",
+                reason: "Guidance allows for complex interleaving of logic and generation, perfect for multi-step reasoning tasks.",
+                alt: "dspy",
+                altReason: "DSPy handles complex pipelines well through modules, but abstracts away the token-level control."
+            }
+        };
+
+        // --- Chart Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const ctx = document.getElementById('radarChart').getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Ease of Use', 'Control Level', 'Abstraction', 'Auto-Optimization', 'Reliability (Structure)'],
+                    datasets: [
+                        {
+                            label: 'DSPy',
+                            data: [2, 3, 5, 5, 3],
+                            borderColor: '#4f46e5', // Indigo 600
+                            backgroundColor: 'rgba(79, 70, 229, 0.2)',
+                            pointBackgroundColor: '#4f46e5',
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Instructor',
+                            data: [5, 2, 3, 1, 5],
+                            borderColor: '#059669', // Emerald 600
+                            backgroundColor: 'rgba(5, 150, 105, 0.2)',
+                            pointBackgroundColor: '#059669',
+                            hidden: false,
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Guardrails',
+                            data: [3, 4, 3, 1, 5],
+                            borderColor: '#dc2626', // Red 600
+                            backgroundColor: 'rgba(220, 38, 38, 0.2)',
+                            pointBackgroundColor: '#dc2626',
+                            hidden: true, // Hide by default to reduce clutter
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Guidance',
+                            data: [2, 5, 2, 2, 4],
+                            borderColor: '#d97706', // Amber 600
+                            backgroundColor: 'rgba(217, 119, 6, 0.2)',
+                            pointBackgroundColor: '#d97706',
+                            hidden: true,
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Outlines',
+                            data: [3, 4, 2, 1, 5],
+                            borderColor: '#0891b2', // Cyan 600
+                            backgroundColor: 'rgba(8, 145, 178, 0.2)',
+                            pointBackgroundColor: '#0891b2',
+                            hidden: true,
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#e2e8f0' },
+                            grid: { color: '#e2e8f0' },
+                            pointLabels: {
+                                font: { size: 12, family: 'Inter' },
+                                color: '#475569'
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 5,
+                            ticks: { display: false, stepSize: 1 }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                font: { family: 'Inter', size: 12 },
+                                usePointStyle: true,
+                                boxWidth: 8
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: '#1e293b',
+                            titleFont: { family: 'Inter', size: 13 },
+                            bodyFont: { family: 'Inter', size: 12 },
+                            padding: 10,
+                            cornerRadius: 8,
+                            displayColors: true
+                        }
+                    }
+                }
+            });
+
+            // Init default Deep Dive
+            showDeepDive('dspy');
+        });
+
+        // --- Interaction Logic ---
+
+        function selectGoal(goalKey) {
+            const data = decisionLogic[goalKey];
+            const winnerData = toolsData[data.winner];
+            const altData = toolsData[data.alt];
+
+            // Update UI
+            document.getElementById('default-state').classList.add('hidden');
+            const resultArea = document.getElementById('recommendation-area');
+            resultArea.classList.remove('hidden');
+            
+            // Populate Winner
+            document.getElementById('rec-title').textContent = winnerData.name;
+            document.getElementById('rec-tagline').textContent = winnerData.tagline;
+            document.getElementById('rec-desc').textContent = winnerData.description;
+            document.getElementById('rec-reason').textContent = data.reason;
+
+            // Populate Alt
+            document.getElementById('alt-title').textContent = altData.name;
+            document.getElementById('alt-desc').textContent = altData.description;
+            const altList = document.getElementById('alt-points');
+            altList.innerHTML = `<li><span class="font-semibold text-indigo-600">Why here?</span> ${data.altReason}</li>`;
+
+            // Button styling toggle
+            document.querySelectorAll('.goal-btn').forEach(btn => {
+                if (btn.dataset.goal === goalKey) {
+                    btn.classList.add('bg-indigo-600', 'text-white', 'border-indigo-600');
+                    btn.classList.remove('text-slate-600', 'hover:bg-indigo-50');
+                } else {
+                    btn.classList.remove('bg-indigo-600', 'text-white', 'border-indigo-600');
+                    btn.classList.add('text-slate-600', 'hover:bg-indigo-50');
+                }
+            });
+        }
+
+        function showDeepDive(toolKey) {
+            const tool = toolsData[toolKey];
+            const container = document.getElementById('detail-content');
+            
+            // Highlights for active button
+            document.querySelectorAll('.tool-select-btn').forEach(btn => {
+                if(btn.dataset.tool === toolKey) {
+                    btn.classList.add('bg-indigo-50', 'border-indigo-500', 'text-indigo-700');
+                    btn.classList.remove('border-slate-200', 'text-slate-700');
+                } else {
+                    btn.classList.remove('bg-indigo-50', 'border-indigo-500', 'text-indigo-700');
+                    btn.classList.add('border-slate-200', 'text-slate-700');
+                }
+            });
+
+            container.innerHTML = `
+                <div class="animate-fade-in">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-3xl font-bold text-slate-900">${tool.name}</h3>
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-600 uppercase tracking-wide">
+                            ${tool.bestFor}
+                        </span>
+                    </div>
+                    
+                    <p class="text-lg text-slate-600 mb-8 leading-relaxed">${tool.description}</p>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-400 uppercase tracking-wider mb-3">The Good</h4>
+                            <ul class="space-y-2">
+                                ${tool.pros.map(p => `<li class="flex items-start text-sm text-slate-700">
+                                    <span class="text-emerald-500 mr-2">✓</span> ${p}
+                                </li>`).join('')}
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-400 uppercase tracking-wider mb-3">The Challenges</h4>
+                            <ul class="space-y-2">
+                                ${tool.cons.map(c => `<li class="flex items-start text-sm text-slate-700">
+                                    <span class="text-amber-500 mr-2">!</span> ${c}
+                                </li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900 rounded-lg p-6 overflow-x-auto">
+                        <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Pseudocode / Syntax Vibe</h4>
+                        <pre class="font-mono text-sm text-emerald-400 whitespace-pre-wrap">${tool.syntax}</pre>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+    <style>
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</body>
+</html>
