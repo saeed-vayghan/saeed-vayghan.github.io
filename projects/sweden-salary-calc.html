@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sweden 2026: AB Company Strategy Comparison</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../statics/styles.css">
+  <script src="../statics/theme.js"></script>
+  <style>
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      cursor: help;
+      border-bottom: 2px dotted #3b82f6;
+    }
+
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 320px;
+      background-color: #111827;
+      color: #ffffff;
+      text-align: left;
+      border-radius: 12px;
+      padding: 16px;
+      position: absolute;
+      z-index: 100;
+      bottom: 140%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: all 0.2s ease-in-out;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+      pointer-events: none;
+    }
+
+    .tooltip .tooltiptext::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -8px;
+      border-width: 8px;
+      border-style: solid;
+      border-color: #111827 transparent transparent transparent;
+    }
+
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+      bottom: 125%;
+    }
+
+    .header-bg {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+    }
+
+    .row-hover:hover {
+      background-color: #f8fafc;
+    }
+
+    .val-red {
+      color: #dc2626;
+      font-weight: 500;
+    }
+
+    .val-green {
+      color: #16a34a;
+      font-weight: 600;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50 min-h-screen font-sans text-slate-800">
+    <header>
+        <div class="site-container">
+            <nav>
+                <div class="logo">Saeed.</div>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../projects/index.html" class="active">Projects</a></li>
+                    <li><a href="../blog/index.html">Blog</a></li>
+                    <li>
+                        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                            <!-- Moon Icon -->
+                            <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                            <!-- Sun Icon -->
+                            <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <header class="header-bg text-white rounded-3xl p-10 mb-8 shadow-2xl relative overflow-hidden text-center">
+      <h1 class="text-4xl font-extrabold mb-3 tracking-tight text-white">Sweden Income 2026: AB Strategy Tool</h1>
+      <p class="text-blue-200 text-xl font-medium mb-8">Compare regular employment vs. your own business contract</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto text-left">
+        <div class="relative">
+          <label class="block text-xs font-bold uppercase tracking-widest text-blue-300 mb-2">Total Annual Billing (SEK)</label>
+          <input type="number" id="revenueInput" value="1600000" step="50000"
+            class="w-full bg-white/10 border-2 border-blue-400/50 rounded-2xl py-4 px-6 text-2xl font-bold text-white text-center focus:outline-none focus:border-blue-400 transition-all shadow-inner" oninput="calculate()">
+        </div>
+
+        <div class="relative">
+          <label class="block text-xs font-bold uppercase tracking-widest text-blue-300 mb-2">Monthly Perks (Laptop, Lunch, Gym, etc.)</label>
+          <input type="number" id="perksInput" value="3000" step="500"
+            class="w-full bg-white/10 border-2 border-green-400/50 rounded-2xl py-4 px-6 text-2xl font-bold text-white text-center focus:outline-none focus:border-green-400 transition-all shadow-inner" oninput="calculate()">
+        </div>
+      </div>
+    </header>
+
+    <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-200">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse table-auto text-sm" id="comparisonTable">
+          <thead>
+            <tr class="bg-slate-50 text-slate-500 uppercase text-xs font-bold tracking-widest border-b border-slate-200">
+              <th class="p-4">Income Step</th>
+              <th class="p-4 bg-slate-100 text-slate-900">1. Employee</th>
+              <th class="p-4 text-slate-900">2. AB: Max Salary</th>
+              <th class="p-4 bg-blue-50/50 text-slate-900 font-bold">3. AB: State Limit</th>
+              <th class="p-4 text-slate-900">4. AB: SGI Max</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <tr class="bg-blue-50/10">
+              <td class="p-4 font-bold text-slate-900">Total Budget (Excl. VAT)</td>
+              <td class="p-4 font-bold text-blue-700 data-val" data-type="revenue">...</td>
+              <td class="p-4 font-bold text-blue-700 data-val" data-type="revenue">...</td>
+              <td class="p-4 font-bold text-blue-700 data-val" data-type="revenue">...</td>
+              <td class="p-4 font-bold text-blue-700 data-val" data-type="revenue">...</td>
+            </tr>
+
+            <tr class="row-hover">
+              <td class="p-4 text-slate-500 italic">Paid Vacation from Client?</td>
+              <td class="p-4 text-green-600 font-bold">YES</td>
+              <td class="p-4 text-red-600 font-bold">NO</td>
+              <td class="p-4 text-red-600 font-bold">NO</td>
+              <td class="p-4 text-red-600 font-bold">NO</td>
+            </tr>
+
+            <tr class="row-hover text-emerald-700 bg-emerald-50/30">
+              <td class="p-4 font-medium">Annual Perks (Deductible)</td>
+              <td class="p-4 italic text-slate-400">None</td>
+              <td class="p-4" id="c2_annualPerks">...</td>
+              <td class="p-4" id="c3_annualPerks">...</td>
+              <td class="p-4" id="c4_annualPerks">...</td>
+            </tr>
+
+            <tr class="row-hover">
+              <td class="p-4 text-slate-500">Employer Tax (31.42%)</td>
+              <td class="p-4 val-red" id="c1_employerTax">...</td>
+              <td class="p-4 val-red" id="c2_employerTax">...</td>
+              <td class="p-4 val-red" id="c3_employerTax">...</td>
+              <td class="p-4 val-red" id="c4_employerTax">...</td>
+            </tr>
+
+            <tr class="bg-blue-100/30 font-bold">
+              <td class="p-4 text-slate-900">Monthly Gross Salary</td>
+              <td class="p-4" id="c1_monthlyGross">...</td>
+              <td class="p-4" id="c2_monthlyGross">...</td>
+              <td class="p-4 text-blue-800 underline decoration-blue-400" id="c3_monthlyGross">...</td>
+              <td class="p-4" id="c4_monthlyGross">...</td>
+            </tr>
+
+            <tr class="row-hover">
+              <td class="p-4 text-slate-600">Personal Income Tax</td>
+              <td class="p-4 val-red" id="c1_personalTax">...</td>
+              <td class="p-4 val-red" id="c2_personalTax">...</td>
+              <td class="p-4 val-red" id="c3_personalTax">...</td>
+              <td class="p-4 val-red" id="c4_personalTax">...</td>
+            </tr>
+
+            <tr class="row-hover bg-emerald-50/20">
+              <td class="p-4 text-slate-600 font-medium">Company Profit (Pre-tax)</td>
+              <td class="p-4 italic text-slate-400">N/A</td>
+              <td class="p-4" id="c2_profit">...</td>
+              <td class="p-4" id="c3_profit">...</td>
+              <td class="p-4" id="c4_profit">...</td>
+            </tr>
+
+            <tr class="row-hover">
+              <td class="p-4 text-slate-600">Company Tax (20.6%)</td>
+              <td class="p-4 italic text-slate-400">N/A</td>
+              <td class="p-4 val-red" id="c2_corpTax">...</td>
+              <td class="p-4 val-red" id="c3_corpTax">...</td>
+              <td class="p-4 val-red" id="c4_corpTax">...</td>
+            </tr>
+
+            <tr class="row-hover">
+              <td class="p-4 text-slate-600">Dividend (Net)</td>
+              <td class="p-4 italic text-slate-400">N/A</td>
+              <td class="p-4 val-green" id="c2_dividend">...</td>
+              <td class="p-4 val-green" id="c3_dividend">...</td>
+              <td class="p-4 val-green" id="c4_dividend">...</td>
+            </tr>
+
+            <tr class="bg-orange-50 font-bold border-y border-orange-100">
+              <td class="p-4 text-orange-900 uppercase text-xs tracking-wider">Total Tax to State</td>
+              <td class="p-4 text-orange-700" id="c1_totalTax">...</td>
+              <td class="p-4 text-orange-700" id="c2_totalTax">...</td>
+              <td class="p-4 text-orange-700 underline" id="c3_totalTax">...</td>
+              <td class="p-4 text-orange-700" id="c4_totalTax">...</td>
+            </tr>
+
+            <tr class="bg-blue-600 text-white shadow-inner">
+              <td class="p-4 font-bold text-lg">Pocket Money (Year)</td>
+              <td class="p-4 font-bold text-xl" id="c1_totalNet">...</td>
+              <td class="p-4 font-bold text-xl" id="c2_totalNet">...</td>
+              <td class="p-4 font-bold text-xl text-emerald-300" id="c3_totalNet">...</td>
+              <td class="p-4 font-bold text-xl text-emerald-300" id="c4_totalNet">...</td>
+            </tr>
+
+            <tr class="bg-blue-700 text-blue-100 border-t border-blue-500">
+              <td class="p-4 font-bold">Pocket Money (Month)</td>
+              <td class="p-4 font-bold text-lg" id="c1_monthlyNet">...</td>
+              <td class="p-4 font-bold text-lg" id="c2_monthlyNet">...</td>
+              <td class="p-4 font-bold text-lg text-emerald-300" id="c3_monthlyNet">...</td>
+              <td class="p-4 font-bold text-lg text-emerald-300" id="c4_monthlyNet">...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Explanations & Rules Section -->
+    <div class="mt-12 space-y-12">
+      <!-- Part 1: Vacation and Deductions -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-white p-8 rounded-3xl shadow-lg border border-slate-100">
+          <h3 class="text-xl font-bold mb-4 text-blue-900 flex items-center">
+            <span class="bg-blue-100 text-blue-600 p-2 rounded-lg mr-3">🏖️</span>
+            Vacation and Holidays
+          </h3>
+          <div class="space-y-4 text-slate-600 text-sm leading-relaxed">
+            <p>This is the main difference for a consultant:</p>
+            <ul class="list-disc ml-6 space-y-2">
+              <li><strong>Employee:</strong> You get paid when you are on holiday. Usually 25 days per year.</li>
+              <li><strong>AB Company:</strong> You only get paid when you work. If you take time off, your billing stops.</li>
+              <li><strong>Strategy:</strong> Your daily rate must be high enough to cover the weeks you are away. Most engineers assume they work 10.5 months to be safe.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bg-white p-8 rounded-3xl shadow-lg border border-slate-100">
+          <h3 class="text-xl font-bold mb-4 text-emerald-900 flex items-center">
+            <span class="bg-emerald-100 text-emerald-600 p-2 rounded-lg mr-3">📑</span>
+            Company Perks (Expenses)
+          </h3>
+          <div class="space-y-4 text-slate-600 text-sm">
+            <p>Maximize your money by letting the company pay for these before tax:</p>
+            <ul class="list-disc ml-6 space-y-2">
+              <li><strong>Wellness (Friskvård):</strong> Max 5,000 SEK/year (Tax-free).</li>
+              <li><strong>Lunch Card:</strong> You pay a small tax, but the company pays the full bill. Very common perk.</li>
+              <li><strong>Electronics:</strong> Buying a MacBook or iPhone is 100% deductible if used for work.</li>
+              <li><strong>Study Trips:</strong> Flights and hotels for tech conferences are business costs.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Part 2: Magic Numbers and Dividend Rules -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white p-8 rounded-3xl shadow-lg border border-slate-100">
+          <h3 class="text-xl font-bold mb-4 text-amber-900 flex items-center">
+            <span class="bg-amber-100 text-amber-600 p-2 rounded-lg mr-3">✨</span>
+            The Magic Numbers
+          </h3>
+          <div class="space-y-4 text-slate-600 text-sm">
+            <p><strong>~660,000 SEK:</strong> The State Tax Limit. Stay under this to avoid the extra 20% tax.</p>
+            <p><strong>~592,000 SEK:</strong> The SGI Cap. This is the max salary that counts for sick leave and parental pay.</p>
+            <p><strong>31.42%:</strong> The tax the company pays just to have you as an employee.</p>
+          </div>
+        </div>
+
+        <div class="bg-white p-8 rounded-3xl shadow-lg border border-slate-100">
+          <h3 class="text-xl font-bold mb-4 text-purple-900 flex items-center">
+            <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">💰</span>
+            Dividend Rules (3:12)
+          </h3>
+          <div class="space-y-4 text-slate-600 text-sm leading-relaxed">
+            <p>You can take profit out of the company at only <strong>20% tax</strong>.</p>
+            <p><strong>Simplified Rule:</strong> Every owner can take about 322,400 SEK/year (2026 estimate) at 20% tax, no matter their salary.</p>
+            <p><strong>Salary Rule:</strong> If you pay yourself enough salary, you can take 50% of the company's total salaries as a low-tax dividend.</p>
+          </div>
+        </div>
+
+        <div class="bg-white p-8 rounded-3xl shadow-lg border border-slate-100">
+          <h3 class="text-xl font-bold mb-4 text-red-900 flex items-center">
+            <span class="bg-red-100 text-red-600 p-2 rounded-lg mr-3">📅</span>
+            Payout Timing
+          </h3>
+          <div class="space-y-4 text-slate-600 text-sm">
+            <p><strong>Salary:</strong> Paid every month for your daily living costs.</p>
+            <p><strong>Dividends:</strong> Usually paid <strong>once per year</strong> after your annual report is finished.</p>
+            <p><strong>Warning:</strong> Never take money from the company account for private use without a salary slip or a dividend meeting. It is illegal.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const format = (val) => Math.round(val).toLocaleString('sv-SE');
+
+    function calculate() {
+      const revenue = parseFloat(document.getElementById('revenueInput').value) || 0;
+      const monthlyPerks = parseFloat(document.getElementById('perksInput').value) || 0;
+      const annualPerks = monthlyPerks * 12;
+      const employerTaxRate = 0.3142;
+      const corpTaxRate = 0.206;
+      const divTaxRate = 0.20;
+      const costs = 35000;
+
+      const stateThreshold = 660000;
+      const sgiMaxSalary = 592000;
+
+      function getPersonalTax(gross) {
+        const munTaxRate = 0.31;
+        const basicDeduction = 25000;
+        let taxable = Math.max(0, gross - basicDeduction);
+        let tax = taxable * munTaxRate;
+        if (gross > stateThreshold) {
+          tax += (gross - stateThreshold) * 0.20;
+        }
+        tax -= Math.min(tax * 0.1, 40000);
+        return Math.max(0, tax);
+      }
+
+      const cols = {};
+
+      // 1. Employee
+      cols.c1_annualGross = revenue / (1 + employerTaxRate);
+      cols.c1_employerTax = revenue - cols.c1_annualGross;
+      cols.c1_personalTax = getPersonalTax(cols.c1_annualGross);
+      cols.c1_totalNet = cols.c1_annualGross - cols.c1_personalTax;
+      cols.c1_totalTax = cols.c1_employerTax + cols.c1_personalTax;
+
+      // 2. AB Max
+      const revAfterAllCosts = Math.max(0, revenue - costs - annualPerks);
+      cols.c2_annualGross = revAfterAllCosts / (1 + employerTaxRate);
+      cols.c2_employerTax = revAfterAllCosts - cols.c2_annualGross;
+      cols.c2_personalTax = getPersonalTax(cols.c2_annualGross);
+      cols.c2_totalNet = cols.c2_annualGross - cols.c2_personalTax;
+      cols.c2_profit = 0;
+      cols.c2_corpTax = 0;
+      cols.c2_dividend = 0;
+      cols.c2_totalTax = cols.c2_employerTax + cols.c2_personalTax;
+
+      // 3. AB State Limit
+      cols.c3_annualGross = Math.min(stateThreshold, revAfterAllCosts / (1 + employerTaxRate));
+      cols.c3_employerTax = cols.c3_annualGross * employerTaxRate;
+      cols.c3_personalTax = getPersonalTax(cols.c3_annualGross);
+      cols.c3_profit = Math.max(0, revAfterAllCosts - cols.c3_annualGross - cols.c3_employerTax);
+      cols.c3_corpTax = cols.c3_profit * corpTaxRate;
+      cols.c3_dividend = (cols.c3_profit - cols.c3_corpTax) * (1 - divTaxRate);
+      cols.c3_totalNet = (cols.c3_annualGross - cols.c3_personalTax) + cols.c3_dividend;
+      cols.c3_totalTax = cols.c3_employerTax + cols.c3_personalTax + cols.c3_corpTax + ((cols.c3_profit - cols.c3_corpTax) * divTaxRate);
+
+      // 4. AB SGI Max
+      cols.c4_annualGross = Math.min(sgiMaxSalary, revAfterAllCosts / (1 + employerTaxRate));
+      cols.c4_employerTax = cols.c4_annualGross * employerTaxRate;
+      cols.c4_personalTax = getPersonalTax(cols.c4_annualGross);
+      cols.c4_profit = Math.max(0, revAfterAllCosts - cols.c4_annualGross - cols.c4_employerTax);
+      cols.c4_corpTax = cols.c4_profit * corpTaxRate;
+      cols.c4_dividend = (cols.c4_profit - cols.c4_corpTax) * (1 - divTaxRate);
+      cols.c4_totalNet = (cols.c4_annualGross - cols.c4_personalTax) + cols.c4_dividend;
+      cols.c4_totalTax = cols.c4_employerTax + cols.c4_personalTax + cols.c4_corpTax + ((cols.c4_profit - cols.c4_corpTax) * divTaxRate);
+
+      document.querySelectorAll('.data-val[data-type="revenue"]').forEach(el => el.innerText = format(revenue));
+
+      const updateCell = (id, val, ttHeader, ttCalc) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.innerHTML = `
+                    <span class="tooltip">${format(val)}
+                        <span class="tooltiptext">
+                            <strong>${ttHeader}</strong><br>
+                            Calculation: ${ttCalc}
+                        </span>
+                    </span>
+                `;
+      };
+
+      updateCell('c2_annualPerks', -annualPerks, "Annual Perks", `${format(monthlyPerks)} × 12`);
+      updateCell('c3_annualPerks', -annualPerks, "Annual Perks", `${format(monthlyPerks)} × 12`);
+      updateCell('c4_annualPerks', -annualPerks, "Annual Perks", `${format(monthlyPerks)} × 12`);
+
+      updateCell('c1_employerTax', cols.c1_employerTax, "Employer Tax (1)", `${format(cols.c1_annualGross)} × 31.42%`);
+      updateCell('c1_monthlyGross', cols.c1_annualGross / 12, "Monthly Salary", `${format(cols.c1_annualGross)} / 12`);
+      updateCell('c1_personalTax', cols.c1_personalTax, "Personal Tax", "Mun Tax + State Tax above 660k");
+      updateCell('c1_totalTax', cols.c1_totalTax, "Total Taxes", "Employer + Personal Tax");
+      updateCell('c1_totalNet', cols.c1_totalNet, "Yearly Pocket Money", "Salary - Tax");
+      updateCell('c1_monthlyNet', cols.c1_totalNet / 12, "Monthly Pocket Money", "Yearly / 12");
+
+      updateCell('c2_employerTax', cols.c2_employerTax, "Employer Tax (2)", `${format(cols.c2_annualGross)} × 31.42%`);
+      updateCell('c2_monthlyGross', cols.c2_annualGross / 12, "Monthly Salary", `${format(cols.c2_annualGross)} / 12`);
+      updateCell('c2_profit', cols.c2_profit, "Company Profit", "Spent on salary");
+      updateCell('c2_corpTax', cols.c2_corpTax, "Company Tax", "20.6% on Profit");
+      updateCell('c2_dividend', cols.c2_dividend, "Dividend", "Net profit taken as dividend");
+      updateCell('c2_totalTax', cols.c2_totalTax, "Total Taxes", "Employer + Personal Tax");
+      updateCell('c2_totalNet', cols.c2_totalNet, "Yearly Pocket Money", "Salary Net");
+      updateCell('c2_monthlyNet', cols.c2_totalNet / 12, "Monthly Pocket Money", "Yearly / 12");
+
+      updateCell('c3_employerTax', cols.c3_employerTax, "Employer Tax (3)", `${format(cols.c3_annualGross)} × 31.42%`);
+      updateCell('c3_monthlyGross', cols.c3_annualGross / 12, "Monthly Salary", "Limit: ~55,000/mo");
+      updateCell('c3_profit', cols.c3_profit, "Company Profit", "Revenue - Costs - Perks - Salary - Socials");
+      updateCell('c3_corpTax', cols.c3_corpTax, "Company Tax", `${format(cols.c3_profit)} × 20.6%`);
+      updateCell('c3_dividend', cols.c3_dividend, "Dividend", `${format(cols.c3_profit - cols.c3_corpTax)} × 80%`);
+      updateCell('c3_totalTax', cols.c3_totalTax, "Total Taxes", "Sum of all tax steps");
+      updateCell('c3_totalNet', cols.c3_totalNet, "Yearly Pocket Money", "Salary Net + Dividend Net");
+      updateCell('c3_monthlyNet', cols.c3_totalNet / 12, "Monthly Pocket Money", "Yearly / 12");
+
+      updateCell('c4_employerTax', cols.c4_employerTax, "Employer Tax (4)", `${format(cols.c4_annualGross)} × 31.42%`);
+      updateCell('c4_monthlyGross', cols.c4_annualGross / 12, "Monthly Salary", "Limit: ~49,333/mo");
+      updateCell('c4_profit', cols.c4_profit, "Company Profit", "Revenue - Costs - Perks - Salary - Socials");
+      updateCell('c4_corpTax', cols.c4_corpTax, "Company Tax", `${format(cols.c4_profit)} × 20.6%`);
+      updateCell('c4_dividend', cols.c4_dividend, "Dividend", `${format(cols.c4_profit - cols.c4_corpTax)} × 80%`);
+      updateCell('c4_totalTax', cols.c4_totalTax, "Total Taxes", "Sum of all tax steps");
+      updateCell('c4_totalNet', cols.c4_totalNet, "Yearly Pocket Money", "Salary Net + Dividend Net");
+      updateCell('c4_monthlyNet', cols.c4_totalNet / 12, "Monthly Pocket Money", "Yearly / 12");
+    }
+
+    window.onload = calculate;
+  </script>
+    <footer>
+        <div class="site-container">
+            <p>&copy; 2026 Saeed Vayghan. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

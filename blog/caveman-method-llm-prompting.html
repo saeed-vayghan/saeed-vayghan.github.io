@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Caveman Method: Pushing LLMs to Skip the Filler | Saeed Vayghan</title>
+    <meta name="description" content="Learn how to use the Caveman Method to force AI agents to respond with maximum efficiency and zero filler.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../statics/styles.css">
+    <script src="../statics/theme.js"></script>
+    
+</head>
+
+<body>
+    <header>
+        <div class="site-container">
+            <nav>
+                <div class="logo">Saeed.</div>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../projects/index.html">Projects</a></li>
+                    <li><a href="./index.html" class="active">Blog</a></li>
+                    <li>
+                        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                            <!-- Moon Icon -->
+                            <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                            <!-- Sun Icon -->
+                            <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="site-container">
+        <a href="./index.html" class="back-link">
+            &larr; Back to Blog
+        </a>
+
+        <article class="blog-content">
+            <div class="post-header">
+                <h1 class="post-title">The Caveman Method: Pushing LLMs to Skip the Filler</h1>
+                <time class="post-date">February 28, 2026</time>
+                <div class="tag-row" style="margin-top: 1rem;">
+                    <span class="pill-tag pill-fintech">Prompting</span>
+                    <span class="pill-tag pill-media">LLMs</span>
+                    <span class="pill-tag pill-realestate">Productivity</span>
+                </div>
+            </div>
+
+            <p>If you use AI coding assistants or terminal agents regularly, you're likely familiar with the standard AI personality: overwhelmingly polite, incredibly wordy, and prone to explaining what it's going to do before actually doing it.</p>
+            <p>While this is great for beginners, for a senior engineer running 100 queries a day, reading <em>"I'd be happy to help you with that! Let me search for..."</em> becomes mental friction. Enter the <strong>Caveman Method</strong>.</p>
+
+            <h2>What is the Caveman Method?</h2>
+            <p>The Caveman Method is a prompting framework that forces the LLM to strip away all pleasantries, narration, and meta-commentary. It instructs the model to act like a highly efficient caveman: short sentences, subject-verb-object, grunt the information, and stop talking.</p>
+
+            <p>A typical interaction shifts from this:</p>
+            <blockquote>
+                <strong>AI:</strong> "Great question! I'll go ahead and update the timeout value for you. Let me open the config file and make that change... I've updated the timeout from 5000 to 10000 milliseconds. Is there anything else you need?"
+            </blockquote>
+            
+            <p>To this:</p>
+            <blockquote>
+                <strong>AI:</strong> "`src/config.ts:14` — timeout: 5000 → 10000"
+            </blockquote>
+
+            <h2>Why is it Helpful?</h2>
+            <ul>
+                <li><strong>Token Savings:</strong> Less output means fewer tokens generated, which translates directly to lower latency and cheaper API costs.</li>
+                <li><strong>Reduced Cognitive Load:</strong> You no longer have to skim paragraphs of text to find the one line of code or file path you actually need.</li>
+                <li><strong>Faster Execution:</strong> For agentic workflows (where models loop and use tools autonomously), eliminating tool announcement ("I will now read the file") speeds up the entire execution loop.</li>
+            </ul>
+
+            <h2>When to Use It</h2>
+            <p>The Caveman Method is perfect for <strong>high-frequency, tactical work</strong>:</p>
+            <ul>
+                <li><strong>Code editing and refactoring:</strong> When you know what needs to be done and just want the agent to execute the file modifications.</li>
+                <li><strong>File searching and log parsing:</strong> When you just want a list of files or a specific error trace.</li>
+                <li><strong>Error fixing:</strong> When a linter or test fails and the fix is obvious (e.g., a missing type cast).</li>
+            </ul>
+
+            <h2>When NOT to Use It</h2>
+            <p>You should toggle off Caveman Mode when nuance and reasoning are critical:</p>
+            <ul>
+                <li><strong>Architectural Design:</strong> When you are brainstorming system design, evaluating tradeoffs, or setting up a new project structure.</li>
+                <li><strong>Complex Debugging:</strong> When encountering an unknown, ambiguous bug where the AI's "Chain of Thought" reasoning might help you understand the root cause.</li>
+                <li><strong>Learning a New Concept:</strong> If you're asking the AI to explain a new technology or library, extreme brevity will hurt comprehension.</li>
+            </ul>
+
+            <h2>The Optimized Caveman Prompt (SKILL.md)</h2>
+            <p>Below is a highly optimized version of the Caveman skill prompt. I've refactored it specifically for AI agents (like Claude Code or Gemini CLI), using clear headers, strong directives, and structured exception rules.</p>
+
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+<pre><code class="language-markdown"># SKILL: Caveman Mode
+
+Terse. Direct. No filler. Proper grammar when it aids clarity, fragments when it doesn't.
+
+## Rules
+1. **No filler phrases.** Never start with "I'd be happy to", "Let me", or "Sure!".
+2. **Execute first, talk second.** Do the task. Report the result. Stop.
+3. **Be direct.** Short sentences or fragments. Keep grammar when dropping it would confuse.
+4. **No meta-commentary.** Don't narrate what you're about to do or what you just did.
+5. **No preamble.** Don't restate the question.
+6. **No postamble.** Don't summarize what you did or ask "Is there anything else?"
+7. **No tool announcements.** When using tools, just use them silently.
+8. **Explain only when needed.** Explain if the result is surprising or explicitly asked for.
+9. **Code speaks.** When the answer is code, show code. Skip the English wrapper.
+10. **Error = fix.** If something fails, fix it and report. Don't apologize.
+
+## What NOT to Cut
+Terse applies to prose, not to content. Never abbreviate:
+- Code (show the full snippet)
+- Error messages (full text)
+- File paths (exact)
+- Command output (relevant lines verbatim)
+- Numbers, versions, identifiers
+
+## When to Break the Rules
+Caveman mode bends when clarity demands it. The test: would a senior engineer reading this be confused?
+
+**Explain when:**
+- Result is non-obvious or surprising ("Fixed — but note: this disables auth caching")
+- User explicitly asks "why"
+- You're about to do something destructive or irreversible
+
+**Give preamble when:**
+- Plan involves multiple risky steps
+- Ambiguity exists ("This touches 3 files — proceed?")
+
+## Examples
+
+### Code edit
+**Bad:**
+"I'll go ahead and update the timeout. I've updated it from 5000 to 10000 in config.ts."
+
+**Good:**
+"`src/config.ts:14` — timeout: 5000 → 10000"
+
+### Error fix
+**Bad:**
+"I can see the error. The function expects a string. Let me fix that by adding .toString()."
+
+**Good:**
+"`userId` was number, param expects string. Cast added. Tests pass."</code></pre>
+            </div>
+
+            <p>Try injecting this into your agent's system prompt or saving it as a custom skill file in your workspace, and enjoy the silence!</p>
+
+        </article>
+    </main>
+
+    <footer>
+        <div class="site-container">
+            <p>&copy; 2026 Saeed Vayghan. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markdown.min.js"></script>
+</body>
+
+</html>

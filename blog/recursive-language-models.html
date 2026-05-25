@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursive Language Models (RLMs): A Brief Overview | Saeed Vayghan</title>
+    <meta name="description" content="A brief overview of Recursive Language Models (RLMs) and how they solve the Context Rot problem.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../statics/styles.css">
+    <script src="../statics/theme.js"></script>
+    <style>
+        
+
+        
+
+        
+
+        
+
+        
+
+        .blog-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+        
+        
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="site-container">
+            <nav>
+                <div class="logo">Saeed.</div>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../projects/index.html">Projects</a></li>
+                    <li><a href="./index.html" class="active">Blog</a></li>
+                    <li>
+                        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                            <!-- Moon Icon -->
+                            <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                            <!-- Sun Icon -->
+                            <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="site-container">
+        <a href="./index.html" class="back-link">
+            &larr; Back to Blog
+        </a>
+
+        <article class="blog-content">
+            <div class="post-header">
+                <h1 class="post-title">Recursive Language Models (RLMs): A Brief Overview</h1>
+                <time class="post-date">February 20, 2026</time>
+                <div class="tag-row" style="margin-top: 1rem;">
+                    <span class="pill-tag pill-fintech">AI</span>
+                    <span class="pill-tag pill-media">LLMs</span>
+                    <span class="pill-tag pill-realestate">Architecture</span>
+                </div>
+            </div>
+
+            <p>Recursive Language Models (RLMs) represent a shift in how AI systems handle massive contexts. Rather than attempting to fit millions of tokens into a single model's window—which often leads to performance degradation known as "Context Rot"—RLMs use a recursive inference strategy to decompose and interact with context programmatically.</p>
+
+            <h2>The Core Problem: Context Rot</h2>
+            <p>Traditional LLMs suffer from "Context Rot," where accuracy declines as the context window fills, even before reaching technical limits. This isn't just a capacity issue but a quality one; models become "dumber" or lose track of details as the conversation history or input data grows.</p>
+
+            <div class="figure-container">
+                <img src="https://alexzhang13.github.io/assets/img/rlm/teaser.png" alt="RLM Architecture Overview">
+                <p class="caption-text">Figure: An RLM interacts with a REPL environment to manage massive context, recursively sub-querying itself or other LMs to efficiently parse information. (Source: <a href="https://alexzhang13.github.io/blog/2025/rlm/" target="_blank">alexzhang13.github.io</a>)</p>
+            </div>
+
+            <h2>How RLMs Work</h2>
+            <p>An RLM is a thin wrapper around a language model that allows it to interact with a computational environment to manage information.</p>
+
+            <h3>1. Programmatic vs. Tokenized Context</h3>
+            <p>RLMs maintain a distinction between two types of context:</p>
+            <ul>
+                <li><strong>Programmatic Context:</strong> The raw, massive data (e.g., 400MB logs or 10M+ tokens) stored as variables in a coding environment.</li>
+                <li><strong>Tokenized Context:</strong> The specific snippets of information currently "active" in the LLM's prompt window.</li>
+            </ul>
+
+            <h3>2. The REPL Environment</h3>
+            <p>The RLM operates within a <strong>REPL (Read-Eval-Print Loop)</strong> environment, typically Python. The long context is loaded as a variable in this environment. The "Root LLM" does not see the entire context; instead, it writes code to explore it.</p>
+
+            <h3>3. Recursive Decomposition</h3>
+            <p>The Root LLM can call other LLM instances (sub-calls) from within the REPL. This allows for a "divide and conquer" approach:</p>
+            <ul>
+                <li><strong>Peeking:</strong> The model looks at the first few characters to understand the data structure.</li>
+                <li><strong>Filtering/Grepping:</strong> Using deterministic code (like regex) to narrow down relevant sections.</li>
+                <li><strong>Partitioning:</strong> Breaking the context into smaller chunks.</li>
+                <li><strong>Mapping:</strong> Assigning sub-LMs to analyze specific chunks and return summaries.</li>
+                <li><strong>Synthesis:</strong> The Root LLM gathers all sub-findings to produce a final answer.</li>
+            </ul>
+
+            <h2>Key Benefits</h2>
+            <ul>
+                <li><strong>Unbounded Context:</strong> RLMs have demonstrated stable performance on contexts exceeding 10 million tokens, where traditional models fail entirely.</li>
+                <li><strong>Deterministic Accuracy:</strong> By using code for filtering and searching, RLMs combine the "fuzzy" reasoning of LLMs with the "exact" precision of programmatic tools.</li>
+                <li><strong>Efficiency:</strong> RLMs can often use smaller, cheaper models (like GPT-4o-mini) for sub-tasks, orchestrated by a stronger "frontier" model, reducing overall costs.</li>
+                <li><strong>Inference-Time Scaling:</strong> It provides a new axis for scaling performance by allowing the model to "think" longer and perform more iterations during the inference phase.</li>
+            </ul>
+
+            <h2>Getting Started with RLMs</h2>
+            <p>You can easily spin up a new environment and run RLMs in Python.</p>
+            
+            <h3>1. Setup your environment</h3>
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+<pre><code class="language-bash"># Create a new 3.14 environment
+uv venv .venv
+
+# Activate it
+source .venv/bin/activate
+
+# Install your package (lightning fast)
+uv pip install rlms</code></pre>
+            </div>
+
+            <h3>2. Run your first RLM</h3>
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+<pre><code class="language-python">from rlm import RLM
+
+rlm = RLM(
+    backend="gemini",
+    backend_kwargs={"model_name": "gemini-2.0-flash"},
+    verbose=True,  # For printing to console with rich, disabled by default.
+)
+
+print(rlm.completion("find the nearest city to stockholm and tell me how far is it in km and the travel time by car to get there.").response)</code></pre>
+            </div>
+
+            <h2>The Future: Agent Discovery</h2>
+            <p>Beyond solving context limits, RLMs act as <strong>Agent Discovery Mechanisms</strong>. By observing the "traces" of how an RLM solves a complex problem—what strategies it tries, how it chunks data, and which sub-queries it makes—developers can identify repeating patterns. These patterns can then be "hard-coded" into optimized, low-latency agent architectures, effectively using RLMs to "invent" the best agent for a specific task.</p>
+
+            <h2>Current Limitations</h2>
+            <ul>
+                <li><strong>Latency:</strong> Because they often involve multiple synchronous LLM calls, RLMs are currently slower than single-shot completions.</li>
+                <li><strong>Model Strength:</strong> The Root LLM must be a high-reasoning "frontier" model to effectively manage the REPL and sub-tasking logic.</li>
+                <li><strong>Synchronicity:</strong> Current implementations are often blocking and do not yet fully utilize asynchronous parallel processing for sub-calls.</li>
+            </ul>
+
+            <h2 class="section-heading">References</h2>
+            <ul>
+                <li><a href="https://www.dbreunig.com/2026/02/09/the-potential-of-rlms.html" target="_blank">The Potential of RLMs (dbreunig.com)</a></li>
+                <li><a href="https://alexzhang13.github.io/blog/2025/rlm/" target="_blank">Recursive Language Models (alexzhang13.github.io)</a></li>
+                <li><a href="https://github.com/alexzhang13/rlm" target="_blank">Recursive Language Models (GitHub)</a></li>
+                <li><a href="https://www.cmpnd.ai/blog/rlms-in-dspy.html" target="_blank">DSPy is the easiest way to use RLMs</a></li>
+                <li><a href="https://github.com/alexzhang13/rlm" target="_blank">https://github.com/alexzhang13/rlm</a></li>
+                <li><a href="https://gist.github.com/dbreunig/afdd86cb560847f54359dcc3ee233766" target="_blank">https://gist.github.com/dbreunig/afdd86cb560847f54359dcc3ee233766</a></li>
+            </ul>
+
+        </article>
+    </main>
+
+    <footer>
+        <div class="site-container">
+            <p>&copy; 2026 Saeed Vayghan. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+</body>
+
+</html>

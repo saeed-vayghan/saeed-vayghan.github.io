@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Saeed Vayghan</title>
+    <meta name="description" content="Blog by Saeed Vayghan">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../statics/styles.css">
+    <script src="../statics/theme.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="site-container">
+            <nav>
+                <div class="logo">Saeed.</div>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../projects/index.html">Projects</a></li>
+                    <li><a href="./index.html" class="active">Blog</a></li>
+                    <li>
+                        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                            <!-- Moon Icon -->
+                            <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                            <!-- Sun Icon -->
+                            <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="site-container">
+        <section class="hero">
+            <h1>Blog</h1>
+            <p>Thoughts on software engineering, AI, and continuous learning.</p>
+        </section>
+
+        <section>
+            <ul class="post-list">
+                <!-- Post 1 (Newest) -->
+                <li class="post-item">
+                    <div class="post-item-header">
+                        <a href="./spec-driven-development-part-2.html">
+                            <h2>Why Spec Driven Development — Part 2: The Framework</h2>
+                        </a>
+                        <time>May 10, 2026</time>
+                    </div>
+                    <p>How Spec Driven Development fixes Vibe Coding's failure modes by building an engineered memory — structured specs, a shared repo layout, and AI-era code review.</p>
+                    <div class="tag-container">
+                        <span class="tag">AI Agents</span><span class="tag">LLMs</span><span class="tag">Spec Driven</span>
+                    </div>
+                    <a href="./spec-driven-development-part-2.html" class="read-more">Read Post &rarr;</a>
+                </li>
+
+                <li class="post-item">
+                    <div class="post-item-header">
+                        <a href="./spec-driven-development-part-1.html">
+                            <h2>Why Spec Driven Development — Part 1: The Three Problems</h2>
+                        </a>
+                        <time>May 10, 2026</time>
+                    </div>
+                    <p>The three compounding problems that make AI-powered development fail — and their solutions: shared language, feedback loops, and intentional code design.</p>
+                    <div class="tag-container">
+                        <span class="tag">AI Agents</span><span class="tag">LLMs</span><span class="tag">Best Practices</span>
+                    </div>
+                    <a href="./spec-driven-development-part-1.html" class="read-more">Read Post &rarr;</a>
+                </li>
+
+                <!-- Post 3 (previously Post 1) -->
+                <li class="post-item">
+                    <div class="post-item-header">
+                        <a href="./claude-code-best-practices.html">
+                            <h2>Claude Code Best Practices</h2>
+                        </a>
+                        <time>April 20, 2026</time>
+                    </div>
+                    <p>An in-depth developer's guide to mastering Claude Code: CLAUDE.md guidelines, memory management, subagent isolation, parallel sessions, compaction strategies, and hooks automation.</p>
+                    <div class="tag-container">
+                        <span class="tag">Claude Code</span><span class="tag">LLMs</span><span class="tag">Best Practices</span>
+                    </div>
+                    <a href="./claude-code-best-practices.html" class="read-more">Read Post &rarr;</a>
+                </li>
+
+                <!-- Post 2 -->
+                <li class="post-item">
+                    <div class="post-item-header">
+                        <a href="./harness-engineering.html">
+                            <h2>Harness Engineering</h2>
+                        </a>
+                        <time>April 10, 2026</time>
+                    </div>
+                    <p>Learn the discipline of building the systems, constraints, and infrastructure around an AI model to make it reliable and useful in production.</p>
+                    <div class="tag-container">
+                        <span class="tag">Harness</span><span class="tag">LLMs</span><span class="tag">Best Practices</span>
+                    </div>
+                    <a href="./harness-engineering.html" class="read-more">Read Post &rarr;</a>
+                </li>
+
+                <!-- Post 2 -->
+                <li class="post-item">
+                    <div class="post-item-header">
+                        <a href="./context-fix-strategies.html">
+                            <h2>Context Fix Strategies</h2>
+                        </a>
+                        <time>March 30, 2026</time>
+                    </div>
+                    <p>A practical guide detailing key strategies to fix and prevent context failures in LLMs, including RAG, tool loadouts, and session management commands.</p>
+                    <div class="tag-container">
+                        <span class="tag">Context</span><span class="tag">LLMs</span><span class="tag">Commands</span>
+                    </div>
+                    <a href="./context-fix-strategies.html" class="read-more">Read Post &rarr;</a>
+                </li>
+
+                <!-- Post 2 -->
+                <li class="post-item">
+                    <div class="post-item-header">
+                        <a href="./context-engineering.html">
+                            <h2>Context Engineering</h2>
+                        </a>
+                        <time>March 20, 2026</time>
+                    </div>
+                    <p>An in-depth guide to context optimization, managing session compaction, and mitigating context failure modes like rot and distraction.</p>
+                    <div class="tag-container">
+                        <span class="tag">Context</span><span class="tag">LLMs</span><span class="tag">Best Practices</span>
+                    </div>
+                    <a href="./context-engineering.html" class="read-more">Read Post &rarr;</a>
+                </li>
+
+                <!-- Post 2 -->
+                <li class="post-item">
+                    <div class="post-item-header">
+                        <a href="./prompt-engineering.html">
+                            <h2>Prompt Engineering</h2>
+                        </a>
+                        <time>March 10, 2026</time>
+                    </div>
+                    <p>A practical guide covering the top 6 prompting techniques, long-context best practices, and security measures — with real-world examples.</p>
+                    <div class="tag-container">
+                        <span class="tag">Prompting</span><span class="tag">LLMs</span><span class="tag">Best Practices</span>
+                    </div>
+                    <a href="./prompt-engineering.html" class="read-more">Read Post &rarr;</a>
+                </li>
+
+                <!-- Post 2 -->
+                <li class="post-item">
+                    <div class="post-item-header">
+                        <a href="./caveman-method-llm-prompting.html">
+                            <h2>The Caveman Method: Pushing LLMs to Skip the Filler</h2>
+                        </a>
+                        <time>February 28, 2026</time>
+                    </div>
+                    <p>Learn how to use the Caveman Method to force AI agents to respond with maximum efficiency and zero filler.</p>
+                    <div class="tag-container">
+                        <span class="tag">Prompting</span><span class="tag">LLMs</span><span class="tag">Productivity</span>
+                    </div>
+                    <a href="./caveman-method-llm-prompting.html" class="read-more">Read Post &rarr;</a>
+                </li>
+
+
+                <!-- Post 2 -->
+                <li class="post-item">
+                    <div class="post-item-header">
+                        <a href="./recursive-language-models.html">
+                            <h2>Recursive Language Models (RLMs): A Brief Overview</h2>
+                        </a>
+                        <time>February 20, 2026</time>
+                    </div>
+                    <p>A brief overview of Recursive Language Models (RLMs) and how they solve the Context Rot problem.</p>
+                    <div class="tag-container">
+                        <span class="tag">AI</span><span class="tag">LLMs</span><span class="tag">Architecture</span>
+                    </div>
+                    <a href="./recursive-language-models.html" class="read-more">Read Post &rarr;</a>
+                </li>
+
+                <!-- Post 2 -->
+                <li class="post-item">
+                    <div class="post-item-header">
+                        <a href="./gemini-cli-multi-agent-architecture.html">
+                            <h2>Deconstructing the Gemini CLI: A Tale of Two Agents</h2>
+                        </a>
+                        <time>February 10, 2026</time>
+                    </div>
+                    <p>An in-depth analysis of the Gemini CLI's multi-agent routing system using raw request/response logs.</p>
+                    <div class="tag-container">
+                        <span class="tag">AI Agents</span><span class="tag">Gemini</span><span class="tag">Routing</span>
+                    </div>
+                    <a href="./gemini-cli-multi-agent-architecture.html" class="read-more">Read Post &rarr;</a>
+                </li>
+
+                <!-- Post 2 -->
+                <li class="post-item">
+                    <div class="post-item-header">
+                        <a href="./intercepting-llm-prompts-mitmproxy.html">
+                            <h2>Intercepting LLM Prompts with mitmproxy</h2>
+                        </a>
+                        <time>January 30, 2026</time>
+                    </div>
+                    <p>Learn how to use mitmproxy to intercept and analyze the actual payloads sent to Large Language Models.</p>
+                    <div class="tag-container">
+                        <span class="tag">Debugging</span><span class="tag">Security</span><span class="tag">LLMs</span>
+                    </div>
+                    <a href="./intercepting-llm-prompts-mitmproxy.html" class="read-more">Read Post &rarr;</a>
+                </li>
+
+                <!-- Post 3 -->
+                <li class="post-item">
+                    <div class="post-item-header">
+                        <a href="./agy-security-part-1.html">
+                            <h2>Understanding the Terminal Sandbox for AI Agents</h2>
+                        </a>
+                        <time>January 20, 2026</time>
+                    </div>
+                    <p>A simple English guide on how the AI agent terminal sandbox protects your computer from rogue code sabotage.</p>
+                    <div class="tag-container">
+                        <span class="tag">Security</span><span class="tag">AI Agents</span><span class="tag">Sandbox</span>
+                    </div>
+                    <a href="./agy-security-part-1.html" class="read-more">Read Post &rarr;</a>
+                </li>
+
+                <!-- Post 2 -->
+                <li class="post-item border-none">
+                    <div class="post-item-header">
+                        <a href="./01-LLM-tools-analysis.html">
+                            <h2>LLM Control Frameworks Analysis</h2>
+                        </a>
+                        <time>January 10, 2026</time>
+                    </div>
+                    <p>An interactive dashboard comparing the top 5 libraries for controlling and structuring LLM outputs.</p>
+                    <div class="tag-container">
+                        <span class="tag">Frameworks</span><span class="tag">LLMs</span><span class="tag">Data</span>
+                    </div>
+                    <a href="./01-LLM-tools-analysis.html" class="read-more">View Interactive Post &rarr;</a>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <div class="site-container">
+            <p>&copy; 2026 Saeed Vayghan. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Spec Driven Development — Part 2 | Saeed Vayghan</title>
+    <meta name="description" content="How Spec Driven Development fixes Vibe Coding's failure modes by building an engineered memory — structured specs, a shared repo layout, and AI-era code review.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../statics/styles.css">
+    <script src="../statics/theme.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="site-container">
+            <nav>
+                <div class="logo">Saeed.</div>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../projects/index.html">Projects</a></li>
+                    <li><a href="../blog/index.html" class="active">Blog</a></li>
+                    <li>
+                        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                            <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                            <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="site-container">
+        <a href="./index.html" class="back-link">&larr; Back to Blog</a>
+
+        <article class="blog-content">
+            <div class="post-header">
+                <div class="post-title-group">
+                    <h1 class="post-title">Why Spec Driven Development</h1>
+                    <h2 class="post-title">Part 2: The Framework</h2>
+                </div>
+                <time class="post-date">May 10, 2026</time>
+                <div class="tag-row" style="margin-top: 1rem;">
+                    <span class="pill-tag pill-fintech">AI Agents</span>
+                    <span class="pill-tag pill-media">LLMs</span>
+                    <span class="pill-tag pill-realestate">Spec Driven</span>
+                </div>
+            </div>
+
+            <blockquote>
+                The real bottleneck in software is the "cost of knowing what to build." Knowing <em>what</em> and
+                <em>how</em> to build is far more important than just having people who can code.
+            </blockquote>
+
+            <h2 id="vibe-coding">The Reality of Vibe Coding</h2>
+
+            <blockquote>
+                <strong>The Vibe Coding Trap:</strong> "We don't need to know software engineering anymore; we just talk to the AI and the product gets built!"
+            </blockquote>
+
+            <p>One of the biggest current misunderstandings about AI is the concept of <strong>"Vibe Coding."</strong></p>
+
+            <p>
+                However, the main problem is that <strong>AI does not inherently understand the whole project</strong>.
+                It only operates based on the limited context window it sees at that specific moment.
+            </p>
+
+            <p>Because of this, many Vibe Coding projects follow a predictable pattern: they start off amazing, but as they grow larger, real issues begin to emerge. When a project lacks a clear structure:</p>
+
+            <ul>
+                <li><strong>System architecture</strong> falls apart.</li>
+                <li><strong>Naming conventions</strong> become inconsistent.</li>
+                <li><strong>Scalability and development</strong> become much harder.</li>
+                <li><strong>Performance</strong> starts to drop.</li>
+            </ul>
+
+            <p>Eventually, the AI completely loses its grasp on the project.</p>
+
+            <hr style="margin: 3rem 0; border: 0; border-top: 1px solid var(--border-color);">
+
+            <h2 id="spec-driven">Enter Spec Driven Development</h2>
+
+            <p>This is where some special commands and skills become very valuable.</p>
+            <p>The core idea is simple: <strong>Before writing any code, we force the AI to truly understand the project first.</strong></p>
+
+            <p>The framework interviews and challenges the user about:</p>
+
+            <div class="competency-grid" style="margin-top: 1.5rem; margin-bottom: 2rem;">
+                <div class="competency-card border-purple">
+                    <h3>Core Business Logic &amp; Domain Rules</h3>
+                    <p>The foundational rules and operations of the application.</p>
+                </div>
+                <div class="competency-card border-green">
+                    <h3>System Architecture &amp; Design Patterns</h3>
+                    <p>Component, dependency flows, and patterns (e.g., layered, event-driven, clean architecture).</p>
+                </div>
+                <div class="competency-card border-orange">
+                    <h3>Technical Decisions &amp; Trade-offs</h3>
+                    <p>Selection of tools, databases, frameworks, and recording architectural decisions (ADRs).</p>
+                </div>
+                <div class="competency-card border-blue">
+                    <h3>Naming Conventions &amp; Ubiquitous Language</h3>
+                    <p>Establishing a unified, domain-driven vocabulary.</p>
+                </div>
+                <div class="competency-card border-purple">
+                    <h3>Non-Functional Requirements (NFRs)</h3>
+                    <p>Designing for security boundaries, scalability, latency targets, and caching strategies.</p>
+                </div>
+                <div class="competency-card border-green">
+                    <h3>API Contracts &amp; Integration Boundaries</h3>
+                    <p>Defining clear interfaces and protocols for internal and external communication.</p>
+                </div>
+                <div class="competency-card border-orange">
+                    <h3>Testing &amp; Verification Strategies</h3>
+                    <p>Establishing how code is validated, from unit tests to automated E2E suites.</p>
+                </div>
+                <div class="competency-card border-blue">
+                    <h3>Project Constraints &amp; Rules</h3>
+                    <p>Enforcing style guides, directory layouts, and deployment limitations.</p>
+                </div>
+            </div>
+
+            <hr style="margin: 3rem 0; border: 0; border-top: 1px solid var(--border-color);">
+
+            <h2 id="engineering-memory">Building an Engineering Memory</h2>
+
+            <p>After this process, the framework generates real, structured specifications for the project, including:</p>
+
+            <ul>
+                <li>Project glossaries</li>
+                <li>Architecture design documents</li>
+                <li>Technical Decision Records (ADRs)</li>
+                <li>Coding conventions</li>
+                <li> A shared project vocabulary</li>
+            </ul>
+
+            <p>As a result, the AI develops a structured, <strong>engineered memory</strong> of your project.</p>
+
+            <h3>Sample Spec-Driven Repo Structure</h3>
+
+            <p>These specifications live in a predictable layout that every agent and developer can navigate:</p>
+
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+                <pre><code>AGENTS.md (symlink to CLAUDE.md and/or GEMINI.md)
+docs/
+├── ARCHITECTURE.md
+├── DESIGN.md
+├── BACKEND.md
+├── FRONTEND.md
+├── DATA-MODELS.md
+├── PLANS.md
+├── PRODUCT.md
+├── RELIABILITY.md
+└── SECURITY.md
+├── design-docs/
+│   ├── index.md
+│   ├── ui.md
+│   ├── ux.md
+│   └── ...
+├── exec-plans/
+│   ├── active/
+│   ├── archived/
+│   └── tech-debt.md
+├── generated/
+│   └── db-schema.md
+├── references/
+│   ├── system-design-reference.md
+│   └── ...</code></pre>
+            </div>
+
+            <hr style="margin: 3rem 0; border: 0; border-top: 1px solid var(--border-color);">
+
+            <h2 id="code-review">Code and PR Review of AI Outputs</h2>
+
+            <blockquote>
+                <strong>The Review Shift:</strong> Since it is impossible to manually review thousands of lines of fast-generated AI code, the review focus must shift to specifications, design documentation, and test validity.
+            </blockquote>
+
+            <p>
+                Code review is a vital practice, but its role is changing in the AI era. Because it is impossible
+                to manually read thousands of lines of AI-generated code, the focus must shift to reviewing
+                <strong>specifications, documentation, and tests</strong>.
+            </p>
+
+            <p>Ultimately, the most critical function of a code review is to keep the entire team aligned and moving in the right direction.</p>
+
+            <p>A good code review achieves eight things:</p>
+
+            <div class="three-column-grid" style="margin-bottom: 2rem;">
+                <div class="competency-card border-purple">
+                    <h3>1. Style</h3>
+                    <p>Keeps the codebase clean, organized, and consistent.</p>
+                </div>
+                <div class="competency-card border-green">
+                    <h3>2. Bug detection</h3>
+                    <p>Catches errors before they reach production.</p>
+                </div>
+                <div class="competency-card border-orange">
+                    <h3>3. Design discussion</h3>
+                    <p>Creates a space to debate the pros and cons of technical choices.</p>
+                </div>
+                <div class="competency-card border-blue">
+                    <h3>4. Correct solution</h3>
+                    <p>Verifies that the code actually solves the right problem.</p>
+                </div>
+                <div class="competency-card border-purple">
+                    <h3>5. Security &amp; safety</h3>
+                    <p>Verifies that the new code doesn't introduce vulnerabilities.</p>
+                </div>
+                <div class="competency-card border-green">
+                    <h3>6. Performance &amp; scalability</h3>
+                    <p>Identifies potential bottlenecks.</p>
+                </div>
+                <div class="competency-card border-orange">
+                    <h3>7. Mental alignment</h3>
+                    <p>Helps everyone understand how the system is evolving.</p>
+                </div>
+                <div class="competency-card border-blue">
+                    <h3>8. And More principles ...</h3>
+                </div>
+            </div>
+
+            <hr style="margin: 3rem 0; border: 0; border-top: 1px solid var(--border-color);">
+
+            <h2 id="benefits">The Ultimate Benefits</h2>
+
+            <ul>
+                <li><strong>Consistent Code:</strong> Codebases stay clean and aligned.</li>
+                <li><strong>Protected Architecture:</strong> System design does not degrade over time.</li>
+                <li><strong>Fewer Repetitive Prompts:</strong> You waste less time re-explaining the context.</li>
+                <li><strong>Manageable Growth:</strong> Project development stays completely under control.</li>
+                <li><strong>True Collaboration:</strong> The AI begins to act like a real, reliable teammate.</li>
+            </ul>
+
+        </article>
+    </main>
+
+    <footer>
+        <div class="site-container">
+            <p>&copy; 2026 Saeed Vayghan. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

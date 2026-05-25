@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Code Best Practices | Saeed Vayghan</title>
+    <meta name="description" content="An in-depth developer's guide to mastering Claude Code: CLAUDE.md guidelines, memory management, subagent isolation, parallel sessions, compaction strategies, and hooks automation.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../statics/styles.css">
+    <script src="../statics/theme.js"></script>
+    <style>
+        .blog-content pre code {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+        }
+        .slide-content ul {
+            margin-bottom: 0 !important;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="site-container">
+            <nav>
+                <div class="logo">Saeed.</div>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../projects/index.html">Projects</a></li>
+                    <li><a href="../blog/index.html" class="active">Blog</a></li>
+                    <li>
+                        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                            <!-- Moon Icon -->
+                            <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                            <!-- Sun Icon -->
+                            <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="site-container">
+        <a href="./index.html" class="back-link">
+            &larr; Back to Blog
+        </a>
+
+        <article class="blog-content">
+            <div class="post-header">
+                <h1 class="post-title">Claude Code Best Practices</h1>
+                <time class="post-date">April 20, 2026</time>
+                <div class="tag-row" style="margin-top: 1rem;">
+                    <span class="pill-tag pill-fintech">Claude Code</span>
+                    <span class="pill-tag pill-media">LLMs</span>
+                    <span class="pill-tag pill-realestate">Best Practices</span>
+                </div>
+            </div>
+
+            <!-- Table of Contents -->
+            <div class="toc-container card">
+                <h3 style="margin-top: 0; margin-bottom: 1rem;">Table of Contents</h3>
+                <ol>
+                    <li><a href="#claude-md-best-practices">CLAUDE.md Best Practices</a></li>
+                    <li><a href="#memory-noise">Keep Memory Selective &amp; Avoid Noise</a></li>
+                    <li><a href="#explore-research-plan">Explore, Research, Plan, Execute</a></li>
+                    <li><a href="#subagents-isolation">Use Subagents to Isolate Context</a></li>
+                    <li><a href="#git-worktrees">Use Worktrees for Parallel Work</a></li>
+                    <li><a href="#configure-permissions">Configure Permissions</a></li>
+                    <li><a href="#automation-hooks">Use Hooks for Automation</a></li>
+                    <li><a href="#harness-engineering">The Harness Engineering Matters</a></li>
+                    <li><a href="#machine-comments">Source Code Comments for Machines</a></li>
+                    <li><a href="#compaction-strategies">Five Compaction Strategies</a></li>
+                    <li><a href="#resumable-sessions">Sessions are Persistent &amp; Resumable</a></li>
+                    <li><a href="#skills-knowledge">Skills Are for Reusable Knowledge</a></li>
+                    <li><a href="#commands-rules">Commands / Rules and etc</a></li>
+                </ol>
+            </div>
+
+            <p>
+                As AI coding assistants transition from simple autocomplete wrappers into autonomous agents operating directly on your filesystem, managing their instructions, context size, and execution safety becomes a core discipline. Here is an in-depth developer guide to getting the most out of <strong>Claude Code</strong>.
+            </p>
+
+            <!-- ===================== 1. CLAUDE.md best practices ===================== -->
+            <h2 id="claude-md-best-practices">1. CLAUDE.md Architecture</h2>
+            <p>
+                The <code>CLAUDE.md</code> file acts as the configuration blueprint and rules engine for the agent. Because it is loaded automatically on almost every LLM call, keeping it structured and lightweight is vital.
+            </p>
+            <ul>
+                <li><strong>Global vs. Project Level:</strong> You can define a global fallback at <code>~/.claude/CLAUDE.md</code> for persistent configurations across your workspace, and project-specific instructions at the root <code>./CLAUDE.md</code>.</li>
+                <li><strong>Decouple Instructions:</strong> Instead of bloat, maintain a small, configuration-like root <code>CLAUDE.md</code> (under 100 lines, resembling an <code>.eslintrc</code> or <code>.gitignore</code> configuration file rather than an extensive README). Put domain-specific instructions inside separate files.</li>
+            </ul>
+            <p><strong>Symlink Conventions:</strong> To link <code>AGENTS.md</code> to <code>CLAUDE.md</code> locally (essential for multi-agent settings), run the symlink command:</p>
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-bash">ln -s AGENTS.md CLAUDE.md</code></pre>
+            </div>
+
+            <p>Here is an optimized directory layout for isolating agent documentation:</p>
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-markdown">agent_docs/
+    |- AGENTS.md
+    |- code_conventions_and_styles.md
+    |- running_tests.md
+    |- architecture.md
+    |- database_schema.md
+    |- data_models.md
+    |- messaging_schemas.md
+    |- build_commands.md</code></pre>
+            </div>
+
+            <p>If your main instructions file has accumulated bloat, you can feed the following prompt to Claude to clean it up:</p>
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-markdown">Please clean up my AGENTS.md file so the main file is short and detailed instructions are split into separate files.
+
+Please do the following:
+1. Spot conflicts: If any instructions contradict each other, ask me which one is correct.
+2. Isolate the essentials: Leave only the absolute basics in the main AGENTS.md file (like a 1-sentence project summary, package manager, custom commands, and global rules).
+3. Categorize everything else: Group the rest of the instructions by topic (e.g., testing, API design) and put each group into its own markdown file.
+4. Output the results: Provide the new, short AGENTS.md file (with links to the sub-files), the content for the new sub-files, and a suggested folder structure.
+5. Remove fluff: Delete any instructions that are redundant, vague, or obvious (like "write good code").</code></pre>
+            </div>
+
+            <!-- ===================== 2. Keep memory selective and avoid noise ===================== -->
+            <h2 id="memory-noise">2. Keep Memory Selective &amp; Avoid Noise</h2>
+            <p>
+                Because LLMs have context limits, keeping active memory clean is critical. Do not feed the model unnecessary code, large datasets, or log files. Limit file reading tool use to only the files relevant to the active task, and delete or archive outdated spec files to avoid confusing the agent.
+            </p>
+
+            <!-- ===================== 3. Explore, Research, Plan ===================== -->
+            <h2 id="explore-research-plan">3. Explore, Research, Plan, Execute</h2>
+            <p>
+                Claude Code leverages built-in, task-specific subagents to delegate work, control context size, and execute commands safely. When writing code, the system runs through a structured loop:
+            </p>
+            <ul>
+                <li><strong>Explore:</strong> A lightweight, read-only agent searches the codebase, reads files, and locates relevant code blocks.</li>
+                <li><strong>Research &amp; Plan:</strong> A planning agent gathers all details, designs the solution, and presents a plan for user approval.</li>
+                <li><strong>Execute:</strong> A general-purpose execution agent carries out the approved tasks, modifying files and running builds.</li>
+            </ul>
+
+            <!-- ===================== 4. Use subagents to isolate context ===================== -->
+            <h2 id="subagents-isolation">4. Subagent Context Isolation</h2>
+            <p>
+                To prevent context overload and security vulnerabilities, each subagent runs inside an isolated context window with restricted tools. 
+            </p>
+            
+            <div class="figure-container">
+                <pre class="mermaid">
+                graph TD
+                    classDef blueBox fill:#2563eb,stroke:#1d4ed8,color:#fff;
+                    classDef greenBox fill:#059669,stroke:#047857,color:#fff;
+                    classDef purpleBox fill:#7c3aed,stroke:#6d28d9,color:#fff;
+                    classDef orangeBox fill:#ea580c,stroke:#c2410c,color:#fff;
+                    classDef redBox fill:#dc2626,stroke:#b91c1c,color:#fff;
+                    classDef greyBox fill:#4b5563,stroke:#374151,color:#fff;
+                    classDef pinkBox fill:#db2777,stroke:#be185d,color:#fff;
+                    classDef wallStyle fill:#e2e8f0,stroke:#64748b,stroke-width:4px,font-weight:bold;
+
+                    subgraph Subagent ["Subagent Context"]
+                        direction TB
+                        S1["System Prompt"]:::blueBox
+                        S2["CLAUDE.md"]:::blueBox
+                        S3["Tools"]:::blueBox
+                        S4["subagents Prompt"]:::redBox
+                        S5["User Message FROM Agent()"]:::greenBox
+                        
+                        subgraph Noise ["Blocked Noise"]
+                            direction TB
+                            N1["Glob()"]:::purpleBox
+                            N2["Bash()"]:::orangeBox
+                            N3["Grep()"]:::greyBox
+                            N4["Read()"]:::pinkBox
+                        end
+                        
+                        S6["Assistant Output"]:::orangeBox
+                        
+                        S1 --- S2 --- S3 --- S4 --- S5 --- Noise --- S6
+                    end
+
+                    subgraph WallSection [" "]
+                        direction TB
+                        Firewall["C O N T E X T   F I R E W A L L"]:::wallStyle
+                    end
+
+                    subgraph Primary ["Primary Context"]
+                        direction TB
+                        P1["System Prompt"]:::blueBox
+                        P2["CLAUDE.md"]:::blueBox
+                        P3["Tools"]:::blueBox
+                        P4["Prompt/Message/Command"]:::greenBox
+                        P5["Agent() Call"]:::purpleBox
+                        P6["Agent() Result"]:::orangeBox
+                        
+                        P1 --- P2 --- P3 --- P4 --- P5 --- P6
+                    end
+
+                    P5 --> S5
+                    S6 --> P6
+                    
+                    N1 -.-x|BLOCKED| Firewall
+                    N2 -.-x|BLOCKED| Firewall
+                    N3 -.-x|BLOCKED| Firewall
+                    N4 -.-x|BLOCKED| Firewall
+                </pre>
+                <p class="caption-text">Figure 1: Subagent Firewall architecture isolating noise and tools.</p>
+            </div>
+
+            <p>
+                By running agents in isolated sessions, subagents share the prompt cache (parallelism is highly efficient) while preventing large token footprints from polluting the primary loop.
+            </p>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Execution Model</th>
+                            <th>Workspace Isolation</th>
+                            <th>Cache Sharing</th>
+                            <th>Primary Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Fork</strong></td>
+                            <td>Shares parent directory (same files)</td>
+                            <td>Yes (Optimized caching)</td>
+                            <td>Parallel analysis, refactoring, and code generation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Teammate</strong></td>
+                            <td>Runs in separate terminal pane/tab</td>
+                            <td>Yes</td>
+                            <td>Long-running background tasks, monitoring (communicates via mailbox)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Worktree</strong></td>
+                            <td>Isolated directory / git branch</td>
+                            <td>Yes</td>
+                            <td>Complex features, independent tasks avoiding merge conflicts</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ===================== 5. Use worktrees ===================== -->
+            <h2 id="git-worktrees">5. Git Worktrees for Parallel Work</h2>
+            <p>
+                When working on multiple features simultaneously, you can run parallel Claude Code sessions without overlapping modifications by isolating them inside Git worktrees.
+            </p>
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-bash"># Start Claude in a worktree named "feature-auth"
+# Creates .claude/worktrees/feature-auth/ with a new branch
+claude --worktree feature-auth
+
+# Start another session in a separate worktree
+claude --worktree bugfix-123</code></pre>
+            </div>
+
+            <!-- ===================== 6. Configure permissions ===================== -->
+            <h2 id="configure-permissions">6. Configure Permissions</h2>
+            <p>
+                Control what Claude Code can access and execute on your machine. Limiting tool permissions, environment configurations, and network settings prevents unapproved actions and ensures security. A general rule of thumb for coding agents: <em>fewer tools lead to cleaner, more focused results</em>.
+            </p>
+            <p>Below is a sample permissions configuration file defining allow, ask, and deny boundaries:</p>
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-json">{
+  "permissions": {
+    "allow": [
+      "Read(public/**)",
+      "Edit(public/**)",
+      "Bash(npm run test*)",
+      "Bash(git status)",
+      "Bash(git diff)"
+    ],
+    "ask": [
+      "Bash(npm install *)",
+      "Bash(git commit:*)"
+    ],
+    "deny": [
+      "WebFetch",
+      "Read(proprietary/**)",
+      "Read(**/.env*)",
+      "Read(**/secrets/**)",
+      "Bash(rm *)",
+      "Bash(curl:*)"
+    ]
+  },
+  "defaultMode": "default",
+  "additionalDirectories": []
+}</code></pre>
+            </div>
+
+            <!-- ===================== 7. Use hooks for automation ===================== -->
+            <h2 id="automation-hooks">7. Use Hooks for Automation</h2>
+            <p>
+                Hooks are powerful control flow triggers that run custom commands automatically when specific agent tools are executed. For example, you can write a post-tool-use hook that runs formatting, style checks, or tests every time a file is modified:
+            </p>
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-json">{
+    "hooks": {
+        "PostToolUse": [
+            {
+                "matcher": "Write|Edit|MultiEdit",
+                "hooks": [
+                    { "type": "command", "command": "bun run format || true" }
+                ]
+            }
+        ]
+    }
+}</code></pre>
+            </div>
+
+            <!-- ===================== 7. Five compaction strategies ===================== -->
+            <h2 id="compaction-strategies">7. Five Compaction Strategies</h2>
+            <p>
+                As the chat session grows, Claude Code automatically compacts the conversation history using five distinct strategies to optimize tokens and keep the context fresh. Use the interactive slider below to explore these strategies:
+            </p>
+
+            <!-- Interactive Slider -->
+            <div class="slider-container">
+                <div class="slider-wrapper">
+                    <!-- Slide 1 -->
+                    <div class="slide">
+                        <div class="slide-title">
+                            <span>🧹</span> 1. Microcompact
+                        </div>
+                        <div class="slide-content">
+                            <p><strong>Time-based clearing:</strong> Automatically prunes old, transient tool outputs (such as massive shell runs or search results) after a set duration. This keeps the immediate context history relevant and clean.</p>
+                        </div>
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="slide">
+                        <div class="slide-title">
+                            <span>📦</span> 2. Context Collapse
+                        </div>
+                        <div class="slide-content">
+                            <p><strong>Summarization of past loops:</strong> Condenses long series of back-and-forth tool invocations and user confirmations into a high-level summary paragraph. This preserves the history of decisions without bloating the active token count.</p>
+                        </div>
+                    </div>
+                    <!-- Slide 3 -->
+                    <div class="slide">
+                        <div class="slide-title">
+                            <span>📝</span> 3. Session Memory
+                        </div>
+                        <div class="slide-content">
+                            <p><strong>Externalizing State:</strong> Extracts critical configuration values, file lists, and overall task checklists to a separate scratchpad file. This offloads active tracking details from the short-term chat memory.</p>
+                        </div>
+                    </div>
+                    <!-- Slide 4 -->
+                    <div class="slide">
+                        <div class="slide-title">
+                            <span>📊</span> 4. Full Compact
+                        </div>
+                        <div class="slide-content">
+                            <p><strong>Global History Summary:</strong> Summarizes the entire conversation from the very first message. Claude replaces the original full history with this comprehensive brief, reclaiming up to 80% of the active context window.</p>
+                        </div>
+                    </div>
+                    <!-- Slide 5 -->
+                    <div class="slide">
+                        <div class="slide-title">
+                            <span>✂️</span> 5. PTL Truncation
+                        </div>
+                        <div class="slide-content">
+                            <p><strong>Oldest Message Purge:</strong> Drops the oldest messages once a session exceeds limit boundaries. This keeps only the most recent loops in the context while purging historical noise.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Navigation -->
+                <div class="slider-nav">
+                    <button class="slider-btn" id="slider-prev">&larr; Prev</button>
+                    <div class="slider-dots"></div>
+                    <button class="slider-btn" id="slider-next">Next &rarr;</button>
+                </div>
+            </div>
+
+            <blockquote>
+                <strong>Pro-Tip:</strong> Run the <code>/compact</code> command manually and pass specific pruning instructions (e.g. <code>/compact focus on API changes</code>) to guide how memory is summarized!
+            </blockquote>
+
+            <!-- ===================== 8. The harness engineering matters ===================== -->
+            <h2 id="harness-engineering">8. The Harness Engineering Matters</h2>
+            <p>
+                Harness engineering is the craft of designing boundaries, automated constraints, and instructions around the model to make it behave predictably in production.
+            </p>
+            <p>
+                Instead of treating code agents as black boxes, you should build scaffolding structures (like test suites and verification environments) to guide their tool usage and verify outputs. Read our complete guide on <a href="./harness-engineering.html">Harness Engineering</a> for a detailed analysis of this discipline.
+            </p>
+
+            <!-- ===================== 9. Source code comments for machines ===================== -->
+            <h2 id="machine-comments">9. Source Code Comments for Machines</h2>
+            <p>
+                When writing source code, add structural, machine-readable comments. AI tools parse function signatures and type annotations to understand constraints. Providing structured cues prevents the model from generating code that violates your architecture.
+            </p>
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-javascript">// For AI Agent Context Parsing:
+// @param {string} userId - UUID v4 format only
+// @returns {Promise&lt;Object&gt;} Resolved user payload, or throws UserNotFoundError
+// WARNING: DO NOT modify this database query structure without updating 
+// the active schema file inside docs/db-schema.md first.
+function fetchUserProfile(userId) {
+  // Query implementation...
+}</code></pre>
+            </div>
+
+            <!-- ===================== 11. sessions are persistent and resumable ===================== -->
+            <h2 id="resumable-sessions">11. Sessions are Persistent &amp; Resumable</h2>
+            <p>
+                Stop starting fresh conversations for the same task. Long sessions accumulate file indexing caches, active subagent mailbox states, historical build results, and past debugging learnings. Starting fresh forces the model to rebuild its understanding of your codebase from scratch.
+            </p>
+            <ul>
+                <li><strong>JSONL Under the Hood:</strong> Every conversation timeline is saved locally as raw JSONL at <code>~/.claude/projects/{hash}/{sessionId}.json</code>.</li>
+                <li><strong>Session Navigation Switches:</strong> Use the command-line flags to navigate and resume past sessions:</li>
+            </ul>
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-bash"># Resume the last active session
+claude --continue
+
+# List and choose a previous session to resume
+claude --resume
+
+# Fork a new session from a past session ID
+claude --fork-session &lt;sessionId&gt;</code></pre>
+            </div>
+
+            <!-- ===================== 12. Skills Are for Reusable Knowledge ===================== -->
+            <h2 id="skills-knowledge">12. Skills Are for Reusable Knowledge</h2>
+            <p>
+                Skills are persistent, custom functions or knowledge definitions you can save and assign to Claude Code. They serve as reusable scripts that the model can run directly without manual instruction. We will cover Skills in a future detailed blog post.
+            </p>
+
+            <!-- ===================== 13. Commands / Rules and etc ===================== -->
+            <h2 id="commands-rules">13. Commands / Rules and etc</h2>
+            <p>
+                Command configurations and rulesets govern what tools are active, how errors are processed, and the custom behaviors of subagents. We can define project policies to prevent rogue commands. We will cover this configuration in an upcoming guide.
+            </p>
+        </article>
+    </main>
+
+    <footer>
+        <div class="site-container">
+            <p>&copy; 2026 Saeed Vayghan. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markdown.min.js"></script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const wrapper = document.querySelector('.slider-wrapper');
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('slider-prev');
+            const nextBtn = document.getElementById('slider-next');
+            const dotsContainer = document.querySelector('.slider-dots');
+            
+            let currentIndex = 0;
+            const totalSlides = slides.length;
+            
+            // Create pagination dots
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('button');
+                dot.classList.add('slider-dot');
+                if (i === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => goToSlide(i));
+                dotsContainer.appendChild(dot);
+            }
+            
+            const dots = document.querySelectorAll('.slider-dot');
+            
+            function updateSlider() {
+                wrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+                dots.forEach((dot, idx) => {
+                    dot.classList.toggle('active', idx === currentIndex);
+                });
+            }
+            
+            function goToSlide(index) {
+                currentIndex = index;
+                updateSlider();
+            }
+            
+            prevBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+                updateSlider();
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % totalSlides;
+                updateSlider();
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Context Engineering | Saeed Vayghan</title>
+    <meta name="description" content="A guide to context engineering: context vs prompt, the context window, hierarchy of failure, session management, and how to handle context failure modes.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <link rel="stylesheet" href="../statics/styles.css">
+    <script src="../statics/theme.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="site-container">
+            <nav>
+                <div class="logo">Saeed.</div>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../projects/index.html">Projects</a></li>
+                    <li><a href="../blog/index.html" class="active">Blog</a></li>
+                    <li>
+                        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                            <!-- Moon Icon -->
+                            <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                            <!-- Sun Icon -->
+                            <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="site-container">
+        <a href="./index.html" class="back-link">
+            &larr; Back to Blog
+        </a>
+
+        <article class="blog-content">
+            <div class="post-header">
+                <h1 class="post-title">Context Engineering</h1>
+                <time class="post-date">March 20, 2026</time>
+                <div class="tag-row" style="margin-top: 1rem;">
+                    <span class="pill-tag pill-fintech">Context</span>
+                    <span class="pill-tag pill-media">LLMs</span>
+                    <span class="pill-tag pill-realestate">Best Practices</span>
+                </div>
+            </div>
+
+            <p>
+                Without custom model training, the quality of an LLM's output is determined entirely by the quality of its inputs. We can take several key steps to ensure high-quality context and input:
+            </p>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>Prompt</th>
+                            <th>Context</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Definition</strong></td>
+                            <td>The Instruction / Task</td>
+                            <td>The Background / Knowledge</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Role</strong></td>
+                            <td>Telling the model <strong>what</strong> to do</td>
+                            <td>Telling the model <strong>what</strong> it knows</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Persistence</strong></td>
+                            <td>Dynamic and query-specific</td>
+                            <td>Static or long-term information</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Analogy</strong></td>
+                            <td>The Exam Question</td>
+                            <td>The Textbook</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Form</strong></td>
+                            <td>Conversational</td>
+                            <td>Programmatic</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>1. Context Window</h2>
+            <p>We should consider 5 subtle points to optimize the context window:</p>
+            <ol>
+                <li><strong>Correctness:</strong> Provide accurate, verified info to prevent errors.</li>
+                <li><strong>Completeness:</strong> Include every essential detail to avoid missing context.</li>
+                <li><strong>Size:</strong> Remove irrelevant data to minimize token usage.</li>
+                <li><strong>What not to do:</strong> Define exactly what changes should be avoided.</li>
+                <li><strong>Trajectory:</strong> List the sequence of steps taken to clarify the current path.</li>
+            </ol>
+
+            <h2>2. Hierarchy of Failure</h2>
+            <p>
+                <strong>Context Rot:</strong> Model output quality degrades as the context window fills up with increasing token counts.
+            </p>
+            <blockquote>
+                <strong>Note:</strong> A localized coding bug only affects a single line of code. However, a flawed plan can propagate into hundreds of incorrect lines. Worst of all, poor research—such as failing to understand how the system actually
+                works—can corrupt thousands of lines.
+            </blockquote>
+
+            <ol>
+                <li>One bad LOC (Line of Code) == one bad LOC</li>
+                <li>One bad LOR (Line of Research) = 100 wrong LOP</li>
+                <li>One bad LOP (Line of Plan) == 100 wrong LOS</li>
+                <li>One bad LOS (Line of Spec) = 1K wrong LOC</li>
+            </ol>
+
+            <p><strong>Flow:</strong> (1) Research &rarr; (2) Plan &rarr; (3) Spec &rarr; (4) Code</p>
+
+            <h2>3. One Big AGENTS.md / CLAUDE.md Fails Because:</h2>
+            <ul>
+                <li><strong>Context is a scarce resource:</strong> Monolithic files consume valuable tokens, leaving less room for active codebase files and conversation history while increasing latency and costs.</li>
+                <li><strong>Too much guidance becomes non-guidance:</strong> Overloading the model with rules dilutes attention, causing it to ignore, drop, or get confused by competing instructions.</li>
+                <li><strong>It rots instantly:</strong> Since codebases and requirements change rapidly, large files quickly become outdated ("context rot"), causing the model to follow stale guidelines.</li>
+                <li><strong>It is hard to verify:</strong> Giant rule lists are difficult for developers to audit and troubleshoot when the model fails to follow instructions.</li>
+            </ul>
+            <blockquote>
+                <strong>Solution:</strong> A short AGENTS.md (roughly 100 lines) is injected into context and serves primarily as a map, with pointers to deeper sources of truth elsewhere.
+            </blockquote>
+
+            <h2>4. Pause and Resume a Session</h2>
+            <p>Manage agent sessions actively to keep context windows optimal:</p>
+            <ul>
+                <li><strong>Fresh Sessions:</strong> When a session gets bloated or stuck, save status to a progress file (e.g., <code>progress.md</code>), terminate it, and start a new session reading that summary.</li>
+                <li><strong>Context Compaction:</strong> Periodically compress history (removing verbose terminal logs and file contents) manually or via built-in commands.</li>
+                <li><strong>Compaction Prompt:</strong>
+                    <div class="mac-window">
+                        <div class="mac-header">
+                            <span class="mac-dot red"></span>
+                            <span class="mac-dot yellow"></span>
+                            <span class="mac-dot green"></span>
+                        </div>
+                        <pre><code class="language-plaintext">Update progress.md with our current status. State the final goal, planned approach, completed steps, and current failure.</code></pre>
+                    </div>
+                </li>
+            </ul>
+
+            <br>
+            <hr><br>
+
+            <h1>When Context Fails</h1>
+            <p>Basically, this means: <em>Garbage in &rarr; Garbage out</em>.</p>
+
+            <h2>1. Context Poisoning</h2>
+            <ul>
+                <li>Occurs when an LLM's own mistake or hallucination is fed back into the context, causing it to repeat the error continuously.</li>
+                <li>A typical example is when the model generates buggy code, then references its own flawed output as the source of truth in later steps.</li>
+            </ul>
+
+            <h2>2. Context Distraction</h2>
+            <ul>
+                <li>Context distraction occurs when the context-size becomes so long that the AI pays too much attention to it and ignores its ongoing or past training.</li>
+                <li>Instead of using its built-in or trained knowledge to solve problems, the AI just gets stuck copying things from the long context window.</li>
+                <li>Avoid excessively long contexts unless the task is strictly summarization or simple information retrieval.</li>
+                <li>Although modern models support 1M+ tokens, it is best to keep active context under 200K tokens.</li>
+                <li>Read more: <a href="https://www.databricks.com/blog/long-context-rag-performance-llms" target="_blank" rel="noopener noreferrer">Long-Context RAG Performance in LLMs</a></li>
+            </ul>
+
+            <h2>3. Context Confusion</h2>
+            <ul>
+                <li>Occurs when irrelevant or unnecessary information is included in the context, leading to degraded response quality.</li>
+                <li>Because models try to process everything they are given, irrelevant data or unused tools dilute their focus.</li>
+                <li>The <a href="https://gorilla.cs.berkeley.edu/leaderboard.html" target="_blank" rel="noopener noreferrer">Berkeley Function-Calling Leaderboard</a> demonstrates how model performance drops as the number of available tools
+                    increases.</li>
+            </ul>
+
+            <h2>4. Context Clash</h2>
+            <ul>
+                <li>Happens when newly introduced instructions, tools, or data contradict existing information in the history.</li>
+                <li>The extra information isn't just useless; it directly conflicts with other instructions, causing the AI to get confused.</li>
+            </ul>
+
+            <h2>How to Fix Context Issues</h2>
+            <p>
+                Understanding failure modes is only half the battle. When context gets cluttered, poisoned, or conflicted, active mitigation is required. For a full breakdown of strategies, configurations, and REPL commands to keep your context
+                optimized, read our companion guide:
+            </p>
+            <p>
+                👉 <strong><a href="./context-fix-strategies.html">Context Fix Strategies &rarr;</a></strong>
+            </p>
+
+        </article>
+    </main>
+
+    <footer>
+        <div class="site-container">
+            <p>&copy; 2026 Saeed Vayghan. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</body>
+
+</html>

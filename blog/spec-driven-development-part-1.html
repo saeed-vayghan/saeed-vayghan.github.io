@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Spec Driven Development — Part 1 | Saeed Vayghan</title>
+    <meta name="description" content="The three compounding problems that make AI-powered development fail — and their solutions: shared language, feedback loops, and intentional code design.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../statics/styles.css">
+    <script src="../statics/theme.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="site-container">
+            <nav>
+                <div class="logo">Saeed.</div>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../projects/index.html">Projects</a></li>
+                    <li><a href="../blog/index.html" class="active">Blog</a></li>
+                    <li>
+                        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                            <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                            <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="site-container">
+        <a href="./index.html" class="back-link">&larr; Back to Blog</a>
+
+        <article class="blog-content">
+            <div class="post-header">
+                <div class="post-title-group">
+                    <h1 class="post-title">Why Spec Driven Development</h1>
+                    <h2 class="post-title">Part 1: The Three Problems</h2>
+                </div>
+                <time class="post-date">May 10, 2026</time>
+                <div class="tag-row" style="margin-top: 1rem;">
+                    <span class="pill-tag pill-fintech">AI Agents</span>
+                    <span class="pill-tag pill-media">LLMs</span>
+                    <span class="pill-tag pill-realestate">Best Practices</span>
+                </div>
+            </div>
+
+            <h2 id="problem-1">Problem #1: Misalignment (The Root Problem)</h2>
+
+            <blockquote>
+                <strong>The Communication Gap:</strong> We think the developer (or agent) knows what we want. They build it at lightning speed—only to deliver something completely off the mark.
+            </blockquote>
+
+            <p>The most common failure in software development is misalignment.</p>
+            <p>This is just as true in the AI age. There is still a communication gap, except now it's between us and the agent. If the agent doesn't truly understand what we want, it will build the wrong thing — only much faster.</p>
+
+            <h3 id="solution-1">The Solution: A Shared Language</h3>
+
+            <p>
+                The fix starts with establishing a <strong>shared language</strong> — one that is used by everyone
+                involved: business stakeholders, developers, and the codebase itself.
+            </p>
+
+            <p>
+                This idea comes from <strong>Domain-Driven Design (DDD)</strong>, where it's called
+                <strong>Ubiquitous Language</strong>. The goal is simple: a word used in a business meeting should mean
+                the exact same thing in the product requirements, the database schema, and the source code.
+            </p>
+
+            <p>When everyone uses the same words to mean the same things, misunderstandings between business and engineering disappear.</p>
+
+            <blockquote>
+                "With a ubiquitous language, conversations among developers and expressions of the code are all derived from the same domain model."
+                <br><em>— Eric Evans, Domain-Driven Design</em>
+            </blockquote>
+
+            <h4>Why a Shared Language Matters Even More With AI Agents</h4>
+
+            <p>A shared language doesn't just reduce confusion — it directly improves how well agents work:</p>
+
+            <ul>
+                <li><strong>Consistent naming:</strong> Variables, functions, and files all use the same terminology, making the codebase predictable.</li>
+                <li><strong>Easier navigation:</strong> The agent can find what it needs faster because everything is named logically and consistently.</li>
+                <li><strong>Fewer wasted tokens:</strong> The agent doesn't need to spend time figuring out what something means — the language is already precise and clear.</li>
+            </ul>
+
+            <hr style="margin: 3rem 0; border: 0; border-top: 1px solid var(--border-color);">
+
+            <h2 id="problem-2">Problem #2: Silent Failures (Aligned but Bad Output)</h2>
+
+            <blockquote>
+                <strong>The Feedback Void:</strong> Even when we and the agent agree on what to build, it can still produce poor results. Without knowing if the code compiles, runs, or breaks tests, the agent is flying blind.
+            </blockquote>
+
+            <p>Without feedback on whether the code actually works — does it compile? does it run? do the tests pass? — the agent has no way to self-correct.</p>
+
+            <h3 id="solution-2">The Solution: Tight Feedback Loops</h3>
+
+            <p>We need to give the agent access to real feedback mechanisms:</p>
+
+            <ul>
+                <li><strong>Type safety:</strong> Catching errors in data contracts at build time, rather than letting them fail in production.</li>
+                <li><strong>Runtime observability:</strong> Feeding logs, traces, and error outputs directly back into the agent's context.</li>
+                <li>
+                    <strong>Evaluation & Testing:</strong> Assessing the quality of the agent's output using structured checks.
+                    <ul>
+                        <li><strong>Automated tests:</strong> Instant signal on whether changes broke existing functionality.</li>
+                        <li><strong>End-to-end tests:</strong> Letting agents run full browser-based tests to close the loop on user flows.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <hr style="margin: 3rem 0; border: 0; border-top: 1px solid var(--border-color);">
+
+            <h2 id="problem-3">Problem #3: Accelerating Software Entropy</h2>
+
+            <blockquote>
+                <strong>The Speed Trap:</strong> Because agents can write code incredibly fast, they also accelerate the decay of the codebase. Complexity accumulates at an unprecedented rate.
+            </blockquote>
+
+            <p>What used to take months of messy manual coding can now happen in days. When codebase complexity grows faster than humans can review it, the system becomes unmaintainable.</p>
+
+            <h3 id="solution-3">The Solution: Intentional Code Design</h3>
+
+            <p>
+                This requires a fundamental shift in how we approach AI-powered development — we need to start
+                <strong>caring about code design</strong> as a first-class priority.
+            </p>
+
+            <p>Speed without structure leads to a codebase that is frozen and impossible to change. The solution is not to slow down, but to build with clean boundaries and modular design from the start.</p>
+
+            <hr style="margin: 3rem 0; border: 0; border-top: 1px solid var(--border-color);">
+
+            <h2 id="summary">Summary</h2>
+
+            <p>Solving three compounding problems:</p>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Compounding Problem</th>
+                            <th>Engineered Solution</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td><strong>Misalignment</strong><br><span style="font-size: 0.85em; color: var(--text-muted);">The agent builds the wrong thing</span></td>
+                            <td><strong>Shared Language</strong><br><span style="font-size: 0.85em; color: var(--text-muted);">A ubiquitous vocabulary across the team, specs, and codebase</span></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td><strong>Silent Failures</strong><br><span style="font-size: 0.85em; color: var(--text-muted);">The agent has no way to verify its work</span></td>
+                            <td><strong>Feedback Loops</strong><br><span style="font-size: 0.85em; color: var(--text-muted);">Type safety, runtime observability, and automated E2E tests</span></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td><strong>Software Entropy</strong><br><span style="font-size: 0.85em; color: var(--text-muted);">Complexity scales faster than human review</span></td>
+                            <td><strong>Intentional Code Design</strong><br><span style="font-size: 0.85em; color: var(--text-muted);">Treating architecture and code design as clean-room priorities</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>
+                The pattern is the same in each case: give the agent clarity before it starts, and give it signal
+                after it acts. Do both, and agents stop being a liability and start being a force multiplier.
+            </p>
+
+        </article>
+    </main>
+
+    <footer>
+        <div class="site-container">
+            <p>&copy; 2026 Saeed Vayghan. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

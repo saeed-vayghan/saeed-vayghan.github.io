@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Search SaaS | Saeed Vayghan</title>
+    <meta name="description" content="A powerful, AI-driven document search and management system powered by Google Gemini API and MongoDB.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../statics/styles.css">
+    <script src="../statics/theme.js"></script>
+    <style>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        @media (max-width: 768px) {
+            
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="site-container">
+            <nav>
+                <div class="logo">Saeed.</div>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../projects/index.html" class="active">Projects</a></li>
+                    <li><a href="../blog/index.html">Blog</a></li>
+                    <li>
+                        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                            <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                            <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="site-container">
+        <a href="./index.html" class="back-link">
+            &larr; Back to Projects
+        </a>
+
+        <section class="hero">
+            <h1 class="project-hero-title">File Search SaaS</h1>
+            <p class="project-hero-desc">A powerful, AI-driven document search and management system powered by Google Gemini API and MongoDB.</p>
+            <div class="action-buttons">
+                <a href="https://github.com/saeed-vayghan/file-search-rag-with-gemini" target="_blank" class="primary-button">View on GitHub</a>
+            </div>
+        </section>
+
+        <section class="project-content">
+            <h2>Features</h2>
+            <ul>
+                <li><strong>Smart Document Management</strong>: Upload and organize files into libraries (Project-based isolation).</li>
+                <li><strong>Semantic Search (RAG)</strong>: Ask questions about your documents using Google's Gemini models with Grounding.</li>
+                <li><strong>Vector Store Integration</strong>: Automatically handles storage and vectorization of files via Google Cloud.</li>
+                <li><strong>Interactive Playground</strong>: A built-in sandbox to experiment with Google File APIs directly from the browser.</li>
+                <li><strong>Duplicate Detection</strong>: Smart hashing to prevent duplicate file uploads.</li>
+                <li><strong>Internationalization</strong>: Fully localized UI (English & Farsi) with RTL support.</li>
+            </ul>
+
+            <h2>Tech Stack</h2>
+            <ul>
+                <li><strong>Framework</strong>: Next.js 15 (App Router)</li>
+                <li><strong>Database</strong>: MongoDB (Mongoose ODM)</li>
+                <li><strong>AI Engine</strong>: Google Gemini API (<code>@google/genai</code>)</li>
+                <li><strong>Styling</strong>: Tailwind CSS + Shadcn/Radix UI</li>
+            </ul>
+
+            <h2>Core Concepts</h2>
+
+            <h3>1. Libraries vs. Stores</h3>
+            <p><strong>Vector Store</strong>: The underlying Google Cloud resource that holds vector embeddings of your files. Each user has one primary store.<br>
+            <strong>Library</strong>: A logical grouping of files within the application. This helps you organize files on the UI side, even though they live in the same Vector Store.</p>
+
+            <h3>2. Scoped Search</h3>
+            <p>You can control the context of your AI chats:</p>
+            <ul>
+                <li><strong>Global Chat</strong>: Searches across <em>all</em> your uploaded files.</li>
+                <li><strong>Library Chat</strong>: Restricts the search context to files within a specific Library.</li>
+                <li><strong>File Chat</strong>: "Talk" to a single file. The AI only sees that specific document.</li>
+            </ul>
+
+            <h3>3. Search Modes</h3>
+            <p>Located in the Chat Settings, you can tune the AI's behavior:</p>
+            <ul>
+                <li><strong>Limited Mode (Strict)</strong>: The AI relies heavily on your documents. If the answer isn't in the files, it will say "I don't know". Good for contracts/facts.</li>
+                <li><strong>Auxiliary Mode (Creative)</strong>: The AI uses your documents as inspiration but can draw from its general knowledge. Good for brainstorming or creative writing.</li>
+            </ul>
+
+            <h2>Getting Started</h2>
+            <p>To run this project locally, clone the repository, setup your environment variables (MongoDB URI and Google API Key), install dependencies via <code>npm install</code>, and start the development server with <code>npm run dev</code>.</p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="site-container">
+            <p>&copy; 2026 Saeed Vayghan. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

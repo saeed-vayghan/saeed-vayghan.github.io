@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intercepting LLM Prompts with mitmproxy | Saeed Vayghan</title>
+    <meta name="description" content="Learn how to use mitmproxy to intercept and analyze the actual payloads sent to Large Language Models.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../statics/styles.css">
+    <script src="../statics/theme.js"></script>
+    
+</head>
+<body>
+    <header>
+        <div class="site-container">
+            <nav>
+                <div class="logo">Saeed.</div>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../projects/index.html">Projects</a></li>
+                    <li><a href="../blog/index.html" class="active">Blog</a></li>
+                    <li>
+                        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                            <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                            <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="site-container">
+        <a href="./index.html" class="back-link">
+            &larr; Back to Blog
+        </a>
+
+        <article class="blog-content">
+            <div class="post-header">
+                <h1 class="post-title">Ever wonder what prompts are actually being sent to LLMs?</h1>
+                <time class="post-date">January 30, 2026</time>
+                <div class="tag-row" style="margin-top: 1rem;">
+                    <span class="pill-tag pill-fintech">Debugging</span>
+                    <span class="pill-tag pill-media">Security</span>
+                    <span class="pill-tag pill-realestate">LLMs</span>
+                </div>
+            </div>
+
+            <p>When you chat with an AI agent or use a coding assistant, it feels like a simple conversation. You say "write a function," and it replies. But under the hood, there is a lot more happening than just your text message being sent to the server.</p>
+            <p>If you are a developer, a curious tech enthusiast, or someone building their own AI tools, seeing the <strong>actual</strong> request and response (req/res) data is a superpower. It shows you exactly how the AI is being instructed.</p>
+
+            <h2>What is the AI actually seeing?</h2>
+            <p>You might type: <em>"Fix this bug."</em></p>
+            <p>But the AI doesn't just receive "Fix this bug." If it did, it wouldn't know what bug, what code, or who you are. The <strong>actual payload</strong> sent to the Large Language Model (LLM) is much larger and richer. It often includes:</p>
+            <ul>
+                <li><strong>System Instructions</strong>: A hidden set of rules defining the AI's personality (e.g "You are an expert Python programmer").</li>
+                <li><strong>Context &amp; History</strong>: previous messages in your conversation so the AI remembers what you talked about.</li>
+                <li><strong>Secondary Prompts</strong>: Instructions injected by the application wrapper (e.g., "Format the output as JSON," "Do not explain, just code").</li>
+                <li><strong>RAG (Retrieval-Augmented Generation)</strong>: If the agent has access to your files, chunks of your code or documents are silently pasted into the prompt before your question.</li>
+            </ul>
+
+            <h2>Why this matters for tuning Custom LLMs</h2>
+            <p>If you are experimenting with custom LLMs or building your own AI applications, you can't improve what you can't measure.</p>
+            <p>Logging these requests is crucial for <strong>tuning</strong>:</p>
+            <ol>
+                <li><strong>Prompt Engineering Debugging</strong>: You might realize your system prompt is confusing the model or conflicting with user input.</li>
+                <li><strong>Context Window Management</strong>: You can see if you are sending too much irrelevant code, wasting tokens and distracting the model.</li>
+                <li><strong>Output Verification</strong>: Sometimes an LLM produces a "thought" process or metadata that the frontend application hides from you. Seeing the raw JSON response reveals everything the model actually generated.</li>
+            </ol>
+
+            <h2>Determining the Truth with mitmproxy</h2>
+            <p>One of the best tools to capture this traffic is <strong>mitmproxy</strong>. It sits between your computer and the internet, intercepting HTTPS requests so you can inspect them.</p>
+            <p>Here is how to set it up on a Mac to spy on your own AI agents.</p>
+
+            <h3>1. Install mitmproxy</h3>
+            <p>Open your terminal and use Homebrew:</p>
+<div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+<pre><code class="language-bash">brew install mitmproxy</code></pre>
+            </div>
+
+            <h3>2. Start the Web Interface</h3>
+            <p>In a new terminal session, start the web interface. This gives you a nice UI in your browser to inspect packets.</p>
+<div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+<pre><code class="language-bash">mitmweb
+# You should see:
+# HTTP(S) proxy listening at *:8080.
+# Web server listening at http://127.0.0.1:8081/...</code></pre>
+            </div>
+
+            <h3>3. Configure Your Environment</h3>
+            <p>Now you need to tell your terminal (and the apps running in it) to route traffic through this proxy. Run these commands in the terminal where you plan to run your AI agent:</p>
+<div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+<pre><code class="language-bash">export HTTP_PROXY=http://127.0.0.1:8080
+export HTTPS_PROXY=http://127.0.0.1:8080</code></pre>
+            </div>
+
+            <h3>4. Trust the Certificate (The Tricky Part)</h3>
+            <p>Since most traffic is HTTPS (encrypted), mitmproxy needs to sign the traffic with its own certificate. You need to tell your Mac to trust this certificate.</p>
+<div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+<pre><code class="language-bash">sudo security add-trusted-cert -d -p ssl -p basic -k /Library/Keychains/System.keychain ~/.mitmproxy/mitmproxy-ca-cert.pem</code></pre>
+            </div>
+            <p>If you are using Node.js based tools (which many AI agents are), you might also need this extra step to make Node trust the proxy:</p>
+<div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+<pre><code class="language-bash">export NODE_EXTRA_CA_CERTS=~/.mitmproxy/mitmproxy-ca-cert.pem</code></pre>
+            </div>
+
+            <h3>5. Run &amp; Inspect</h3>
+            <p>Now, run your AI tool (like <code>gemini</code> or any CLI agent) in that same terminal window.</p>
+<div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+<pre><code class="language-bash"># Example
+gemini</code></pre>
+            </div>
+            <p>Go to your browser (usually <code>http://127.0.0.1:8081</code>) and watch the traffic flow in. Look for requests to APIs like <code>generativelanguage.googleapis.com</code> or <code>api.openai.com</code>. Click on them, and you will see the full, unadulterated JSON body containing the system prompts, your context, and the raw model output.</p>
+            
+            <p>Happy hacking!</p>
+        </article>
+    </main>
+
+    <footer>
+        <div class="site-container">
+            <p>&copy; 2026 Saeed Vayghan. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+</body>
+</html>

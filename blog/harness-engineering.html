@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harness Engineering | Saeed Vayghan</title>
+    <meta name="description" content="AI Harness Engineering: building systems, constraints, and infrastructure around models to make them reliable and useful in production.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <link rel="stylesheet" href="../statics/styles.css">
+    <script src="../statics/theme.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="site-container">
+            <nav>
+                <div class="logo">Saeed.</div>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../projects/index.html">Projects</a></li>
+                    <li><a href="../blog/index.html" class="active">Blog</a></li>
+                    <li>
+                        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                            <!-- Moon Icon -->
+                            <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                            <!-- Sun Icon -->
+                            <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="site-container">
+        <a href="./index.html" class="back-link">
+            &larr; Back to Blog
+        </a>
+
+        <article class="blog-content">
+            <div class="post-header">
+                <h1 class="post-title">Harness Engineering</h1>
+                <time class="post-date">April 10, 2026</time>
+                <div class="tag-row" style="margin-top: 1rem;">
+                    <span class="pill-tag pill-fintech">Harness</span>
+                    <span class="pill-tag pill-media">LLMs</span>
+                    <span class="pill-tag pill-realestate">Best Practices</span>
+                </div>
+            </div>
+
+            <p>
+                AI Harness Engineering is the discipline of building the system, constraints, and infrastructure around an AI model to make it reliable and useful in production.
+            </p>
+            <ul>
+                <li>It is a subset of Context Engineering.</li>
+                <li>Harnessing helps you maintain smaller teams with higher expectations.</li>
+                <li>Using these settings makes your coding agent work better and more reliably.</li>
+                <li>When you spot an error, update the agent's instructions so it won't repeat that same mistake.</li>
+                <li>A critical part of harnessing is the system prompt.</li>
+            </ul>
+
+            <!-- ===================== Questions ===================== -->
+            <h2>It Answers Questions Like:</h2>
+            <ul>
+                <li>How do we improve success rates without prompt hacks?</li>
+                <li>How do we stop the context from getting bloated?</li>
+                <li>How do we make it follow instructions reliably?</li>
+                <li>How do we explain our codebase to it?</li>
+                <li>How do we add new capabilities?</li>
+                <li>How do we make AI not produce mediocre quality output?</li>
+                <li>How do we evaluate and measure agent performance?</li>
+                <li>How do we secure the agent's execution sandbox?</li>
+                <li>How do we debug agent trajectories when they fail?</li>
+            </ul>
+
+            <!-- ===================== Levers ===================== -->
+            <h2>Levers</h2>
+
+            <div class="three-column-grid">
+                <div class="competency-card border-purple">
+                    <h3>1. Input Levers</h3>
+                    <p>Controls that shape the model's knowledge, permissions, and available tools before execution starts.</p>
+                    <ul style="margin-top: 1rem; margin-bottom: 0; padding-left: 1.25rem;">
+                        <li>Initial Prompts</li>
+                        <li>System Prompt</li>
+                        <li>Context</li>
+                        <li>Tools / MCPs / Skills / Commands</li>
+                        <li>Sub-Agents</li>
+                        <li>Hooks</li>
+                        <li>Orchestration Logic</li>
+                    </ul>
+                </div>
+
+                <div class="competency-card border-orange">
+                    <h3>2. Execution Levers</h3>
+                    <p>Runtime controls governing orchestration patterns, context refinement, and safety boundaries.</p>
+                    <ul style="margin-top: 1rem; margin-bottom: 0; padding-left: 1.25rem;">
+                        <li>Orchestration</li>
+                        <li>Parallel / Sequential / Loop Agents</li>
+                        <li>Dynamic Context Refinement</li>
+                        <li>Safe Execution Sandboxes</li>
+                    </ul>
+                </div>
+
+                <div class="competency-card border-blue">
+                    <h3>3. Output Levers</h3>
+                    <p>Observability and evaluation metrics used to verify, benchmark, and analyze the agent's work.</p>
+                    <ul style="margin-top: 1rem; margin-bottom: 0; padding-left: 1.25rem;">
+                        <li>Observability</li>
+                        <li>Evaluation</li>
+                        <li>Logs</li>
+                        <li>Token Cost</li>
+                        <li>Test Results</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ===================== Equipping the LLM ===================== -->
+            <br>
+            <h2>Equipping the LLM</h2>
+            <p>There are some actions that we need to let the LLM know how to handle:</p>
+
+            <ul class="experience-list">
+                <li><strong>1. Save progress safely:</strong> Use the file system and Git.</li>
+                <li><strong>2. Run code:</strong> Use the terminal and code execution tools.</li>
+                <li><strong>3. Stay safe:</strong> Run code in isolated sandboxes so it can't break anything.</li>
+                <li><strong>4. Learn and remember:</strong> Use memory files, search the web, and connect to outside tools.</li>
+                <li><strong>5. Don't get confused:</strong> Keep the context clean by summarizing old data and offloading work to tools.</li>
+                <li><strong>6. Tackle big projects:</strong> Make a plan, work in loops, and verify everything at the end.</li>
+                <li><strong>7. Understand huge codebases:</strong> Semantic Search</li>
+                <li><strong>8. See and test user interfaces:</strong> Browser Control + Vision Models</li>
+                <li><strong>9. Avoid bad assumptions:</strong> Human-in-the-loop + Clarifying Questions</li>
+            </ul>
+
+            <hr class="content-divider">
+
+            <h2>A Review of Core Practices</h2>
+
+            <h3>1. Save Progress Safely</h3>
+            <p>
+                Managing instructions and keeping track of state is a core harnessing requirement. Two types of <code>CLAUDE.md</code> files serve as less frequently updated rule documentation:
+            </p>
+            <ul>
+                <li><code>~/.claude/CLAUDE.md</code>: Global rules that apply across all projects.</li>
+                <li><code>./CLAUDE.md</code>: Project-level rules tailored to a specific repository.</li>
+            </ul>
+            <p>
+                For short-term progress, maintain a frequently updated <code>progress.md</code> or <code>task.md</code> file directly in the codebase and reference it in the context.
+            </p>
+            <p>
+                For code safety, tracking changes is a classic problem with robust, native solutions. Rather than building custom logic to log changes or file histories, rely entirely on Git branch history, commits, and diffs to track changes, debug
+                regressions, and revert code safely.
+            </p>
+
+            <hr class="content-divider">
+
+            <h3>2. Run Code</h3>
+            <p>
+                Avoid using custom scripts, custom implementations, or proprietary code routines when standard command-line tools can do the job. Standard shell built-ins and Unix commands (like <code>cat</code>, <code>grep</code>, <code>find</code>,
+                <code>sed</code>, and <code>jq</code>) are highly optimized and standard for file operations, data extraction, and search.
+            </p>
+
+            <hr class="content-divider">
+
+            <h3>3. Stay Safe</h3>
+            <p>
+                To keep your computer secure from rogue command execution or buggy script loops, agent code must always run within isolated terminal sandboxes. Read our detailed guide on how sandboxing boundaries keep your environment secure: <a
+                    href="./agy-security-part-1.html">Understanding the Terminal Sandbox for AI Agents</a>.
+            </p>
+
+            <hr class="content-divider">
+
+            <h3>4. Learn and Remember</h3>
+            <p>
+                Rather than forcing the agent to rely solely on static training weights or loading huge manuals into the active context, use Model Context Protocol (MCP) servers to retrieve information on-demand.
+            </p>
+            <p>
+                For example, by configuring <a href="https://context7.com/" target="_blank" rel="noopener noreferrer">Context7</a> as an MCP server, the agent can query live library documentations (e.g. Next.js, Stripe, or React) dynamically. This
+                pulls version-specific API reference docs on-demand, saving token usage and preventing outdated assumptions.
+            </p>
+
+            <hr class="content-divider">
+
+            <h3>5. Don't Get Confused</h3>
+            <p>
+                As conversations stretch, context windows fill up with bulky log traces and old file contents, causing performance degradation and loops. To prevent this, actively compress your session. Check out our comprehensive guide on context
+                management, pruning, and compaction commands: <a href="./context-fix-strategies.html">Context Fix Strategies</a>.
+            </p>
+
+            <hr class="content-divider">
+
+            <h3>6. Tackle Big Projects</h3>
+            <p>
+                Complex, multi-file software engineering tasks cannot be completed in a single prompt. They require rigorous research, plans, specifications, and test loops before writing production code. We will explore this structured methodology
+                in a future post about <strong>Spec-Driven Development</strong>.
+            </p>
+
+            <hr class="content-divider">
+
+            <h3>7. Understand Huge Codebases</h3>
+            <p>
+                Locating utility functions, modules, and API logic across millions of lines of code requires advanced search indices. We will details techniques like vector search, semantic embeddings, and project maps in a future post about
+                <strong>Navigating and Understanding Huge Codebases</strong>.
+            </p>
+
+            <hr class="content-divider">
+
+            <h3>8. See and Test User Interfaces</h3>
+            <p>
+                Modern frontend testing requires visual verification. State-of-the-art agents use <strong>Computer Use</strong> capabilities (such as the Google Antigravity browser tools) combined with Vision Language Models (VLMs) to spin up local
+                headless browsers, click elements, capture page screenshots, and inspect layout rendering to verify UI changes.
+            </p>
+
+            <hr class="content-divider">
+
+            <h3>9. Avoid Bad Assumptions</h3>
+            <p>
+                To prevent agents from building wrong features based on ambiguous prompt instructions, establish guardrails that enforce human-in-the-loop confirmation. The agent must pause and ask clarifying questions instead of making blind
+                assumptions. We will discuss evaluation frameworks and interactive guardrails in a future post on <strong>Agent Evaluation</strong>.
+            </p>
+
+        </article>
+    </main>
+
+    <footer>
+        <div class="site-container">
+            <p>&copy; 2026 Saeed Vayghan. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</body>
+
+</html>

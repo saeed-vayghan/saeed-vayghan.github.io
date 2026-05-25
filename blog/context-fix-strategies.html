@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Context Fix Strategies | Saeed Vayghan</title>
+    <meta name="description" content="A practical guide to fixing and preventing context failures in LLMs: RAG, Tool Loadouts, Context Quarantine, Pruning, Summarization, Offloading, and MCP servers.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <link rel="stylesheet" href="../statics/styles.css">
+    <script src="../statics/theme.js"></script>
+</head>
+<body>
+    <header>
+        <div class="site-container">
+            <nav>
+                <div class="logo">Saeed.</div>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../projects/index.html">Projects</a></li>
+                    <li><a href="../blog/index.html" class="active">Blog</a></li>
+                    <li>
+                        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                            <!-- Moon Icon -->
+                            <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                            <!-- Sun Icon -->
+                            <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="site-container">
+        <a href="./index.html" class="back-link">
+            &larr; Back to Blog
+        </a>
+
+        <article class="blog-content">
+            <div class="post-header">
+                <h1 class="post-title">Context Fix Strategies</h1>
+                <time class="post-date">March 30, 2026</time>
+                <div class="tag-row" style="margin-top: 1rem;">
+                    <span class="pill-tag pill-fintech">Context</span>
+                    <span class="pill-tag pill-media">LLMs</span>
+                    <span class="pill-tag pill-realestate">Commands</span>
+                </div>
+            </div>
+
+            <p>
+                Here are the key strategies to fix and prevent context failures in LLMs, illustrated with practical examples:
+            </p>
+
+            <!-- ===================== 1. RAG ===================== -->
+            <h2>1. Retrieval-Augmented Generation (RAG)</h2>
+            <ul>
+                <li><strong>What it is:</strong> Finding and adding only the most relevant information to the prompt so the AI can answer accurately without being overwhelmed.</li>
+                <li><strong>Example:</strong> Instead of passing a 500-page API manual into the context, use a search index to retrieve and inject only the 3 pages explaining the specific endpoint you are modifying.</li>
+                <li><strong>Visual Flow:</strong></li>
+            </ul>
+            <div style="margin: 2rem 0; background: var(--card-bg); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color);">
+                <pre class="mermaid" style="background: transparent !important; border: none !important; margin: 0 !important; overflow-x: auto;">
+flowchart TD
+    UserQuery[User Query] --> Search[Search / Retrieval Engine]
+    Search -->|Matches Query| Database[(Docs / Knowledge Base)]
+    Database -->|Extracts Top Chunks| Context[Relevant Context Only]
+    UserQuery --> BuildPrompt[Build Prompt]
+    Context --> BuildPrompt
+    BuildPrompt -->|Injected Prompt| LLM[LLM Engine]
+    LLM --> Answer[Accurate Generated Answer]
+    
+    style UserQuery fill:#eff6ff,stroke:#3b82f6,stroke-width:2px
+    style Database fill:#f0fdf4,stroke:#22c55e,stroke-width:2px
+    style Context fill:#fef8e7,stroke:#eab308,stroke-width:2px
+    style LLM fill:#faf5ff,stroke:#a855f7,stroke-width:2px
+    style Answer fill:#ecfdf5,stroke:#10b981,stroke-width:2px
+                </pre>
+            </div>
+
+            <!-- ===================== 2. Tool Loadout ===================== -->
+            <h2>2. Tool Loadout</h2>
+            <ul>
+                <li><strong>What it is:</strong> Restricting the AI's access to only the specific tools it actually needs for the active task to prevent tool confusion.</li>
+                <li><strong>Example:</strong> When generating documentation, give the agent only the <code>read_file</code> tool and exclude execution tools like <code>run_command</code> to keep it focused and prevent accidental executions.</li>
+            </ul>
+
+            <h3>How to do that in Claude Code:</h3>
+
+            <h4>Method 1: Plan Mode (The Quickest Way)</h4>
+            <p>
+                Plan mode is a built-in safety feature that restricts the agent to read-only operations. It disables all write and edit tools automatically, completely ignoring any accidental code execution prompts.
+            </p>
+            <ul>
+                <li><em>Start in Plan Mode:</em> Run <code>claude --plan</code> (or <code>claude -p</code>) from your terminal.</li>
+                <li><em>Toggle Mid-Session:</em> Press <code>Shift+Tab</code> or <code>Alt+M</code> to switch modes.</li>
+            </ul>
+
+            <h4>Method 2: Configure System Permissions (Deny Rules)</h4>
+            <p>
+                To forcefully disable tools like bash and file modification tools globally, you can explicitly deny them in your Claude Code configuration.
+            </p>
+            <ul>
+                <li>Open your global settings file: <code>~/.claude/settings.json</code>.</li>
+                <li>Add a <code>permissions</code> rule to explicitly deny execution tools.</li>
+                <li>Your configuration should look like this:</li>
+            </ul>
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-json">{
+  "permissions": {
+    "ask": [],
+    "allow": [],
+    "deny": [
+      "bash",
+      "edit"
+    ]
+  }
+}</code></pre>
+            </div>
+            <ul>
+                <li><em>Verify:</em> Run the <code>/permissions</code> command in the REPL.</li>
+            </ul>
+
+            <h4>Method 3: Instruct via Rules</h4>
+            <p>
+                Even in standard mode, Claude relies on permission prompts for destructive actions. You can reinforce these rules by giving it specific guidelines in a <code>.claudedocs.md</code> (or <code>.cursorrules</code>) file at the root of your project directory.
+            </p>
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-markdown">- Do NOT execute bash commands or run scripts. 
+- You are limited strictly to read-only capabilities (e.g., cat, ls, grep).
+- Never request permission to modify files.</code></pre>
+            </div>
+
+            <!-- ===================== 3. Context Quarantine ===================== -->
+            <h2>3. Context Quarantine</h2>
+            <ul>
+                <li><strong>What it is:</strong> Keeping different tasks or sessions completely separate so that unrelated code, rules, or data do not mix and confuse the model.</li>
+                <li><strong>Example:</strong> Run separate chat threads for unrelated tasks. Example: debugging a SQL query in one session and fixing a CSS layout bug in a fresh one, rather than trying to do both in a single thread.</li>
+            </ul>
+
+            <!-- ===================== 4. Context Pruning ===================== -->
+            <h2>4. Context Pruning</h2>
+            <ul>
+                <li><strong>What it is:</strong> Deleting useless, old, or repetitive information (like long error logs or old file contents) from the active history.</li>
+                <li><strong>Example:</strong> Once a compiler error is resolved, remove the 50-line terminal printout from the history since it is no longer useful for the rest of the task.</li>
+            </ul>
+
+            <h4><code>/clear</code>:</h4>
+            <p>Completely wipes the slate clean. Run this when you finish a task and move to a completely new feature so Claude doesn't get confused by previous codebases or conversations.</p>
+
+            <h4><code>/context</code>:</h4>
+            <p>Use this command to see a breakdown of the tokens currently used in your session so you know when to manually compact.</p>
+
+            <!-- ===================== 5. Context Summarization ===================== -->
+            <h2>5. Context Summarization</h2>
+            <ul>
+                <li><strong>What it is:</strong> Compacting a long chat history into a short, simple summary of the current status and decisions made.</li>
+                <li><strong>Example:</strong> Shrinking a long 40-message debugging session into a single note: <em>"Goal: Fix auth loop. Found cookie domain mismatch. Solution: Set domain to localhost."</em></li>
+            </ul>
+
+            <h4><code>/compact</code>:</h4>
+            <p>You can manually trigger a compaction of the conversation before it happens automatically. The powerful trick here is to guide the process by adding specific instructions (e.g., <code>/compact Focus on the API changes and ignore the earlier debugging steps</code>). This prunes non-essential chatter while ensuring Claude keeps vital decisions.</p>
+
+            <!-- ===================== 6. Context Offloading ===================== -->
+            <h2>6. Context Offloading</h2>
+            <ul>
+                <li><strong>What it is:</strong> Saving intermediate data or instructions externally (such as on local files) instead of maintaining it in the chat session.</li>
+                <li><strong>Example:</strong> Write a script to fetch large logs to a temporary file (<code>logs/debug.txt</code>) rather than dumping thousands of log lines directly into the LLM chat window.</li>
+            </ul>
+
+            <!-- ===================== 7. Model Context Protocol (MCP) ===================== -->
+            <h2>7. Model Context Protocol (MCP) for On-Demand Docs</h2>
+            <ul>
+                <li><strong>What it is:</strong> Using MCP servers like <a href="https://context7.com/" target="_blank" rel="noopener noreferrer">Context7</a> to retrieve current, version-specific library documentation on demand, keeping the context lightweight while preventing the AI from using outdated APIs.</li>
+                <li><strong>Example:</strong> When building a feature with a specific library version, prompt the agent: <code>"Use context7 to retrieve documentation for Next.js 15"</code>. The server will fetch and inject only the relevant, up-to-date docs for that specific version right when the AI needs it.</li>
+            </ul>
+
+        </article>
+    </main>
+
+    <footer>
+        <div class="site-container">
+            <p>&copy; 2026 Saeed Vayghan. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</body>
+</html>

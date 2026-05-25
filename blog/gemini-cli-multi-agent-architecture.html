@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deconstructing the Gemini CLI: A Tale of Two Agents | Saeed Vayghan</title>
+    <meta name="description" content="An in-depth analysis of the Gemini CLI's multi-agent routing system using raw request/response logs.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../statics/styles.css">
+    <script src="../statics/theme.js"></script>
+    
+</head>
+<body>
+    <header>
+        <div class="site-container">
+            <nav>
+                <div class="logo">Saeed.</div>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../projects/index.html">Projects</a></li>
+                    <li><a href="../blog/index.html" class="active">Blog</a></li>
+                    <li>
+                        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                            <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                            <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="site-container">
+        <a href="./index.html" class="back-link">
+            &larr; Back to Blog
+        </a>
+
+        <article class="blog-content">
+            <div class="post-header">
+                <h1 class="post-title">Deconstructing the Gemini CLI: A Tale of Two Agents</h1>
+                <time class="post-date">February 10, 2026</time>
+                <div class="tag-row" style="margin-top: 1rem;">
+                    <span class="pill-tag pill-fintech">AI Agents</span>
+                    <span class="pill-tag pill-media">Gemini</span>
+                    <span class="pill-tag pill-realestate">Routing</span>
+                </div>
+            </div>
+
+            <p>If you think the Gemini CLI is just a simple chatbot, look closer at the logs. It is actually a sophisticated <strong>Multi-Agent System</strong> that acts more like a corporate team than a single AI.</p>
+            <p>I explained how you can check any LLM req/res logs on your machine in a separate blog post, please check <a href="./intercepting-llm-prompts-mitmproxy.html">this post</a> for more details.</p>
+            <p>I analyzed the raw request/response logs from a recent session, and here is exactly how it works—step by step, using the actual data traffic.</p>
+
+            <h3>The "Traffic Cop" (The Router)</h3>
+            <p>Every time you hit Enter, your message doesn't go straight to the main AI. First, it stops at a tiny, ultra-fast model called <strong>Gemini 2.5 Flash-Lite</strong>.</p>
+            <p>This model has one job: <strong>Management</strong>. It reads your prompt and decides how hard the task is using a strict "Complexity Rubric."</p>
+
+            <hr class="content-divider">
+
+            <h3>Iteration 1:</h3>
+            <h4>Command 1: The Greeting</h4>
+            <p>When you send a simple <strong>"Hi"</strong>, the router analyzes it.</p>
+
+            <p><strong>Request 1 payload:</strong></p>
+<div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+<pre><code class="language-bash">Endpoint: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent</code></pre>
+            </div>
+
+<div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+<pre><code class="language-json">{
+    "contents": [
+        {
+            "parts": [
+                {
+                    "text": "This is the Gemini CLI. We are setting up the context for our chat.
+                    Today's date is Tuesday, January 20, 2026 ........"
+                }
+            ],
+            "role": "user"
+        },
+        {
+            "parts": [
+                {
+                    "text": "Hi"
+                }
+            ],
+            "role": "user"
+        }
+    ],
+    "systemInstruction": {
+        "parts": [
+            {
+                "text": "
+                    You are a specialized Task Routing AI. Your sole function is to analyze the user's request and classify its complexity. Choose between `flash` (SIMPLE) or `pro` (COMPLEX).
+                    1.  `flash`: A fast, efficient model for simple, well-defined tasks.
+                    2.  `pro`: A powerful, advanced model for complex, open-ended, or multi-step tasks.
+                
+                    <complexity_rubric>
+                    A task is COMPLEX (Choose `pro`) if it meets ONE OR MORE of the following criteria:
+                        1.  **High Operational Complexity (Est. 4+ Steps/Tool Calls):** Requires dependent actions, significant planning, or multiple coordinated changes.
+                        2.  **Strategic Planning & Conceptual Design:** Asking \"how\" or \"why.\" Requires advice, architecture, or high-level strategy.
+                        3.  **High Ambiguity or Large Scope (Extensive Investigation):** Broadly defined requests requiring extensive investigation.
+                        4.  **Deep Debugging & Root Cause Analysis:** Diagnosing unknown or complex problems from symptoms.
+
+                    A task is SIMPLE (Choose `flash`) if it is highly specific, bounded, and has Low Operational Complexity (Est. 1-3 tool calls). Operational simplicity overrides strategic phrasing.
+                    </complexity_rubric>
+                    ....
+                "
+            }
+        ],
+        "role": "user"
+    },
+    "generationConfig": {
+        "temperature": 0,
+        "topP": 1,
+        "maxOutputTokens": 1024,
+        "responseMimeType": "application/json",
+        "thinkingConfig": {
+            "thinkingBudget": 512
+        }
+    }
+}</code></pre>
+            </div>
+
+            <p><strong>Request 1 response:</strong></p>
+<div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+<pre><code class="language-json">{
+    "candidates": [
+        {
+            "content": {
+                "parts": [
+                    {
+                        "text": "{
+                          'reasoning': 'The user\'s input is a simple greeting, requiring no complex operations or analysis. It falls under low operational complexity.',
+                          'model_choice': 'flash'. <------ Look at this line, The model is chosen
+                        }"
+                    }
+                ],
+                "role": "model"
+            },
+            "finishReason": "STOP",
+            "index": 0
+        }
+    ],
+    "usageMetadata": {
+        "promptTokenCount": 1171,
+        "candidatesTokenCount": 44,
+        "totalTokenCount": 1298,
+        "cachedContentTokenCount": 809,
+        "promptTokensDetails": [ ... ],
+        "cacheTokensDetails": [ ... ],
+        "thoughtsTokenCount": 83
+    },
+    "modelVersion": "gemini-2.5-flash-lite",
+    "responseId": "_fZvaZqIGLTevdIPzsa2GQ"
+}</code></pre>
+            </div>
+
+            <p><strong>Insight:</strong> The router sees "Hi", checks its rubric, and selects <code>"flash"</code>. This saves the powerful model for harder tasks.</p>
+
+            <h3>What is next?</h3>
+            <p>Now Gemini-CLI knows it should use <code>gemini-3-flash-preview</code> to process the user's command.</p>
+
+            <p><strong>Request 2 payload:</strong></p>
+<div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+<pre><code class="language-bash">Endpoint: https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:streamGenerateContent?alt=sse</code></pre>
+            </div>
+
+<div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+<pre><code class="language-json">{
+    "contents": [ ... ],
+    "systemInstruction": {
+        "parts": [
+            {
+                "text": "
+                    You are an interactive CLI agent specializing in software engineering tasks. Your primary goal is to help users safely and efficiently, adhering strictly to the following instructions and utilizing your available tools.
+                    
+                    # Core Mandates
+                    ...
+                    ## Available Sub-Agents
+                    Use `delegate_to_agent` for complex tasks requiring specialized analysis.
+                "
+            }
+        ],
+        "role": "user"
+    },
+    "tools": [ ... ],
+    "generationConfig": {
+        "temperature": 1,
+        "topP": 0.95,
+        "topK": 64,
+        "thinkingConfig": {
+            "includeThoughts": true,
+            "thinkingLevel": "HIGH"
+        }
+    }
+}</code></pre>
+            </div>
+
+            <p><strong>Request 2 response (SSE Payloads):</strong></p>
+<div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+<pre><code class="language-json">data: {"candidates": [{"content": {"parts": [{"text": "**Establishing Initial Grounding** I'm now grounded in this context. I remember my name is Saeed, and ...","thought": true}],"role": "model"},"index": 0}],"usageMetadata": {"promptTokenCount": 12318,"totalTokenCount": 12318},"modelVersion": "gemini-3-flash-preview"}
+
+data: {"candidates": [{"content": {"parts": [{"text": "Hello Saeed. How can I help"}],"role": "model"},"index": 0}],"usageMetadata": {"promptTokenCount": 12318,"candidatesTokenCount": 7,"totalTokenCount": 12385},"modelVersion": "gemini-3-flash-preview"}</code></pre>
+            </div>
+
+            <hr class="content-divider">
+
+            <h3>Iteration 2:</h3>
+            <p>Later, you can ask a complex command like: <strong>"Analyze the current directory and architect a testing strategy..."</strong><br>
+            <em>Note: I don't put the whole logs here for more readability, the req/res structure is same as Iteration 1.</em></p>
+
+            <p><strong>Request 3 payload:</strong></p>
+<div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+<pre><code class="language-bash">Endpoint: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent</code></pre>
+            </div>
+
+<div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+<pre><code class="language-json">{
+    "contents": [
+        { "parts": [{ "text": "Hi" }], "role": "user" },
+        { "parts": [{ "text": "Hello Saeed. How can I help you today?" }], "role": "model" },
+        { "parts": [{ "text": "Analyze the current directory and architect a testing strategy for this project." }], "role": "user" }
+    ],
+    "systemInstruction": { ... }
+}</code></pre>
+            </div>
+
+            <p><strong>Request 3 response:</strong></p>
+<div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+<pre><code class="language-json">{
+    "candidates": [
+        {
+            "content": {
+                "parts": [
+                    {
+                        "text": "{
+                          'reasoning': 'The user is asking about architect. This falls under Strategic Planning & Conceptual ...',
+                          'model_choice': 'pro' <------ Look at this line, The model is chosen
+                        }"
+                    }
+                ],
+                "role": "model"
+            }
+        }
+    ]
+}</code></pre>
+            </div>
+
+            <p><strong>Insight:</strong> It spotted keywords like "Architect" and "Strategy." It immediately flagged this as <code>"pro"</code>, authorizing the use of the more expensive, smarter model.</p>
+
+            <h3>What is next?</h3>
+            <p>Now Gemini-CLI knows it should use <code>/gemini-3-pro-preview</code> to process user's command.</p>
+
+            <p><strong>Request 4 payload:</strong></p>
+<div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+<pre><code class="language-bash">Endpoint: https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-preview:streamGenerateContent?alt=sse</code></pre>
+            </div>
+
+            <p><strong>Request 4 response:</strong></p>
+<div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+<pre><code class="language-json">data: {"candidates": [{"content": {"parts": [{"text": "The current directory `/Users/saeed/Desktop` appears to be your desktop folder and not"}],"role": "model"},"index": 0}],"usageMetadata": {"promptTokenCount": 26840,"candidatesTokenCount": 19,"totalTokenCount": 27079},"modelVersion": "gemini-3-pro-preview"}</code></pre>
+            </div>
+
+            <hr class="content-divider">
+
+            <h3>Key Findings: Why This Matters</h3>
+            <ol>
+                <li><strong>Hallucination Prevention:</strong>
+                    <ul>
+                        <li>A standard AI might have invented a fake testing strategy for a React app you don't have.</li>
+                        <li>Because the Pro model used <strong>Tools</strong> (<code>list_directory</code>) to "see" the empty directory first, it was grounded in reality and gave an honest refusal.</li>
+                    </ul>
+                </li>
+                <li><strong>Massive Token Savings:</strong>
+                    <ul>
+                        <li><strong>Router Cost:</strong> The "Manager" prompt was small (~1,000 tokens).</li>
+                        <li><strong>Pro Cost:</strong> The "Pro" session context was huge (~27,000 tokens).</li>
+                        <li><strong>Result:</strong> By filtering simple requests away from Pro, Google saves massive amounts of compute and money.</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>The "Cheat Code" (Manual Override)</h3>
+            <p>Sometimes, the manager gets it wrong, or you just want the smartest model regardless of the cost. You can force the CLI to skip the router and lock onto the Pro model by typing:</p>
+<div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+<pre><code class="language-bash">/model gemini-3-pro-preview</code></pre>
+            </div>
+            <p>This bypasses the logic checks and gives you raw power for every interaction.</p>
+        </article>
+    </main>
+
+    <footer>
+        <div class="site-container">
+            <p>&copy; 2026 Saeed Vayghan. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+</body>
+</html>

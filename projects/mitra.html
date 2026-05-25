@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mitra: The AI Agent Party | Saeed Vayghan</title>
+    <meta name="description" content="Mitra is a multi-agent collective intelligence system designed to facilitate collaborative problem-solving through specialized AI personas.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../statics/styles.css">
+    <script src="../statics/theme.js"></script>
+    <style>
+        
+        
+        
+        
+        
+        
+        
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            text-align: left;
+        }
+        th {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+        @media (max-width: 768px) {
+            
+            table { font-size: 0.8rem; display: block; overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="site-container">
+            <nav>
+                <div class="logo">Saeed.</div>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../projects/index.html" class="active">Projects</a></li>
+                    <li><a href="../blog/index.html">Blog</a></li>
+                    <li>
+                        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                            <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                            <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="site-container">
+        <a href="./index.html" class="back-link">
+            &larr; Back to Projects
+        </a>
+
+        <section class="hero">
+            <h1 class="project-hero-title">Mitra: The AI Agent Party</h1>
+            <p class="project-hero-desc">A multi-agent collective intelligence system designed to facilitate collaborative problem-solving through specialized AI personas.</p>
+            <div class="action-buttons">
+                <a href="https://github.com/saeed-vayghan/mitra" target="_blank" class="primary-button">View on GitHub</a>
+            </div>
+        </section>
+
+        <section class="project-content">
+            <h2>Overview</h2>
+            <p>
+                Mitra defines the <strong>"Party Protocol"</strong> where agents like the Architect, Engineer, Designer, and Manager collaborate to produce comprehensive technical specifications and direct codebase implementations.
+            </p>
+
+            <h3>Tools and IDE Compatibility</h3>
+            <p>Mitra agents are designed to be platform-agnostic. You can run them using:</p>
+            <ul>
+                <li><strong>Gemini CLI</strong></li>
+                <li><strong>Google AntiGravity</strong></li>
+                <li><strong>Claude Code</strong></li>
+            </ul>
+
+            <h2>How to use</h2>
+<pre><code># Clone repository
+git clone https://github.com/saeed-vayghan/mitra.git
+cd mitra
+
+# Config the project
+nano mitra/config.yaml
+
+# Run Gemini CLI
+gemini
+
+> /mitra:persona:orchestrator</code></pre>
+
+            <h2>Inspiration & Philosophy</h2>
+            <p>Mitra was built with love, drawing massive inspiration from BMAD-METHOD, GitHub Spec Kit, and Fission-AI OpenSpec. While there are many incredible tools for <em>coding</em>, Mitra fulfills the need for a <strong>Scalable AI Implementation Framework</strong>.</p>
+            <ul>
+                <li><strong>Customizable</strong>: Easy to extend with new agents.</li>
+                <li><strong>Full-Lifecycle</strong>: Covering the entire journey from Architecture and Requirements to direct implementation and testing.</li>
+            </ul>
+
+            <h2>Comparison with Similar Tools</h2>
+            <p>Mitra stands out by providing an <strong>Implementation-First</strong> experience, where AI Agents partner with you from high-level strategy to direct source code execution.</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Mitra</th>
+                        <th>OpenSpec</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Core Philosophy</strong></td>
+                        <td><strong>Implementation-First:</strong> "We Plan, We Build."</td>
+                        <td><strong>Spec-Driven (SDD):</strong> "Align before you build."</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Agent Role</strong></td>
+                        <td><strong>Full-Lifecycle:</strong> Planning + Direct Development.</td>
+                        <td><strong>Workflow Guides:</strong> Agnostic agents guided by AGENTS.md.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Workflow</strong></td>
+                        <td><strong>Party Mode:</strong> Collaborative brainstorming + specialized routing.</td>
+                        <td><strong>Proposal-Based:</strong> Draft -> Review -> Merge Specs.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Why Mitra?</h3>
+            <p>
+                Choose Mitra if you want the <strong>intelligence</strong> of a Principal Architect and Manager combined with the <strong>execution power</strong> of a Senior Engineer. It is designed to augment your workflow by handling both the thinking and the doing, providing a cohesive bridge between strategy and production code.
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="site-container">
+            <p>&copy; 2026 Saeed Vayghan. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
