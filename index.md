@@ -19,6 +19,7 @@ This file acts as a directory map for the entire static website. **Whenever a ne
 └── blog/                       (Blog section)
     ├── index.html              (Blog post list/index page)
     ├── post-template.html      (Template for new blog posts)
+    ├── skillspector.html       (Securing Your AI Agent Workflows with SkillSpector - May 27, 2026)
     ├── spec-driven-development-part-2.html (Why Spec Driven Development Part 2: The Framework - May 10, 2026)
     ├── spec-driven-development-part-1.html (Why Spec Driven Development Part 1: The Three Problems - May 10, 2026)
     ├── claude-code-best-practices.html (Claude Code Best Practices guide - April 20, 2026)
