@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Submodule vs. Git Subtree | Saeed Vayghan</title>
+    <meta name="description" content="A comprehensive guide covering everything you need to know about managing nested repositories using Git Submodules and Git Subtrees.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../statics/styles.css">
+    <script src="../statics/theme.js"></script>
+</head>
+<body>
+    <header>
+        <div class="site-container">
+            <nav>
+                <div class="logo">Saeed.</div>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../projects/index.html">Projects</a></li>
+                    <li><a href="../blog/index.html" class="active">Blog</a></li>
+                    <li>
+                        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                            <!-- Moon Icon -->
+                            <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                            <!-- Sun Icon -->
+                            <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="site-container">
+        <a href="./index.html" class="back-link">
+            &larr; Back to Blog
+        </a>
+
+        <article class="blog-content">
+            <div class="post-header">
+                <h1 class="post-title">Git Submodule vs. Git Subtree</h1>
+                <time class="post-date">June 3, 2026</time>
+                <div class="tag-row" style="margin-top: 1rem;">
+                    <span class="pill-tag pill-media">Git</span>
+                    <span class="pill-tag pill-fintech">Tutorial</span>
+                </div>
+            </div>
+
+            <p>
+                This guide covers everything you need to know about managing nested repositories using Git Submodules and Git Subtrees, complete with practical scenarios and a detailed comparison.
+            </p>
+
+            <div class="toc-container">
+                <ol>
+                    <li><a href="#part-1-git-submodule">Part 1: Git Submodule</a></li>
+                    <li><a href="#part-2-git-subtree">Part 2: Git Subtree</a></li>
+                    <li><a href="#part-3-comparison">Part 3: Submodule vs. Subtree Comparison</a></li>
+                </ol>
+            </div>
+
+            <div class="tutorial-section">
+                <h2 id="part-1-git-submodule">Part 1: Git Submodule</h2>
+            
+            <h3>What is a Git Submodule?</h3>
+            <p>A Git Submodule allows you to keep another Git repository in a subdirectory of your own repository. It essentially acts as a pointer to a specific commit in another repository.</p>
+            
+            <p><strong>How it helps:</strong></p>
+            <ul>
+                <li><strong>Strict Version Control:</strong> It guarantees that your project uses an exact, specific version of a dependency.</li>
+                <li><strong>Clean Separation:</strong> The submodule's history remains entirely separate from your main repository's history.</li>
+            </ul>
+
+            <p><strong>What it is NOT for:</strong></p>
+            <ul>
+                <li>It is not a replacement for package managers (like npm, pip, or Maven).</li>
+                <li>It is not ideal for dependencies that you plan to heavily and frequently modify alongside your main project, as the branching and committing workflow across two separate repositories can become cumbersome.</li>
+            </ul>
+
+            <h3>Cloning a Repository with Submodules</h3>
+            <p>If you clone a project that contains submodules, you won't get the submodule files automatically. You must use the <code>--recurse-submodules</code> flag:</p>
+            
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span><span class="mac-dot yellow"></span><span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-bash">git clone --recurse-submodules &lt;repository-url&gt;</code></pre>
+            </div>
+
+            <p>If you already cloned the repository normally, you can initialize and fetch the submodule data using:</p>
+
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span><span class="mac-dot yellow"></span><span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-bash">git submodule update --init --recursive</code></pre>
+            </div>
+
+            <h3>Practical Scenario: Development Lifecycle</h3>
+            <p>Imagine you are building a web application and want to include a shared UI library as a submodule.</p>
+
+            <p><strong>1. Adding the Submodule</strong></p>
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span><span class="mac-dot yellow"></span><span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-bash">git submodule add https://github.com/example/ui-lib.git libs/ui-lib</code></pre>
+            </div>
+            <p><em>Important Tip:</em> This command clones the repo into <code>libs/ui-lib</code> and creates/updates a special hidden file called <code>.gitmodules</code>. This file maps the submodule's path to its URL and must be committed to your repository.</p>
+
+            <p><strong>2. Committing the Submodule</strong></p>
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span><span class="mac-dot yellow"></span><span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-bash">git commit -m "Add ui-lib as a submodule"</code></pre>
+            </div>
+            <p>Git records the exact commit hash of <code>ui-lib</code>.</p>
+
+            <p><strong>3. Updating the Submodule (Fetching upstream changes)</strong></p>
+            <p>When the upstream <code>ui-lib</code> has new updates that you want to pull in:</p>
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span><span class="mac-dot yellow"></span><span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-bash">git submodule update --remote libs/ui-lib</code></pre>
+            </div>
+            <p>Then, commit the new pointer in your main repo.</p>
+
+            <p><strong>4. Removing a Submodule</strong></p>
+            <p>Removing a submodule can be tricky. Here are the steps:</p>
+            <ul>
+                <li>If you want to stop tracking it but keep the files on your disk:</li>
+            </ul>
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span><span class="mac-dot yellow"></span><span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-bash">git rm --cached libs/ui-lib</code></pre>
+            </div>
+            <ul>
+                <li>If you want to remove it entirely from Git and your filesystem:</li>
+            </ul>
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span><span class="mac-dot yellow"></span><span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-bash">git rm -rf libs/ui-lib</code></pre>
+            </div>
+            <p><em>Don't forget:</em> You may also need to manually clean up references in <code>.git/modules/libs/ui-lib</code> and <code>.git/config</code> for a completely clean removal.</p>
+
+            <h3>Directory Structure</h3>
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span><span class="mac-dot yellow"></span><span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-text">my-project/
+├── .git/                      &lt;-- Main repository Git data
+├── .gitmodules                &lt;-- Tracks the path and URL of submodules
+├── src/
+│   └── index.js
+└── libs/                      &lt;-- Directory containing submodules
+    └── ui-lib/
+        ├── .git               &lt;-- Submodule's own Git data pointer
+        └── component.js</code></pre>
+            </div>
+            </div>
+
+            <div class="tutorial-section">
+                <h2 id="part-2-git-subtree">Part 2: Git Subtree</h2>
+
+            <h3>What is a Git Subtree?</h3>
+            <p>Git Subtree is an alternative to submodules that allows you to nest one repository inside another by physically merging its history into your main repository's history.</p>
+            
+            <p><strong>How it helps:</strong></p>
+            <p>Unlike submodules, a subtree doesn't require special commands for anyone cloning your repository. The nested code acts exactly like normal files in your repository.</p>
+
+            <p><strong>Best Practice for Directory Structure:</strong></p>
+            <p>The <code>--prefix</code> flag in subtree commands dictates where the external code lives. It is highly recommended to group all vendored projects or external repositories under a single directory (like <code>libs/</code> or <code>repos/</code>). This keeps your project organized and makes it easy to reference external code in configurations or AI agent instructions.</p>
+
+            <h3>Practical Scenario: Development Lifecycle</h3>
+            <p>Let's use the same scenario: adding a <code>ui-lib</code> to our project, but this time using Subtree.</p>
+
+            <p><strong>1. Adding the Subtree</strong></p>
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span><span class="mac-dot yellow"></span><span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-bash">git subtree add --prefix=libs/ui-lib https://github.com/example/ui-lib.git main --squash</code></pre>
+            </div>
+            <p><em>Crucial Tip:</em> Always use the <code>--squash</code> flag! Without it, Git will pull the <em>entire</em> commit history of the external repository into your project, which could mean thousands of unwanted commits. Using <code>--squash</code> cleanly condenses all that external history into a single commit.</p>
+
+            <p><strong>2. Pulling Updates (Fetching upstream changes)</strong></p>
+            <p>To pull the latest updates from the original <code>ui-lib</code> repository:</p>
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span><span class="mac-dot yellow"></span><span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-bash">git subtree pull --prefix=libs/ui-lib https://github.com/example/ui-lib.git main --squash</code></pre>
+            </div>
+
+            <p><strong>3. Pushing Changes Back</strong></p>
+            <p>If you modify <code>libs/ui-lib</code> inside your project and want to contribute those changes back to the original repository:</p>
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span><span class="mac-dot yellow"></span><span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-bash">git subtree push --prefix=libs/ui-lib https://github.com/example/ui-lib.git main</code></pre>
+            </div>
+
+            <h3>Directory Structure</h3>
+            <p>Notice there are no <code>.gitmodules</code> or nested <code>.git</code> folders.</p>
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span><span class="mac-dot yellow"></span><span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-text">my-project/
+├── .git/                      &lt;-- Only ONE Git folder for the whole project
+├── src/
+│   └── index.js
+└── libs/
+    └── ui-lib/                &lt;-- Treated as normal files within my-project
+        └── component.js</code></pre>
+            </div>
+
+            <h3>Configuring Your Editor (VSCode)</h3>
+            <p>If you keep external subtrees in a dedicated folder (like <code>libs/</code>), you probably don't want your code editor to index them, search through them, or suggest auto-imports from them.</p>
+            <p>You can exclude this directory in VSCode by adding these rules to your <code>.vscode/settings.json</code>:</p>
+
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span><span class="mac-dot yellow"></span><span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-json">{
+  "files.exclude": {
+    "libs/**": true
+  },
+  "files.watcherExclude": {
+    "libs/**": true
+  },
+  "search.exclude": {
+    "libs/**": true
+  },
+  "typescript.preferences.autoImportFileExcludePatterns": [
+    "libs/**"
+  ],
+  "javascript.preferences.autoImportFileExcludePatterns": [
+    "libs/**"
+  ]
+}</code></pre>
+            </div>
+            </div>
+
+            <div class="tutorial-section">
+                <h2 id="part-3-comparison">Part 3: Submodule vs. Subtree Comparison</h2>
+            
+            <div style="overflow-x:auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Git Submodule</th>
+                            <th>Git Subtree</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Mechanism</strong></td>
+                            <td>Acts as a pointer to a specific commit.</td>
+                            <td>Merges the external repo's history into the main repo.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Consumer Experience</strong></td>
+                            <td>Requires special clone commands (<code>--recurse-submodules</code>) or post-clone init commands.</td>
+                            <td>Seamless. Anyone cloning the main repo gets the files immediately.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Configuration</strong></td>
+                            <td>Relies on the <code>.gitmodules</code> file.</td>
+                            <td>No extra configuration files needed.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pros</strong></td>
+                            <td>
+                                <ul>
+                                    <li>Keeps repository sizes smaller.</li>
+                                    <li>Strict commit-level versioning.</li>
+                                    <li>Clean history separation.</li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li>Easy for teammates to clone/use.</li>
+                                    <li>Code can be modified and pushed back upstream relatively easily.</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cons</strong></td>
+                            <td>
+                                <ul>
+                                    <li>Easy to end up in a "detached HEAD" state.</li>
+                                    <li>Complex commands to update and remove.</li>
+                                    <li><code>git clone</code> requires extra flags.</li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li>Can clutter the main repo's history if not squashed.</li>
+                                    <li>Main repository size increases.</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>When to use</strong></td>
+                            <td>Use for large external dependencies, huge assets, or strict third-party libraries where you rarely modify the code yourself.</td>
+                            <td>Use for smaller utilities, shared libraries between microservices, or code you want to frequently modify and push back upstream.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+
+        </article>
+    </main>
+
+    <footer>
+        <div class="site-container">
+            <p>&copy; 2026 Saeed Vayghan. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+</body>
+</html>
