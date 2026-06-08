@@ -1,4 +1,5 @@
 import re
+import os
 from xml.sax.saxutils import escape
 from datetime import datetime
 
@@ -11,10 +12,15 @@ post_pattern = re.compile(
     re.DOTALL
 )
 
+article_pattern = re.compile(
+    r'<article class="blog-content">(.*?)</article>',
+    re.DOTALL
+)
+
 matches = post_pattern.findall(content)
 
 rss_header = """<?xml version="1.0" encoding="UTF-8" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
 <channel>
     <title>Saeed Vayghan's Blog</title>
     <link>https://saeed-vayghan.github.io/blog/</link>
@@ -30,15 +36,26 @@ rss_footer = """
 
 items = ""
 for match in matches:
-    link = "https://saeed-vayghan.github.io/blog/" + match[0]
+    filename = match[0]
+    link = "https://saeed-vayghan.github.io/blog/" + filename
     # Clean up the title by stripping tags if any
     title = re.sub(r'<[^>]+>', '', match[1]).strip()
     date_str = match[2].strip()
-    description = match[3].strip()
+    short_description = match[3].strip()
     
     # parse date
     dt = datetime.strptime(date_str, "%B %d, %Y")
     pubDate = dt.strftime("%a, %d %b %Y 00:00:00 +0000")
+    
+    # Extract full content
+    full_content = ""
+    post_path = os.path.join('blog', filename)
+    if os.path.exists(post_path):
+        with open(post_path, 'r', encoding='utf-8') as pf:
+            post_html = pf.read()
+            article_match = article_pattern.search(post_html)
+            if article_match:
+                full_content = article_match.group(1).strip()
     
     items += f"""
     <item>
@@ -46,7 +63,8 @@ for match in matches:
         <link>{link}</link>
         <guid>{link}</guid>
         <pubDate>{pubDate}</pubDate>
-        <description>{escape(description)}</description>
+        <description>{escape(short_description)}</description>
+        <content:encoded><![CDATA[{full_content}]]></content:encoded>
     </item>"""
 
 with open('rss.xml', 'w', encoding='utf-8') as f:
