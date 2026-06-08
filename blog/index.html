@@ -47,7 +47,16 @@
 
     <main class="site-container">
         <section class="hero">
-            <h1>Blog</h1>
+            <h1 style="display: flex; align-items: center; gap: 0.5rem;">
+                Blog
+                <a href="../rss.xml" target="_blank" aria-label="RSS Feed" style="color: var(--text-muted); display: flex; align-items: center;">
+                    <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="transition: color 0.2s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color=''">
+                        <path d="M4 11a9 9 0 0 1 9 9" />
+                        <path d="M4 4a16 16 0 0 1 16 16" />
+                        <circle cx="5" cy="19" r="1" />
+                    </svg>
+                </a>
+            </h1>
             <p>Thoughts on software engineering, AI, and continuous learning.</p>
         </section>
 

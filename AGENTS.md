@@ -34,6 +34,7 @@ When asked to create a new project or a new blog post:
    - The `<time>` tag in `blog/index.html`.
    - The `<time class="post-date">` tag inside the post file's `.post-header`.
    - The parenthetical date annotation in `index.md` (e.g., `(Claude Code Best Practices guide - April 20, 2026)`).
+7. **RSS Feed**: After creating a new blog post and adding it to `blog/index.html`, you must update the RSS feed by running `python3 generate_rss.py`.
 
 ## 4. Styling & CSS Rules
 

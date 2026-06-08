@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+    <title>Saeed Vayghan's Blog</title>
+    <link>https://saeed-vayghan.github.io/blog/</link>
+    <description>Thoughts on software engineering, AI, and continuous learning.</description>
+    <language>en-us</language>
+    <atom:link href="https://saeed-vayghan.github.io/rss.xml" rel="self" type="application/rss+xml" />
+
+    <item>
+        <title>Git Submodule vs. Git Subtree</title>
+        <link>https://saeed-vayghan.github.io/blog/git-submodule-vs-subtree.html</link>
+        <guid>https://saeed-vayghan.github.io/blog/git-submodule-vs-subtree.html</guid>
+        <pubDate>Wed, 03 Jun 2026 00:00:00 +0000</pubDate>
+        <description>A comprehensive guide covering everything you need to know about managing nested repositories using Git Submodules and Git Subtrees.</description>
+    </item>
+    <item>
+        <title>Securing Your AI Agent Workflows with SkillSpector</title>
+        <link>https://saeed-vayghan.github.io/blog/skillspector.html</link>
+        <guid>https://saeed-vayghan.github.io/blog/skillspector.html</guid>
+        <pubDate>Wed, 27 May 2026 00:00:00 +0000</pubDate>
+        <description>How to use SkillSpector to secure your AI agent workflows and detect complex attacks like prompt injection or excessive privilege requests.</description>
+    </item>
+    <item>
+        <title>Why Spec Driven Development — Part 2: The Framework</title>
+        <link>https://saeed-vayghan.github.io/blog/spec-driven-development-part-2.html</link>
+        <guid>https://saeed-vayghan.github.io/blog/spec-driven-development-part-2.html</guid>
+        <pubDate>Sun, 10 May 2026 00:00:00 +0000</pubDate>
+        <description>How Spec Driven Development fixes Vibe Coding's failure modes by building an engineered memory — structured specs, a shared repo layout, and AI-era code review.</description>
+    </item>
+    <item>
+        <title>Why Spec Driven Development — Part 1: The Three Problems</title>
+        <link>https://saeed-vayghan.github.io/blog/spec-driven-development-part-1.html</link>
+        <guid>https://saeed-vayghan.github.io/blog/spec-driven-development-part-1.html</guid>
+        <pubDate>Sun, 10 May 2026 00:00:00 +0000</pubDate>
+        <description>The three compounding problems that make AI-powered development fail — and their solutions: shared language, feedback loops, and intentional code design.</description>
+    </item>
+    <item>
+        <title>Claude Code Best Practices</title>
+        <link>https://saeed-vayghan.github.io/blog/claude-code-best-practices.html</link>
+        <guid>https://saeed-vayghan.github.io/blog/claude-code-best-practices.html</guid>
+        <pubDate>Mon, 20 Apr 2026 00:00:00 +0000</pubDate>
+        <description>An in-depth developer's guide to mastering Claude Code: CLAUDE.md guidelines, memory management, subagent isolation, parallel sessions, compaction strategies, and hooks automation.</description>
+    </item>
+    <item>
+        <title>Harness Engineering</title>
+        <link>https://saeed-vayghan.github.io/blog/harness-engineering.html</link>
+        <guid>https://saeed-vayghan.github.io/blog/harness-engineering.html</guid>
+        <pubDate>Fri, 10 Apr 2026 00:00:00 +0000</pubDate>
+        <description>Learn the discipline of building the systems, constraints, and infrastructure around an AI model to make it reliable and useful in production.</description>
+    </item>
+    <item>
+        <title>Context Fix Strategies</title>
+        <link>https://saeed-vayghan.github.io/blog/context-fix-strategies.html</link>
+        <guid>https://saeed-vayghan.github.io/blog/context-fix-strategies.html</guid>
+        <pubDate>Mon, 30 Mar 2026 00:00:00 +0000</pubDate>
+        <description>A practical guide detailing key strategies to fix and prevent context failures in LLMs, including RAG, tool loadouts, and session management commands.</description>
+    </item>
+    <item>
+        <title>Context Engineering</title>
+        <link>https://saeed-vayghan.github.io/blog/context-engineering.html</link>
+        <guid>https://saeed-vayghan.github.io/blog/context-engineering.html</guid>
+        <pubDate>Fri, 20 Mar 2026 00:00:00 +0000</pubDate>
+        <description>An in-depth guide to context optimization, managing session compaction, and mitigating context failure modes like rot and distraction.</description>
+    </item>
+    <item>
+        <title>Prompt Engineering</title>
+        <link>https://saeed-vayghan.github.io/blog/prompt-engineering.html</link>
+        <guid>https://saeed-vayghan.github.io/blog/prompt-engineering.html</guid>
+        <pubDate>Tue, 10 Mar 2026 00:00:00 +0000</pubDate>
+        <description>A practical guide covering the top 6 prompting techniques, long-context best practices, and security measures — with real-world examples.</description>
+    </item>
+    <item>
+        <title>The Caveman Method: Pushing LLMs to Skip the Filler</title>
+        <link>https://saeed-vayghan.github.io/blog/caveman-method-llm-prompting.html</link>
+        <guid>https://saeed-vayghan.github.io/blog/caveman-method-llm-prompting.html</guid>
+        <pubDate>Sat, 28 Feb 2026 00:00:00 +0000</pubDate>
+        <description>Learn how to use the Caveman Method to force AI agents to respond with maximum efficiency and zero filler.</description>
+    </item>
+    <item>
+        <title>Recursive Language Models (RLMs): A Brief Overview</title>
+        <link>https://saeed-vayghan.github.io/blog/recursive-language-models.html</link>
+        <guid>https://saeed-vayghan.github.io/blog/recursive-language-models.html</guid>
+        <pubDate>Fri, 20 Feb 2026 00:00:00 +0000</pubDate>
+        <description>A brief overview of Recursive Language Models (RLMs) and how they solve the Context Rot problem.</description>
+    </item>
+    <item>
+        <title>Deconstructing the Gemini CLI: A Tale of Two Agents</title>
+        <link>https://saeed-vayghan.github.io/blog/gemini-cli-multi-agent-architecture.html</link>
+        <guid>https://saeed-vayghan.github.io/blog/gemini-cli-multi-agent-architecture.html</guid>
+        <pubDate>Tue, 10 Feb 2026 00:00:00 +0000</pubDate>
+        <description>An in-depth analysis of the Gemini CLI's multi-agent routing system using raw request/response logs.</description>
+    </item>
+    <item>
+        <title>Intercepting LLM Prompts with mitmproxy</title>
+        <link>https://saeed-vayghan.github.io/blog/intercepting-llm-prompts-mitmproxy.html</link>
+        <guid>https://saeed-vayghan.github.io/blog/intercepting-llm-prompts-mitmproxy.html</guid>
+        <pubDate>Fri, 30 Jan 2026 00:00:00 +0000</pubDate>
+        <description>Learn how to use mitmproxy to intercept and analyze the actual payloads sent to Large Language Models.</description>
+    </item>
+    <item>
+        <title>Understanding the Terminal Sandbox for AI Agents</title>
+        <link>https://saeed-vayghan.github.io/blog/agy-security-part-1.html</link>
+        <guid>https://saeed-vayghan.github.io/blog/agy-security-part-1.html</guid>
+        <pubDate>Tue, 20 Jan 2026 00:00:00 +0000</pubDate>
+        <description>A simple English guide on how the AI agent terminal sandbox protects your computer from rogue code sabotage.</description>
+    </item>
+    <item>
+        <title>LLM Control Frameworks Analysis</title>
+        <link>https://saeed-vayghan.github.io/blog/01-LLM-tools-analysis.html</link>
+        <guid>https://saeed-vayghan.github.io/blog/01-LLM-tools-analysis.html</guid>
+        <pubDate>Sat, 10 Jan 2026 00:00:00 +0000</pubDate>
+        <description>An interactive dashboard comparing the top 5 libraries for controlling and structuring LLM outputs.</description>
+    </item>
+</channel>
+</rss>
