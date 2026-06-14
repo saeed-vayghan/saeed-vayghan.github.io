@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <title>Securing Your AI Agent Workflows with SkillSpector | Saeed Vayghan</title>
+    <title>Securing Your AI Agent Workflows with SkillSpector | Saeed Vayghani</title>
     <meta name="description" content="How to use SkillSpector to secure your AI agent workflows and detect complex attacks like prompt injection or excessive privilege requests.">
     <meta name="keywords" content="SkillSpector, AI agent security, prompt injection, privilege escalation, secure AI workflows, guardrails">
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://saeed-vayghan.github.io/blog/skillspector.html">
-    <meta property="og:title" content="Securing Your AI Agent Workflows with SkillSpector | Saeed Vayghan">
+    <meta property="og:title" content="Securing Your AI Agent Workflows with SkillSpector | Saeed Vayghani">
     <meta property="og:description" content="How to use SkillSpector to secure your AI agent workflows and detect complex attacks like prompt injection or excessive privilege requests.">
-    
+
     <!-- Twitter -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:url" content="https://saeed-vayghan.github.io/blog/skillspector.html">
-    <meta name="twitter:title" content="Securing Your AI Agent Workflows with SkillSpector | Saeed Vayghan">
+    <meta name="twitter:title" content="Securing Your AI Agent Workflows with SkillSpector | Saeed Vayghani">
     <meta name="twitter:description" content="How to use SkillSpector to secure your AI agent workflows and detect complex attacks like prompt injection or excessive privilege requests.">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,6 +24,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <script src="../statics/theme.js"></script>
 </head>
+
 <body>
     <header>
         <div class="site-container">
@@ -74,7 +76,8 @@
             </div>
 
             <p>
-                As AI agents become more powerful, developers are increasingly using third-party "skills" and tools to give their agents new capabilities—like searching the web, running code, or interacting with APIs. But just like downloading a random package from the internet, importing a third-party AI skill comes with serious security risks.
+                As AI agents become more powerful, developers are increasingly using third-party "skills" and tools to give their agents new capabilities—like searching the web, running code, or interacting with APIs. But just like downloading a
+                random package from the internet, importing a third-party AI skill comes with serious security risks.
             </p>
 
             <p>
@@ -108,10 +111,12 @@
                 <strong><a href="https://github.com/NVIDIA/SkillSpector/" target="_blank" rel="noopener noreferrer">SkillSpector</a></strong> is an advanced, open-source security scanner specifically built for AI agent skills, workflows, and prompts.
             </p>
             <p>
-                When you give SkillSpector a local directory or a GitHub repository containing AI agent skills, it acts like a cybersecurity expert. It reads through the markdown files, shell scripts, Python code, and system prompts to look for hidden threats.
+                When you give SkillSpector a local directory or a GitHub repository containing AI agent skills, it acts like a cybersecurity expert. It reads through the markdown files, shell scripts, Python code, and system prompts to look for
+                hidden threats.
             </p>
             <p>
-                Unlike traditional security scanners that only look for known code vulnerabilities, SkillSpector combines traditional static analysis (like YARA rules) with <strong>LLM-powered semantic analysis</strong>. This means it can actually understand the <em>intent</em> of the skill and catch complex attacks like prompt injection, tool poisoning, or excessive privilege requests.
+                Unlike traditional security scanners that only look for known code vulnerabilities, SkillSpector combines traditional static analysis (like YARA rules) with <strong>LLM-powered semantic analysis</strong>. This means it can actually
+                understand the <em>intent</em> of the skill and catch complex attacks like prompt injection, tool poisoning, or excessive privilege requests.
             </p>
 
             <h2 id="why-should-you-use-it">Why Should You Use It?</h2>
@@ -305,78 +310,438 @@ export OPENAI_API_KEY="your-api-key"</code></pre>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr><td><code>.agent/skills/workflow-loader/SKILL.md</code></td><td>markdown</td><td>47</td><td>No</td></tr>
-                                <tr><td><code>.agent/skills/workflow-loader/scripts/list_workflows.sh</code></td><td>shell</td><td>46</td><td>Yes</td></tr>
-                                <tr><td><code>.agent/skills/workflow-loader/scripts/load_workflow.sh</code></td><td>shell</td><td>53</td><td>Yes</td></tr>
-                                <tr><td><code>.agent/workflows/mitra-analyst.md</code></td><td>markdown</td><td>116</td><td>No</td></tr>
-                                <tr><td><code>.agent/workflows/mitra-architect.md</code></td><td>markdown</td><td>125</td><td>No</td></tr>
-                                <tr><td><code>.agent/workflows/mitra-designer.md</code></td><td>markdown</td><td>119</td><td>No</td></tr>
-                                <tr><td><code>.agent/workflows/mitra-engineer.md</code></td><td>markdown</td><td>121</td><td>No</td></tr>
-                                <tr><td><code>.agent/workflows/mitra-manager.md</code></td><td>markdown</td><td>104</td><td>No</td></tr>
-                                <tr><td><code>.agent/workflows/mitra-orchestrator.md</code></td><td>markdown</td><td>147</td><td>No</td></tr>
-                                <tr><td><code>.claude/commands/mitra/analyst.md</code></td><td>markdown</td><td>114</td><td>No</td></tr>
-                                <tr><td><code>.claude/commands/mitra/architect.md</code></td><td>markdown</td><td>122</td><td>No</td></tr>
-                                <tr><td><code>.claude/commands/mitra/designer.md</code></td><td>markdown</td><td>115</td><td>No</td></tr>
-                                <tr><td><code>.claude/commands/mitra/engineer.md</code></td><td>markdown</td><td>116</td><td>No</td></tr>
-                                <tr><td><code>.claude/commands/mitra/manager.md</code></td><td>markdown</td><td>101</td><td>No</td></tr>
-                                <tr><td><code>.claude/commands/mitra/orchestrator.md</code></td><td>markdown</td><td>142</td><td>No</td></tr>
-                                <tr><td><code>.claude/skills/workflow-loader/SKILL.md</code></td><td>markdown</td><td>47</td><td>No</td></tr>
-                                <tr><td><code>.claude/skills/workflow-loader/scripts/list_workflows.sh</code></td><td>shell</td><td>46</td><td>Yes</td></tr>
-                                <tr><td><code>.claude/skills/workflow-loader/scripts/load_workflow.sh</code></td><td>shell</td><td>53</td><td>Yes</td></tr>
-                                <tr><td><code>.gemini/GEMINI.md</code></td><td>markdown</td><td>40</td><td>No</td></tr>
-                                <tr><td><code>.gemini/commands/mitra/persona/analyst.toml</code></td><td>toml</td><td>111</td><td>No</td></tr>
-                                <tr><td><code>.gemini/commands/mitra/persona/architect.toml</code></td><td>toml</td><td>119</td><td>No</td></tr>
-                                <tr><td><code>.gemini/commands/mitra/persona/designer.toml</code></td><td>toml</td><td>112</td><td>No</td></tr>
-                                <tr><td><code>.gemini/commands/mitra/persona/engineer.toml</code></td><td>toml</td><td>113</td><td>No</td></tr>
-                                <tr><td><code>.gemini/commands/mitra/persona/manager.toml</code></td><td>toml</td><td>98</td><td>No</td></tr>
-                                <tr><td><code>.gemini/commands/mitra/persona/orchestrator.toml</code></td><td>toml</td><td>139</td><td>No</td></tr>
-                                <tr><td><code>.gemini/settings.json</code></td><td>json</td><td>16</td><td>No</td></tr>
-                                <tr><td><code>.gemini/skills/workflow-loader/SKILL.md</code></td><td>markdown</td><td>47</td><td>No</td></tr>
-                                <tr><td><code>.gemini/skills/workflow-loader/scripts/list_workflows.sh</code></td><td>shell</td><td>46</td><td>Yes</td></tr>
-                                <tr><td><code>.gemini/skills/workflow-loader/scripts/load_workflow.sh</code></td><td>shell</td><td>53</td><td>Yes</td></tr>
-                                <tr><td><code>AGENTS.md</code></td><td>markdown</td><td>67</td><td>No</td></tr>
-                                <tr><td><code>ANTIGRAVITY.md</code></td><td>markdown</td><td>44</td><td>No</td></tr>
-                                <tr><td><code>CHANGELOG.md</code></td><td>markdown</td><td>126</td><td>No</td></tr>
-                                <tr><td><code>CLAUDE.md</code></td><td>markdown</td><td>43</td><td>No</td></tr>
-                                <tr><td><code>GIT-GUIDE.md</code></td><td>markdown</td><td>66</td><td>No</td></tr>
-                                <tr><td><code>GUIDE.md</code></td><td>markdown</td><td>171</td><td>No</td></tr>
-                                <tr><td><code>LICENSE</code></td><td>other</td><td>21</td><td>No</td></tr>
-                                <tr><td><code>README.md</code></td><td>markdown</td><td>161</td><td>No</td></tr>
-                                <tr><td><code>mitra/TREE.md</code></td><td>markdown</td><td>34</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/analyst/persona.md</code></td><td>markdown</td><td>30</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/analyst/workflows/analyst-competitive.md</code></td><td>markdown</td><td>34</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/analyst/workflows/analyst-prd.md</code></td><td>markdown</td><td>34</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/analyst/workflows/memory-manager.md</code></td><td>markdown</td><td>61</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/architect/persona.md</code></td><td>markdown</td><td>29</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/architect/workflows/backend.md</code></td><td>markdown</td><td>281</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/architect/workflows/cloud.md</code></td><td>markdown</td><td>100</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/architect/workflows/database.md</code></td><td>markdown</td><td>236</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/architect/workflows/frontend.md</code></td><td>markdown</td><td>84</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/architect/workflows/memory-manager.md</code></td><td>markdown</td><td>61</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/architect/workflows/microservices.md</code></td><td>markdown</td><td>213</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/designer/persona.md</code></td><td>markdown</td><td>29</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/designer/workflows/design-system.md</code></td><td>markdown</td><td>31</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/designer/workflows/memory-manager.md</code></td><td>markdown</td><td>61</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/designer/workflows/ui-designer.md</code></td><td>markdown</td><td>152</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/designer/workflows/ui-mockup.md</code></td><td>markdown</td><td>29</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/designer/workflows/user-flow.md</code></td><td>markdown</td><td>28</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/engineer/persona.md</code></td><td>markdown</td><td>29</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/engineer/workflows/api-designer.md</code></td><td>markdown</td><td>229</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/engineer/workflows/backend-security.md</code></td><td>markdown</td><td>140</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/engineer/workflows/developer.md</code></td><td>markdown</td><td>185</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/engineer/workflows/documenter.md</code></td><td>markdown</td><td>280</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/engineer/workflows/memory-manager.md</code></td><td>markdown</td><td>61</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/manager/persona.md</code></td><td>markdown</td><td>29</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/manager/workflows/dispatch.md</code></td><td>markdown</td><td>34</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/manager/workflows/memory-manager.md</code></td><td>markdown</td><td>61</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/manager/workflows/sprint-planning.md</code></td><td>markdown</td><td>25</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/manager/workflows/task-breakdown.md</code></td><td>markdown</td><td>32</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/orchestrator/persona.md</code></td><td>markdown</td><td>35</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/orchestrator/workflows/memory-manager.md</code></td><td>markdown</td><td>61</td><td>No</td></tr>
-                                <tr><td><code>mitra/agents/registry.md</code></td><td>markdown</td><td>85</td><td>No</td></tr>
-                                <tr><td><code>mitra/config.yaml</code></td><td>yaml</td><td>4</td><td>No</td></tr>
-                                <tr><td><code>mitra/docs/agent_xml_file.md</code></td><td>markdown</td><td>136</td><td>No</td></tr>
-                                <tr><td><code>mitra/docs/screenshot-01.png</code></td><td>other</td><td>1274</td><td>No</td></tr>
+                                <tr>
+                                    <td><code>.agent/skills/workflow-loader/SKILL.md</code></td>
+                                    <td>markdown</td>
+                                    <td>47</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.agent/skills/workflow-loader/scripts/list_workflows.sh</code></td>
+                                    <td>shell</td>
+                                    <td>46</td>
+                                    <td>Yes</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.agent/skills/workflow-loader/scripts/load_workflow.sh</code></td>
+                                    <td>shell</td>
+                                    <td>53</td>
+                                    <td>Yes</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.agent/workflows/mitra-analyst.md</code></td>
+                                    <td>markdown</td>
+                                    <td>116</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.agent/workflows/mitra-architect.md</code></td>
+                                    <td>markdown</td>
+                                    <td>125</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.agent/workflows/mitra-designer.md</code></td>
+                                    <td>markdown</td>
+                                    <td>119</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.agent/workflows/mitra-engineer.md</code></td>
+                                    <td>markdown</td>
+                                    <td>121</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.agent/workflows/mitra-manager.md</code></td>
+                                    <td>markdown</td>
+                                    <td>104</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.agent/workflows/mitra-orchestrator.md</code></td>
+                                    <td>markdown</td>
+                                    <td>147</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.claude/commands/mitra/analyst.md</code></td>
+                                    <td>markdown</td>
+                                    <td>114</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.claude/commands/mitra/architect.md</code></td>
+                                    <td>markdown</td>
+                                    <td>122</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.claude/commands/mitra/designer.md</code></td>
+                                    <td>markdown</td>
+                                    <td>115</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.claude/commands/mitra/engineer.md</code></td>
+                                    <td>markdown</td>
+                                    <td>116</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.claude/commands/mitra/manager.md</code></td>
+                                    <td>markdown</td>
+                                    <td>101</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.claude/commands/mitra/orchestrator.md</code></td>
+                                    <td>markdown</td>
+                                    <td>142</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.claude/skills/workflow-loader/SKILL.md</code></td>
+                                    <td>markdown</td>
+                                    <td>47</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.claude/skills/workflow-loader/scripts/list_workflows.sh</code></td>
+                                    <td>shell</td>
+                                    <td>46</td>
+                                    <td>Yes</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.claude/skills/workflow-loader/scripts/load_workflow.sh</code></td>
+                                    <td>shell</td>
+                                    <td>53</td>
+                                    <td>Yes</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.gemini/GEMINI.md</code></td>
+                                    <td>markdown</td>
+                                    <td>40</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.gemini/commands/mitra/persona/analyst.toml</code></td>
+                                    <td>toml</td>
+                                    <td>111</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.gemini/commands/mitra/persona/architect.toml</code></td>
+                                    <td>toml</td>
+                                    <td>119</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.gemini/commands/mitra/persona/designer.toml</code></td>
+                                    <td>toml</td>
+                                    <td>112</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.gemini/commands/mitra/persona/engineer.toml</code></td>
+                                    <td>toml</td>
+                                    <td>113</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.gemini/commands/mitra/persona/manager.toml</code></td>
+                                    <td>toml</td>
+                                    <td>98</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.gemini/commands/mitra/persona/orchestrator.toml</code></td>
+                                    <td>toml</td>
+                                    <td>139</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.gemini/settings.json</code></td>
+                                    <td>json</td>
+                                    <td>16</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.gemini/skills/workflow-loader/SKILL.md</code></td>
+                                    <td>markdown</td>
+                                    <td>47</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.gemini/skills/workflow-loader/scripts/list_workflows.sh</code></td>
+                                    <td>shell</td>
+                                    <td>46</td>
+                                    <td>Yes</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.gemini/skills/workflow-loader/scripts/load_workflow.sh</code></td>
+                                    <td>shell</td>
+                                    <td>53</td>
+                                    <td>Yes</td>
+                                </tr>
+                                <tr>
+                                    <td><code>AGENTS.md</code></td>
+                                    <td>markdown</td>
+                                    <td>67</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>ANTIGRAVITY.md</code></td>
+                                    <td>markdown</td>
+                                    <td>44</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>CHANGELOG.md</code></td>
+                                    <td>markdown</td>
+                                    <td>126</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>CLAUDE.md</code></td>
+                                    <td>markdown</td>
+                                    <td>43</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>GIT-GUIDE.md</code></td>
+                                    <td>markdown</td>
+                                    <td>66</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>GUIDE.md</code></td>
+                                    <td>markdown</td>
+                                    <td>171</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>LICENSE</code></td>
+                                    <td>other</td>
+                                    <td>21</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>README.md</code></td>
+                                    <td>markdown</td>
+                                    <td>161</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/TREE.md</code></td>
+                                    <td>markdown</td>
+                                    <td>34</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/analyst/persona.md</code></td>
+                                    <td>markdown</td>
+                                    <td>30</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/analyst/workflows/analyst-competitive.md</code></td>
+                                    <td>markdown</td>
+                                    <td>34</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/analyst/workflows/analyst-prd.md</code></td>
+                                    <td>markdown</td>
+                                    <td>34</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/analyst/workflows/memory-manager.md</code></td>
+                                    <td>markdown</td>
+                                    <td>61</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/architect/persona.md</code></td>
+                                    <td>markdown</td>
+                                    <td>29</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/architect/workflows/backend.md</code></td>
+                                    <td>markdown</td>
+                                    <td>281</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/architect/workflows/cloud.md</code></td>
+                                    <td>markdown</td>
+                                    <td>100</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/architect/workflows/database.md</code></td>
+                                    <td>markdown</td>
+                                    <td>236</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/architect/workflows/frontend.md</code></td>
+                                    <td>markdown</td>
+                                    <td>84</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/architect/workflows/memory-manager.md</code></td>
+                                    <td>markdown</td>
+                                    <td>61</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/architect/workflows/microservices.md</code></td>
+                                    <td>markdown</td>
+                                    <td>213</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/designer/persona.md</code></td>
+                                    <td>markdown</td>
+                                    <td>29</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/designer/workflows/design-system.md</code></td>
+                                    <td>markdown</td>
+                                    <td>31</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/designer/workflows/memory-manager.md</code></td>
+                                    <td>markdown</td>
+                                    <td>61</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/designer/workflows/ui-designer.md</code></td>
+                                    <td>markdown</td>
+                                    <td>152</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/designer/workflows/ui-mockup.md</code></td>
+                                    <td>markdown</td>
+                                    <td>29</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/designer/workflows/user-flow.md</code></td>
+                                    <td>markdown</td>
+                                    <td>28</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/engineer/persona.md</code></td>
+                                    <td>markdown</td>
+                                    <td>29</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/engineer/workflows/api-designer.md</code></td>
+                                    <td>markdown</td>
+                                    <td>229</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/engineer/workflows/backend-security.md</code></td>
+                                    <td>markdown</td>
+                                    <td>140</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/engineer/workflows/developer.md</code></td>
+                                    <td>markdown</td>
+                                    <td>185</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/engineer/workflows/documenter.md</code></td>
+                                    <td>markdown</td>
+                                    <td>280</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/engineer/workflows/memory-manager.md</code></td>
+                                    <td>markdown</td>
+                                    <td>61</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/manager/persona.md</code></td>
+                                    <td>markdown</td>
+                                    <td>29</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/manager/workflows/dispatch.md</code></td>
+                                    <td>markdown</td>
+                                    <td>34</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/manager/workflows/memory-manager.md</code></td>
+                                    <td>markdown</td>
+                                    <td>61</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/manager/workflows/sprint-planning.md</code></td>
+                                    <td>markdown</td>
+                                    <td>25</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/manager/workflows/task-breakdown.md</code></td>
+                                    <td>markdown</td>
+                                    <td>32</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/orchestrator/persona.md</code></td>
+                                    <td>markdown</td>
+                                    <td>35</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/orchestrator/workflows/memory-manager.md</code></td>
+                                    <td>markdown</td>
+                                    <td>61</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/agents/registry.md</code></td>
+                                    <td>markdown</td>
+                                    <td>85</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/config.yaml</code></td>
+                                    <td>yaml</td>
+                                    <td>4</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/docs/agent_xml_file.md</code></td>
+                                    <td>markdown</td>
+                                    <td>136</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mitra/docs/screenshot-01.png</code></td>
+                                    <td>other</td>
+                                    <td>1274</td>
+                                    <td>No</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -394,216 +759,277 @@ export OPENAI_API_KEY="your-api-key"</code></pre>
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #ef4444; font-size: 1.05rem;">🔴 HIGH: SDI-2</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>.agent/workflows/mitra-analyst.md:56–72</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 85%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The workflow automatically executes local bash scripts (load_workflow.sh) when handlers such as *prd, *comp, *save, and *load are triggered. If parameters or scripts can be manipulated, this introduces a direct vector for Remote Code Execution (RCE) on the host.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Avoid invoking shell scripts directly from within agent workflows. Implement safer programmatic APIs instead, or ensure strict input sanitization coupled with mandatory user approval before script execution.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The workflow automatically executes local bash scripts (load_workflow.sh) when handlers such as *prd, *comp,
+                                *save, and *load are triggered. If parameters or scripts can be manipulated, this introduces a direct vector for Remote Code Execution (RCE) on the host.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Avoid invoking shell scripts directly from within agent workflows. Implement safer programmatic APIs instead, or
+                                ensure strict input sanitization coupled with mandatory user approval before script execution.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #f59e0b; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #f59e0b; font-size: 1.05rem;">🟡 MEDIUM: SDI-2</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>.agent/workflows/mitra-designer.md:50–75</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 80%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The workflow triggers shell script execution (load_workflow.sh) directly from menu commands without sandboxing or parameter verification. If the local script environment is compromised or parameters can be manipulated, it could result in Remote Code Execution (RCE).</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Replace shell script execution with structured API calls or sandboxed tools. Ensure all arguments are validated against a strict whitelist and that the user is explicitly prompted before any script execution.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The workflow triggers shell script execution (load_workflow.sh) directly from menu commands without sandboxing
+                                or parameter verification. If the local script environment is compromised or parameters can be manipulated, it could result in Remote Code Execution (RCE).</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Replace shell script execution with structured API calls or sandboxed tools. Ensure all arguments are validated
+                                against a strict whitelist and that the user is explicitly prompted before any script execution.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #ef4444; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #ef4444; font-size: 1.05rem;">🔴 HIGH: SDI-2</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>.gemini/commands/mitra/persona/analyst.toml:50–66</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 90%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The persona configuration allows the agent to execute host shell scripts directly upon triggering certain menu selections. This is dangerous because it can be abused to run arbitrary commands or execute malicious payloads present within a repository workspace.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Avoid direct execution of host shell scripts from prompt/persona configurations. Implement a safe, sandboxed tool execution layer or restrict actions to predefined, safe API functions.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The persona configuration allows the agent to execute host shell scripts directly upon triggering certain menu
+                                selections. This is dangerous because it can be abused to run arbitrary commands or execute malicious payloads present within a repository workspace.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Avoid direct execution of host shell scripts from prompt/persona configurations. Implement a safe, sandboxed
+                                tool execution layer or restrict actions to predefined, safe API functions.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #f59e0b; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #f59e0b; font-size: 1.05rem;">🟡 MEDIUM: SDI-4</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>mitra/agents/designer/workflows/ui-designer.md:55–56</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 90%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The hardcoded completion message template instructs the agent to report highly specific fake outcomes, such as delivering exactly 47 components and validating accessibility to WCAG 2.1 AA, regardless of the actual task executed. This forces the agent to generate fabricated or hallucinated status reports, misleading developers or automated workflows that consume these messages.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Replace the static values in the completion template with placeholders (e.g., '{number_of_components}') or instruct the agent to generate a summary based dynamically and truthfully on the actual deliverables produced during execution.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The hardcoded completion message template instructs the agent to report highly specific fake outcomes, such as
+                                delivering exactly 47 components and validating accessibility to WCAG 2.1 AA, regardless of the actual task executed. This forces the agent to generate fabricated or hallucinated status reports, misleading developers
+                                or automated workflows that consume these messages.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Replace the static values in the completion template with placeholders (e.g., '{number_of_components}') or
+                                instruct the agent to generate a summary based dynamically and truthfully on the actual deliverables produced during execution.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #f59e0b; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #f59e0b; font-size: 1.05rem;">🟡 MEDIUM: SQP-1</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>.agent/skills/workflow-loader/SKILL.md:21–22</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 80%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The trigger phrase 'What can you do?' is extremely common in typical conversational interactions with LLMs. Binding this specific phrase to the execution of an external shell script can cause frequent, unintended tool invocations, leading to unnecessary resource consumption and potential exposure of directory structure details.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Restrict workflow listing to more explicit, developer-centric intents or commands (e.g., 'list workflows' or 'show workflows') rather than hijacking general conversational inquiries.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The trigger phrase 'What can you do?' is extremely common in typical conversational interactions with LLMs.
+                                Binding this specific phrase to the execution of an external shell script can cause frequent, unintended tool invocations, leading to unnecessary resource consumption and potential exposure of directory structure
+                                details.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Restrict workflow listing to more explicit, developer-centric intents or commands (e.g., 'list workflows' or
+                                'show workflows') rather than hijacking general conversational inquiries.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #ef4444; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #ef4444; font-size: 1.05rem;">🔴 HIGH: SQP-2</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>.agent/workflows/mitra-analyst.md:56–72</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 90%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The workflow initiates local script execution and external web searches silently in the background without explicit warnings or user confirmations. This risks silent privilege abuse or unintended leakage of sensitive project information to external search APIs.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Integrate user-confirmation hooks prior to executing high-privilege operations such as shell scripts and external web requests.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The workflow initiates local script execution and external web searches silently in the background without
+                                explicit warnings or user confirmations. This risks silent privilege abuse or unintended leakage of sensitive project information to external search APIs.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Integrate user-confirmation hooks prior to executing high-privilege operations such as shell scripts and
+                                external web requests.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #f59e0b; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #f59e0b; font-size: 1.05rem;">🟡 MEDIUM: SQP-2</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>.agent/workflows/mitra-architect.md:50–80</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 85%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The workflow automatically executes shell scripts (`load_workflow.sh`) when menu commands are triggered, without disclosing this action or requesting confirmation from the user. If an adversary compromises the repository files, this can lead to silent arbitrary code execution.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Require explicit user confirmation and provide full disclosure before executing any external shell script, or use safe programmatic API calls instead of executing shell scripts directly.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The workflow automatically executes shell scripts (`load_workflow.sh`) when menu commands are triggered,
+                                without disclosing this action or requesting confirmation from the user. If an adversary compromises the repository files, this can lead to silent arbitrary code execution.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Require explicit user confirmation and provide full disclosure before executing any external shell script, or
+                                use safe programmatic API calls instead of executing shell scripts directly.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #f59e0b; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #f59e0b; font-size: 1.05rem;">🟡 MEDIUM: SQP-2</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>.agent/workflows/mitra-designer.md:21–76</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 85%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The agent creates local directories and executes local shell commands automatically without explicit disclosure or obtaining user permission. This silent behavior violates security policies regarding system state modification.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Implement an explicit warning mechanism. Prompt the user for approval before creating target directories or executing command-line scripts.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The agent creates local directories and executes local shell commands automatically without explicit disclosure
+                                or obtaining user permission. This silent behavior violates security policies regarding system state modification.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Implement an explicit warning mechanism. Prompt the user for approval before creating target directories or
+                                executing command-line scripts.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #10b981; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #10b981; font-size: 1.05rem;">🟢 LOW: SQP-1</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>.agent/workflows/mitra-engineer.md:84</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 70%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The natural-language trigger is overly broad, meaning the report-protocol can be activated accidentally during casual discussion without explicit user intent. This degrades conversational reliability.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Modify the trigger to require a specific prefix or keyword command, such as ensuring the protocol is only executed after an explicit command input like '*report'.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The natural-language trigger is overly broad, meaning the report-protocol can be activated accidentally during
+                                casual discussion without explicit user intent. This degrades conversational reliability.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Modify the trigger to require a specific prefix or keyword command, such as ensuring the protocol is only
+                                executed after an explicit command input like '*report'.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #ef4444; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #ef4444; font-size: 1.05rem;">🔴 HIGH: SQP-2</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>.agent/workflows/mitra-engineer.md:15–77</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 90%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The workflow automatically creates directories and executes local bash scripts with parameters pulled from configuration files. Without validation or user prompts, this could allow arbitrary command injection or directory traversal.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Implement user approval prompts before running any shell scripts or writing to disk, and carefully sanitize all config parameters (such as project_id) against an allowlist.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The workflow automatically creates directories and executes local bash scripts with parameters pulled from
+                                configuration files. Without validation or user prompts, this could allow arbitrary command injection or directory traversal.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Implement user approval prompts before running any shell scripts or writing to disk, and carefully sanitize all
+                                config parameters (such as project_id) against an allowlist.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #f59e0b; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #f59e0b; font-size: 1.05rem;">🟡 MEDIUM: SQP-2</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>.agent/workflows/mitra-manager.md:12–61</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 80%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The workflow triggers the execution of local shell scripts (`load_workflow.sh`) from within the agent's handler logic without prompting the user for authorization. If workspace files are untrusted or can be modified, this could result in local arbitrary command execution.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Replace shell script execution with declarative runtime actions, or require explicit user confirmation and validation before running local scripts.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The workflow triggers the execution of local shell scripts (`load_workflow.sh`) from within the agent's handler
+                                logic without prompting the user for authorization. If workspace files are untrusted or can be modified, this could result in local arbitrary command execution.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Replace shell script execution with declarative runtime actions, or require explicit user confirmation and
+                                validation before running local scripts.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #f59e0b; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #f59e0b; font-size: 1.05rem;">🟡 MEDIUM: SQP-2</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>.agent/workflows/mitra-orchestrator.md:77–98</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 85%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The workflow automatically executes shell scripts via the load_workflow.sh command during state save and load operations without prompting the user for approval. This can allow unauthorized execution of code if scripts or environment parameters in the repository are untrusted.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Implement an explicit user confirmation check or alert warning before invoking any local scripts, or use secure application APIs instead of invoking shell scripts.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The workflow automatically executes shell scripts via the load_workflow.sh command during state save and load
+                                operations without prompting the user for approval. This can allow unauthorized execution of code if scripts or environment parameters in the repository are untrusted.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Implement an explicit user confirmation check or alert warning before invoking any local scripts, or use secure
+                                application APIs instead of invoking shell scripts.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #f59e0b; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #f59e0b; font-size: 1.05rem;">🟡 MEDIUM: SQP-2</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>.claude/commands/mitra/analyst.md:50–70</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 80%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The menu handlers automatically execute local bash scripts and initiate web searches without informing the user or asking for confirmation. In environments with untrusted files, this could allow an attacker to trigger malicious code execution via hijacked local scripts.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Modify the menu handlers to prompt the user for confirmation before executing any local shell scripts or external API/web searches, displaying the exact command/action to be performed.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The menu handlers automatically execute local bash scripts and initiate web searches without informing the user
+                                or asking for confirmation. In environments with untrusted files, this could allow an attacker to trigger malicious code execution via hijacked local scripts.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Modify the menu handlers to prompt the user for confirmation before executing any local shell scripts or
+                                external API/web searches, displaying the exact command/action to be performed.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #f59e0b; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #f59e0b; font-size: 1.05rem;">🟡 MEDIUM: SQP-2</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>.claude/commands/mitra/architect.md:47–66</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 90%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The agent is instructed to automatically run local shell scripts via the workflow-loader command execution block. This can lead to arbitrary command execution on the user's host machine without proper confirmation or input sanitization.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Do not execute local shell scripts directly through agent actions without explicit user confirmation. Instead, prompt the user for permission or display the command to be executed manually.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The agent is instructed to automatically run local shell scripts via the workflow-loader command execution
+                                block. This can lead to arbitrary command execution on the user's host machine without proper confirmation or input sanitization.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Do not execute local shell scripts directly through agent actions without explicit user confirmation. Instead,
+                                prompt the user for permission or display the command to be executed manually.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #f59e0b; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #f59e0b; font-size: 1.05rem;">🟡 MEDIUM: SQP-2</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>.claude/commands/mitra/designer.md:3</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 90%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The script instructs the system to execute local bash scripts and perform filesystem modifications automatically. If a repository has been compromised or modified, executing these commands silently without user confirmation can result in arbitrary code execution.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Update the command definitions to explicitly prompt the user for confirmation and display the command to be executed before invoking any external script or making changes to the local filesystem.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The script instructs the system to execute local bash scripts and perform filesystem modifications
+                                automatically. If a repository has been compromised or modified, executing these commands silently without user confirmation can result in arbitrary code execution.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Update the command definitions to explicitly prompt the user for confirmation and display the command to be
+                                executed before invoking any external script or making changes to the local filesystem.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #f59e0b; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #f59e0b; font-size: 1.05rem;">🟡 MEDIUM: SQP-2</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>.claude/commands/mitra/engineer.md:45–73</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 80%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The skill configures the LLM to automatically execute local shell scripts (`load_workflow.sh`) and create directories without warning the user. If an adversary compromises the repository or local files, this could lead to unexpected or unauthorized code execution on the user's system.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Add explicit warnings in the command's metadata/description alerting the user that local scripts will be executed and directories will be created. Require explicit user confirmation before executing any shell scripts.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The skill configures the LLM to automatically execute local shell scripts (`load_workflow.sh`) and create
+                                directories without warning the user. If an adversary compromises the repository or local files, this could lead to unexpected or unauthorized code execution on the user's system.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Add explicit warnings in the command's metadata/description alerting the user that local scripts will be
+                                executed and directories will be created. Require explicit user confirmation before executing any shell scripts.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #f59e0b; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #f59e0b; font-size: 1.05rem;">🟡 MEDIUM: SQP-2</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>.claude/commands/mitra/manager.md:23–57</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 70%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The configuration instructs the agent to execute shell scripts (.sh) and automatically create directories on the host filesystem without presenting warnings or requiring explicit user confirmation. If this workspace is untrusted, opening it could result in unauthorized script execution on the developer's system.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Modify the command workflow to explicitly require user confirmation and display clear warnings before triggering shell scripts or making filesystem modifications.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The configuration instructs the agent to execute shell scripts (.sh) and automatically create directories on
+                                the host filesystem without presenting warnings or requiring explicit user confirmation. If this workspace is untrusted, opening it could result in unauthorized script execution on the developer's system.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Modify the command workflow to explicitly require user confirmation and display clear warnings before triggering
+                                shell scripts or making filesystem modifications.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #f59e0b; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #f59e0b; font-size: 1.05rem;">🟡 MEDIUM: SQP-2</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>.claude/commands/mitra/orchestrator.md:81–96</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 85%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The orchestrator executes a local shell script ('load_workflow.sh') dynamically using parameters derived from directories in the workspace. If directory names or configurations are manipulated by an attacker, this could lead to arbitrary shell command execution.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Avoid automatic execution of arbitrary local scripts from the model context. Implement a verification prompt or sanitize the paths tightly before execution, ensuring the command executor only accepts safe, hardcoded parameter values.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The orchestrator executes a local shell script ('load_workflow.sh') dynamically using parameters derived from
+                                directories in the workspace. If directory names or configurations are manipulated by an attacker, this could lead to arbitrary shell command execution.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Avoid automatic execution of arbitrary local scripts from the model context. Implement a verification prompt or
+                                sanitize the paths tightly before execution, ensuring the command executor only accepts safe, hardcoded parameter values.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #f59e0b; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #f59e0b; font-size: 1.05rem;">🟡 MEDIUM: SQP-1</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>.claude/skills/workflow-loader/SKILL.md:21–22</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 80%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> Using a highly common conversational phrase like 'What can you do?' as a trigger causes the agent to automatically invoke underlying shell scripts during general exploration, leading to unintended tool execution and potential disruption of standard user-agent interactions.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Replace the broad trigger phrase with a specific, explicit command, such as 'list available workflows' or a dedicated slash command like '/list-workflows', to prevent accidental execution.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> Using a highly common conversational phrase like 'What can you do?' as a trigger causes the agent to
+                                automatically invoke underlying shell scripts during general exploration, leading to unintended tool execution and potential disruption of standard user-agent interactions.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Replace the broad trigger phrase with a specific, explicit command, such as 'list available workflows' or a
+                                dedicated slash command like '/list-workflows', to prevent accidental execution.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #f59e0b; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #f59e0b; font-size: 1.05rem;">🟡 MEDIUM: SQP-1</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>.gemini/GEMINI.md:27–28</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 80%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The system instruction forces the agent to output a specific welcome message and main menu upon broad triggers like 'hi' or 'start'. This can hijack the conversation flow and prevent the system from properly processing the user's actual initial query.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Modify the startup protocol to only trigger on explicit commands (e.g., '/mitra:menu') rather than hijacking general conversational greetings like 'hi' or 'start'.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The system instruction forces the agent to output a specific welcome message and main menu upon broad triggers
+                                like 'hi' or 'start'. This can hijack the conversation flow and prevent the system from properly processing the user's actual initial query.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Modify the startup protocol to only trigger on explicit commands (e.g., '/mitra:menu') rather than hijacking
+                                general conversational greetings like 'hi' or 'start'.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #f59e0b; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #f59e0b; font-size: 1.05rem;">🟡 MEDIUM: SQP-1</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>.gemini/skills/workflow-loader/SKILL.md:21–22</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 80%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> Using a highly common conversational phrase like 'What can you do?' as a trigger for executing local shell scripts causes the agent to run commands during benign inquiries. This leads to redundant execution and potential exposure of directory structure or workflow names without explicit user consent.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Refine the trigger instructions in the SKILL.md to respond to specific commands like 'list workflows' or 'show available workflows' rather than hijacking generic helper prompts.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> Using a highly common conversational phrase like 'What can you do?' as a trigger for executing local shell
+                                scripts causes the agent to run commands during benign inquiries. This leads to redundant execution and potential exposure of directory structure or workflow names without explicit user consent.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Refine the trigger instructions in the SKILL.md to respond to specific commands like 'list workflows' or 'show
+                                available workflows' rather than hijacking generic helper prompts.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #f59e0b; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #f59e0b; font-size: 1.05rem;">🟡 MEDIUM: SQP-1</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>AGENTS.md:59</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 75%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> Using highly common conversational phrases like 'remember this' as mandatory triggers for state-saving workflows creates a risk of accidental execution. This can be triggered inadvertently during normal chat conversations or via indirect prompt injection from processed external documents, leading to state corruption or resource depletion.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Replace vague natural language triggers with unique, explicit commands (such as '/save-state' or '*save') and implement a confirmation step before the agent executes the state-persisting workflow.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> Using highly common conversational phrases like 'remember this' as mandatory triggers for state-saving
+                                workflows creates a risk of accidental execution. This can be triggered inadvertently during normal chat conversations or via indirect prompt injection from processed external documents, leading to state corruption or
+                                resource depletion.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Replace vague natural language triggers with unique, explicit commands (such as '/save-state' or '*save') and
+                                implement a confirmation step before the agent executes the state-persisting workflow.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #f59e0b; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #f59e0b; font-size: 1.05rem;">🟡 MEDIUM: SQP-1</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>ANTIGRAVITY.md:31–32</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 80%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> Forcing the agent to output the welcome menu on common greetings like 'hi' or 'start' hijacks normal conversational flows. This degrades the user experience by overriding other legitimate initial queries.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Modify the startup protocol so it is only triggered by explicit commands like '/mitra:orchestrator' rather than generic greeting phrases.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> Forcing the agent to output the welcome menu on common greetings like 'hi' or 'start' hijacks normal
+                                conversational flows. This degrades the user experience by overriding other legitimate initial queries.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Modify the startup protocol so it is only triggered by explicit commands like '/mitra:orchestrator' rather than
+                                generic greeting phrases.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #f59e0b; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #f59e0b; font-size: 1.05rem;">🟡 MEDIUM: SQP-1</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>CLAUDE.md:31–32</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 80%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> Forcing the agent to output a specific welcome menu whenever a user types common greetings like 'hi' or 'start' hijacks the conversational interface. This disrupts the normal user experience and can prevent natural interactions or initial queries from being addressed.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Modify the startup protocol to trigger only on explicit commands (e.g., `/mitra:start`) or when the conversation begins without any prior user query, rather than hijacking common conversational greetings.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> Forcing the agent to output a specific welcome menu whenever a user types common greetings like 'hi' or 'start'
+                                hijacks the conversational interface. This disrupts the normal user experience and can prevent natural interactions or initial queries from being addressed.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Modify the startup protocol to trigger only on explicit commands (e.g., `/mitra:start`) or when the conversation
+                                begins without any prior user query, rather than hijacking common conversational greetings.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #f59e0b; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #f59e0b; font-size: 1.05rem;">🟡 MEDIUM: SQP-2</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>README.md:19–149</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 80%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The documentation describes an autonomous multi-agent system capable of direct codebase implementation and execution, but lacks crucial safety warnings. Running untrusted AI-generated code or giving agents write-access to local repositories without sandboxing exposes users to arbitrary file modification or code execution vulnerabilities.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Add a prominent 'Security Guidelines' section in the README.md advising users to run the agents in an isolated sandbox environment (such as Docker or a virtual machine) and to review all proposed changes prior to execution.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The documentation describes an autonomous multi-agent system capable of direct codebase implementation and
+                                execution, but lacks crucial safety warnings. Running untrusted AI-generated code or giving agents write-access to local repositories without sandboxing exposes users to arbitrary file modification or code execution
+                                vulnerabilities.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Add a prominent 'Security Guidelines' section in the README.md advising users to run the agents in an isolated
+                                sandbox environment (such as Docker or a virtual machine) and to review all proposed changes prior to execution.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #ef4444; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #ef4444; font-size: 1.05rem;">🔴 HIGH: SQP-2</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>mitra/agents/analyst/persona.md:17</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 80%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The agent persona explicitly allows the agent to write, generate, and execute application code without specifying any safety warnings, sandboxing requirements, or human-in-the-loop approvals. If the agent processes adversarial or untrusted input, it could be manipulated into executing malicious code directly on the host system.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Update the persona configuration to explicitly state that all code execution must occur within a secure, isolated sandbox environment. Additionally, implement a mandatory human-in-the-loop approval step before any generated code is executed.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The agent persona explicitly allows the agent to write, generate, and execute application code without
+                                specifying any safety warnings, sandboxing requirements, or human-in-the-loop approvals. If the agent processes adversarial or untrusted input, it could be manipulated into executing malicious code directly on the host
+                                system.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Update the persona configuration to explicitly state that all code execution must occur within a secure,
+                                isolated sandbox environment. Additionally, implement a mandatory human-in-the-loop approval step before any generated code is executed.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #f59e0b; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #f59e0b; font-size: 1.05rem;">🟡 MEDIUM: SQP-2</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>mitra/agents/analyst/workflows/memory-manager.md:44–46</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 85%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The workflow saves rich session state, including user names, decisions, summaries, and artifact details, to local YAML files without any data sanitization or user warning. If users inadvertently input API keys, credentials, or highly sensitive intellectual property during the session, this data is persisted in plaintext locally, which could be leaked if the files are committed to a shared repository or accessed by unauthorized users.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Update the workflow instructions to explicitly warn the user before writing files to local storage, and implement an automatic sanitization step that scrubs potential high-risk strings (such as bearer tokens, passwords, or keys) from the payload before saving. Additionally, recommend that users add the memory directory (`artifacts/*/analyst/memory/`) to their project's `.gitignore` file.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The workflow saves rich session state, including user names, decisions, summaries, and artifact details, to
+                                local YAML files without any data sanitization or user warning. If users inadvertently input API keys, credentials, or highly sensitive intellectual property during the session, this data is persisted in plaintext
+                                locally, which could be leaked if the files are committed to a shared repository or accessed by unauthorized users.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Update the workflow instructions to explicitly warn the user before writing files to local storage, and
+                                implement an automatic sanitization step that scrubs potential high-risk strings (such as bearer tokens, passwords, or keys) from the payload before saving. Additionally, recommend that users add the memory directory
+                                (`artifacts/*/analyst/memory/`) to their project's `.gitignore` file.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #ef4444; padding: 1rem;">
@@ -611,80 +1037,105 @@ export OPENAI_API_KEY="your-api-key"</code></pre>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>mitra/agents/architect/persona.md:17</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 80%</p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 80%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The persona explicitly enables the agent to write, generate, and execute application code without defining any safety constraints or authorization workflows. If the agent is targeted by a prompt injection attack, it could be coerced into running malicious system commands or arbitrary code on the host machine.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Modify the persona definition to explicitly require user approval and authorization before executing any code, or enforce code execution inside a strictly isolated, sandboxed container environment.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The persona explicitly enables the agent to write, generate, and execute application code without defining any
+                                safety constraints or authorization workflows. If the agent is targeted by a prompt injection attack, it could be coerced into running malicious system commands or arbitrary code on the host machine.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Modify the persona definition to explicitly require user approval and authorization before executing any code,
+                                or enforce code execution inside a strictly isolated, sandboxed container environment.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #f59e0b; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #f59e0b; font-size: 1.05rem;">🟡 MEDIUM: SQP-2</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>mitra/agents/designer/persona.md:17</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 80%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The agent is explicitly granted the capability to write, generate, and execute application code (HTML/CSS/JSX) without any safety constraints, boundary definitions, or sandboxing instructions. This lack of guardrails can lead to insecure code generation, arbitrary code execution, or cross-site scripting (XSS) when the agent processes untrusted inputs.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Update the persona to include explicit security guardrails. Instruct the agent to avoid executing untrusted code, enforce strict sandboxing, and mandate human-in-the-loop review before any code is executed or deployed.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The agent is explicitly granted the capability to write, generate, and execute application code (HTML/CSS/JSX)
+                                without any safety constraints, boundary definitions, or sandboxing instructions. This lack of guardrails can lead to insecure code generation, arbitrary code execution, or cross-site scripting (XSS) when the agent
+                                processes untrusted inputs.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Update the persona to include explicit security guardrails. Instruct the agent to avoid executing untrusted
+                                code, enforce strict sandboxing, and mandate human-in-the-loop review before any code is executed or deployed.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #f59e0b; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #f59e0b; font-size: 1.05rem;">🟡 MEDIUM: SQP-2</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>mitra/agents/designer/workflows/memory-manager.md:44–46</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 70%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> Storing session state in local plaintext files without integrity validation or access restrictions can expose sensitive data (such as user credentials, project identifiers, or intellectual property) to unauthorized local users and permits tampering with session data, potentially leading to state-injection attacks upon restoration.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Incorporate explicit security warnings regarding data privacy and state integrity within the workflow specification. Implement cryptographic signatures (e.g., HMAC) to verify state files before loading, and mandate the use of safe YAML parsers to prevent arbitrary code execution during restoration.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> Storing session state in local plaintext files without integrity validation or access restrictions can expose
+                                sensitive data (such as user credentials, project identifiers, or intellectual property) to unauthorized local users and permits tampering with session data, potentially leading to state-injection attacks upon
+                                restoration.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Incorporate explicit security warnings regarding data privacy and state integrity within the workflow
+                                specification. Implement cryptographic signatures (e.g., HMAC) to verify state files before loading, and mandate the use of safe YAML parsers to prevent arbitrary code execution during restoration.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #f59e0b; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #f59e0b; font-size: 1.05rem;">🟡 MEDIUM: SQP-2</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>mitra/agents/engineer/persona.md:17</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 80%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The persona configuration explicitly enables the agent to execute application code without mentioning user warnings or human-in-the-loop verification. If the agent receives untrusted input, this can result in arbitrary code execution on the underlying host.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Add a strict verification step requiring user consent prior to executing any code, and clearly document code execution warnings within the agent's initialization workflows.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The persona configuration explicitly enables the agent to execute application code without mentioning user
+                                warnings or human-in-the-loop verification. If the agent receives untrusted input, this can result in arbitrary code execution on the underlying host.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Add a strict verification step requiring user consent prior to executing any code, and clearly document code
+                                execution warnings within the agent's initialization workflows.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #f59e0b; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #f59e0b; font-size: 1.05rem;">🟡 MEDIUM: SQP-2</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>mitra/agents/engineer/workflows/developer.md:109</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 75%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The developer agent workflow defines capabilities for executing database migrations and production deployments but lacks any instruction requiring operator confirmation. An autonomous agent executing these high-impact and potentially destructive actions without human-in-the-loop oversight could cause unintended data loss or service disruption.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Update the 'Execution Workflow' and 'Data & Storage' sections to explicitly mandate a human-in-the-loop (HITL) confirmation step before running any production migrations, deployments, or destructive schema changes.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The developer agent workflow defines capabilities for executing database migrations and production deployments
+                                but lacks any instruction requiring operator confirmation. An autonomous agent executing these high-impact and potentially destructive actions without human-in-the-loop oversight could cause unintended data loss or
+                                service disruption.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Update the 'Execution Workflow' and 'Data & Storage' sections to explicitly mandate a human-in-the-loop (HITL)
+                                confirmation step before running any production migrations, deployments, or destructive schema changes.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #f59e0b; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #f59e0b; font-size: 1.05rem;">🟡 MEDIUM: SQP-2</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>mitra/agents/engineer/workflows/documenter.md:4–5</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 80%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The workflow grants the agent powerful filesystem access tools (Read, Write, Edit, Grep) alongside external network tools (WebFetch, WebSearch) without explicit boundaries or user-consent warnings. This combination allows a malicious or compromised agent to read sensitive local codebases, configurations, or API specifications and exfiltrate them via web requests.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Implement strict tool-use policies that separate filesystem access from network access. Require user authorization before external-facing tools (WebFetch/WebSearch) are invoked with payloads derived from local project files, or ensure sensitive data is filtered before reaching these tools.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The workflow grants the agent powerful filesystem access tools (Read, Write, Edit, Grep) alongside external
+                                network tools (WebFetch, WebSearch) without explicit boundaries or user-consent warnings. This combination allows a malicious or compromised agent to read sensitive local codebases, configurations, or API
+                                specifications and exfiltrate them via web requests.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Implement strict tool-use policies that separate filesystem access from network access. Require user
+                                authorization before external-facing tools (WebFetch/WebSearch) are invoked with payloads derived from local project files, or ensure sensitive data is filtered before reaching these tools.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #ef4444; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #ef4444; font-size: 1.05rem;">🔴 HIGH: SQP-2</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>mitra/agents/manager/persona.md:17</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 80%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> Enabling the agent to write, generate, or execute application code without explicit safety warnings, sandboxing, or mandatory human-in-the-loop validation presents a high risk. This could allow the agent to execute malicious or unintended code on the host environment under adversarial influence.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Update the agent persona to mandate a sandboxed execution environment and enforce human-in-the-loop approval before executing any code. Explicitly document safety constraints in the agent's system prompt/persona.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> Enabling the agent to write, generate, or execute application code without explicit safety warnings,
+                                sandboxing, or mandatory human-in-the-loop validation presents a high risk. This could allow the agent to execute malicious or unintended code on the host environment under adversarial influence.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Update the agent persona to mandate a sandboxed execution environment and enforce human-in-the-loop approval
+                                before executing any code. Explicitly document safety constraints in the agent's system prompt/persona.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #ef4444; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #ef4444; font-size: 1.05rem;">🔴 HIGH: SQP-2</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>mitra/agents/orchestrator/persona.md:17</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 85%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> Enabling agents to write, generate, and execute application code without specifying safety guardrails, sandboxing, or validation rules creates a severe risk of arbitrary code execution. A malicious actor could leverage prompt injection to execute unauthorized actions on the underlying system.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Update the orchestration capability to explicitly require code execution to occur within a securely isolated sandbox. Mandate human-in-the-loop (HITL) approval before any generated code is executed on the host system or in production environments.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> Enabling agents to write, generate, and execute application code without specifying safety guardrails,
+                                sandboxing, or validation rules creates a severe risk of arbitrary code execution. A malicious actor could leverage prompt injection to execute unauthorized actions on the underlying system.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Update the orchestration capability to explicitly require code execution to occur within a securely isolated
+                                sandbox. Mandate human-in-the-loop (HITL) approval before any generated code is executed on the host system or in production environments.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #f59e0b; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #f59e0b; font-size: 1.05rem;">🟡 MEDIUM: SQP-2</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>mitra/agents/orchestrator/workflows/memory-manager.md:11–47</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 80%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The workflow automatically serializes and writes session state data (including summaries and artifact paths) to the filesystem without any data sanitization or filtering. If the session contains sensitive information, credentials, or personally identifiable information (PII), it will be persistently written to unencrypted local files, creating a data exposure risk.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Implement a sanitization step to filter out secrets, API keys, and PII from the session data before writing to YAML files. Additionally, add a warning to users about what data is being captured and request confirmation before performing filesystem writes.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The workflow automatically serializes and writes session state data (including summaries and artifact paths) to
+                                the filesystem without any data sanitization or filtering. If the session contains sensitive information, credentials, or personally identifiable information (PII), it will be persistently written to unencrypted local
+                                files, creating a data exposure risk.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Implement a sanitization step to filter out secrets, API keys, and PII from the session data before writing to
+                                YAML files. Additionally, add a warning to users about what data is being captured and request confirmation before performing filesystem writes.</p>
                         </div>
 
                         <div class="card" style="margin-bottom: 0; border-left: 4px solid #ef4444; padding: 1rem;">
                             <h5 style="margin-top: 0; margin-bottom: 0.5rem; color: #ef4444; font-size: 1.05rem;">🔴 HIGH: P2</h5>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Location:</strong> <code>.claude/commands/mitra/architect.md:45</code></p>
                             <p style="font-size: 0.9rem; margin-bottom: 0.4rem;"><strong>Confidence:</strong> 80%</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The menu handlers dynamically configure the LLM to invoke shell scripts (`load_workflow.sh`) on local directories when triggered, raising risks of unauthorized tool utilization.</p>
-                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Ensure command handlers only prepare the configuration or suggest actions, requiring the host application or user to explicitly approve executing any workflow loader scripts.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-description);"><strong>Message:</strong> The menu handlers dynamically configure the LLM to invoke shell scripts (`load_workflow.sh`) on local
+                                directories when triggered, raising risks of unauthorized tool utilization.</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-description);"><strong>Remediation:</strong> Ensure command handlers only prepare the configuration or suggest actions, requiring the host application or
+                                user to explicitly approve executing any workflow loader scripts.</p>
                         </div>
                     </div>
                 </details>
@@ -696,20 +1147,24 @@ export OPENAI_API_KEY="your-api-key"</code></pre>
 
             <h2 id="a-real-world-lesson-on-trust">A Real-World Lesson on Trust</h2>
             <p>
-                When running the comprehensive scan on the <a href="https://github.com/saeed-vayghan/mitra" target="_blank">Mitra repository</a>, SkillSpector might generate a report that looks a bit scary. In fact, for the Mitra repo, the final Risk Assessment recommendation is <strong>"DO NOT INSTALL"</strong> with a <strong>"CRITICAL"</strong> severity rating.
+                When running the comprehensive scan on the <a href="https://github.com/saeed-vayghan/mitra" target="_blank">Mitra repository</a>, SkillSpector might generate a report that looks a bit scary. In fact, for the Mitra repo, the final Risk
+                Assessment recommendation is <strong>"DO NOT INSTALL"</strong> with a <strong>"CRITICAL"</strong> severity rating.
             </p>
             <p>
                 Why did this happen?
             </p>
             <p>
-                SkillSpector is incredibly strict. The Mitra repository contains executable shell scripts (<code>list_workflows.sh</code>, <code>load_workflow.sh</code>) and complex AI workflows that grant the agent significant system agency. To a security scanner, an automated script that loads and executes workflows looks exactly like a high-risk capability.
+                SkillSpector is incredibly strict. The Mitra repository contains executable shell scripts (<code>list_workflows.sh</code>, <code>load_workflow.sh</code>) and complex AI workflows that grant the agent significant system agency. To a
+                security scanner, an automated script that loads and executes workflows looks exactly like a high-risk capability.
             </p>
             <blockquote>
                 <strong>Here is the important takeaway:</strong><br>
-                This perfectly demonstrates why you <em>must</em> be careful with third-party repositories. If I had downloaded a random repository from the internet and saw a "DO NOT INSTALL" rating, I would absolutely need to stop, manually review the code, and evaluate every single security finding before trusting it.
+                This perfectly demonstrates why you <em>must</em> be careful with third-party repositories. If I had downloaded a random repository from the internet and saw a "DO NOT INSTALL" rating, I would absolutely need to stop, manually review
+                the code, and evaluate every single security finding before trusting it.
             </blockquote>
             <p>
-                However, because Mitra is <strong>my own repository</strong>, I wrote the scripts and I know exactly what they do. I know it is safe for my specific use case. SkillSpector did exactly what it was supposed to do—it flagged high-privilege, risky actions so that a developer isn't caught off guard.
+                However, because Mitra is <strong>my own repository</strong>, I wrote the scripts and I know exactly what they do. I know it is safe for my specific use case. SkillSpector did exactly what it was supposed to do—it flagged
+                high-privilege, risky actions so that a developer isn't caught off guard.
             </p>
 
             <h2 id="conclusion">Conclusion</h2>
@@ -724,7 +1179,7 @@ export OPENAI_API_KEY="your-api-key"</code></pre>
 
     <footer>
         <div class="site-container">
-            <p>&copy; 2026 Saeed Vayghan. All rights reserved.</p>
+            <p>&copy; 2026 Saeed Vayghani. All rights reserved.</p>
         </div>
     </footer>
 
@@ -734,4 +1189,5 @@ export OPENAI_API_KEY="your-api-key"</code></pre>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markdown.min.js"></script>
 </body>
+
 </html>

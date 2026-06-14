@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <title>Context Fix Strategies for AI Agents | Saeed Vayghan</title>
+    <title>Context Fix Strategies for AI Agents | Saeed Vayghani</title>
     <meta name="description" content="A practical guide detailing key strategies to fix and prevent context failures in LLMs, including RAG, tool loadouts, and session management.">
     <meta name="keywords" content="Context fix, LLM context, RAG, tool loadout, context failure, AI agents">
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://saeed-vayghan.github.io/blog/context-fix-strategies.html">
-    <meta property="og:title" content="Context Fix Strategies for AI Agents | Saeed Vayghan">
+    <meta property="og:title" content="Context Fix Strategies for AI Agents | Saeed Vayghani">
     <meta property="og:description" content="A practical guide detailing key strategies to fix and prevent context failures in LLMs, including RAG, tool loadouts, and session management.">
-    
+
     <!-- Twitter -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:url" content="https://saeed-vayghan.github.io/blog/context-fix-strategies.html">
-    <meta name="twitter:title" content="Context Fix Strategies for AI Agents | Saeed Vayghan">
+    <meta name="twitter:title" content="Context Fix Strategies for AI Agents | Saeed Vayghani">
     <meta name="twitter:description" content="A practical guide detailing key strategies to fix and prevent context failures in LLMs, including RAG, tool loadouts, and session management.">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,6 +24,7 @@
     <link rel="stylesheet" href="../statics/styles.css">
     <script src="../statics/theme.js"></script>
 </head>
+
 <body>
     <header>
         <div class="site-container">
@@ -153,7 +155,8 @@ flowchart TD
 
             <h4>Method 3: Instruct via Rules</h4>
             <p>
-                Even in standard mode, Claude relies on permission prompts for destructive actions. You can reinforce these rules by giving it specific guidelines in a <code>.claudedocs.md</code> (or <code>.cursorrules</code>) file at the root of your project directory.
+                Even in standard mode, Claude relies on permission prompts for destructive actions. You can reinforce these rules by giving it specific guidelines in a <code>.claudedocs.md</code> (or <code>.cursorrules</code>) file at the root of
+                your project directory.
             </p>
             <div class="mac-window">
                 <div class="mac-header">
@@ -194,7 +197,8 @@ flowchart TD
             </ul>
 
             <h4><code>/compact</code>:</h4>
-            <p>You can manually trigger a compaction of the conversation before it happens automatically. The powerful trick here is to guide the process by adding specific instructions (e.g., <code>/compact Focus on the API changes and ignore the earlier debugging steps</code>). This prunes non-essential chatter while ensuring Claude keeps vital decisions.</p>
+            <p>You can manually trigger a compaction of the conversation before it happens automatically. The powerful trick here is to guide the process by adding specific instructions (e.g.,
+                <code>/compact Focus on the API changes and ignore the earlier debugging steps</code>). This prunes non-essential chatter while ensuring Claude keeps vital decisions.</p>
 
             <!-- ===================== 6. Context Offloading ===================== -->
             <h2>6. Context Offloading</h2>
@@ -206,8 +210,10 @@ flowchart TD
             <!-- ===================== 7. Model Context Protocol (MCP) ===================== -->
             <h2>7. Model Context Protocol (MCP) for On-Demand Docs</h2>
             <ul>
-                <li><strong>What it is:</strong> Using MCP servers like <a href="https://context7.com/" target="_blank" rel="noopener noreferrer">Context7</a> to retrieve current, version-specific library documentation on demand, keeping the context lightweight while preventing the AI from using outdated APIs.</li>
-                <li><strong>Example:</strong> When building a feature with a specific library version, prompt the agent: <code>"Use context7 to retrieve documentation for Next.js 15"</code>. The server will fetch and inject only the relevant, up-to-date docs for that specific version right when the AI needs it.</li>
+                <li><strong>What it is:</strong> Using MCP servers like <a href="https://context7.com/" target="_blank" rel="noopener noreferrer">Context7</a> to retrieve current, version-specific library documentation on demand, keeping the context
+                    lightweight while preventing the AI from using outdated APIs.</li>
+                <li><strong>Example:</strong> When building a feature with a specific library version, prompt the agent: <code>"Use context7 to retrieve documentation for Next.js 15"</code>. The server will fetch and inject only the relevant,
+                    up-to-date docs for that specific version right when the AI needs it.</li>
             </ul>
 
         </article>
@@ -215,7 +221,7 @@ flowchart TD
 
     <footer>
         <div class="site-container">
-            <p>&copy; 2026 Saeed Vayghan. All rights reserved.</p>
+            <p>&copy; 2026 Saeed Vayghani. All rights reserved.</p>
         </div>
     </footer>
 
@@ -226,4 +232,5 @@ flowchart TD
         mermaid.initialize({ startOnLoad: true, theme: 'dark' });
     </script>
 </body>
+
 </html>

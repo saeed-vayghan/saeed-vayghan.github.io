@@ -7,6 +7,8 @@ This file acts as a directory map for the entire static website. **Whenever a ne
 ├── index.html                  (Home and About Me page)
 ├── index.md                    (This file - Website structure map)
 ├── README.md                   (Project documentation and guide)
+├── sitemap.xml                 (XML Sitemap for search engines)
+├── generate_rss.py             (Python script to generate RSS feed and Sitemap)
 ├── statics/                    (Global assets folder)
 │   ├── styles.css              (Global minimalist styling and layout)
 │   └── theme.js                (Dark/Light mode toggling logic)

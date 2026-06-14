@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <title>Deconstructing the Gemini CLI: A Tale of Two Agents | Saeed Vayghan</title>
+    <title>Deconstructing the Gemini CLI: A Tale of Two Agents | Saeed Vayghani</title>
     <meta name="description" content="An in-depth analysis of the Gemini CLI's multi-agent routing system using raw request/response logs.">
     <meta name="keywords" content="Gemini CLI, multi-agent architecture, agent routing, LLM API logs, Google Gemini, CLI design">
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://saeed-vayghan.github.io/blog/gemini-cli-multi-agent-architecture.html">
-    <meta property="og:title" content="Deconstructing the Gemini CLI: A Tale of Two Agents | Saeed Vayghan">
+    <meta property="og:title" content="Deconstructing the Gemini CLI: A Tale of Two Agents | Saeed Vayghani">
     <meta property="og:description" content="An in-depth analysis of the Gemini CLI's multi-agent routing system using raw request/response logs.">
-    
+
     <!-- Twitter -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:url" content="https://saeed-vayghan.github.io/blog/gemini-cli-multi-agent-architecture.html">
-    <meta name="twitter:title" content="Deconstructing the Gemini CLI: A Tale of Two Agents | Saeed Vayghan">
+    <meta name="twitter:title" content="Deconstructing the Gemini CLI: A Tale of Two Agents | Saeed Vayghani">
     <meta name="twitter:description" content="An in-depth analysis of the Gemini CLI's multi-agent routing system using raw request/response logs.">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,8 +23,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../statics/styles.css">
     <script src="../statics/theme.js"></script>
-    
+
 </head>
+
 <body>
     <header>
         <div class="site-container">
@@ -87,22 +89,22 @@
             <p>When you send a simple <strong>"Hi"</strong>, the router analyzes it.</p>
 
             <p><strong>Request 1 payload:</strong></p>
-<div class="mac-window">
+            <div class="mac-window">
                 <div class="mac-header">
                     <span class="mac-dot red"></span>
                     <span class="mac-dot yellow"></span>
                     <span class="mac-dot green"></span>
                 </div>
-<pre><code class="language-bash">Endpoint: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent</code></pre>
+                <pre><code class="language-bash">Endpoint: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent</code></pre>
             </div>
 
-<div class="mac-window">
+            <div class="mac-window">
                 <div class="mac-header">
                     <span class="mac-dot red"></span>
                     <span class="mac-dot yellow"></span>
                     <span class="mac-dot green"></span>
                 </div>
-<pre><code class="language-json">{
+                <pre><code class="language-json">{
     "contents": [
         {
             "parts": [
@@ -158,13 +160,13 @@
             </div>
 
             <p><strong>Request 1 response:</strong></p>
-<div class="mac-window">
+            <div class="mac-window">
                 <div class="mac-header">
                     <span class="mac-dot red"></span>
                     <span class="mac-dot yellow"></span>
                     <span class="mac-dot green"></span>
                 </div>
-<pre><code class="language-json">{
+                <pre><code class="language-json">{
     "candidates": [
         {
             "content": {
@@ -202,22 +204,22 @@
             <p>Now Gemini-CLI knows it should use <code>gemini-3-flash-preview</code> to process the user's command.</p>
 
             <p><strong>Request 2 payload:</strong></p>
-<div class="mac-window">
+            <div class="mac-window">
                 <div class="mac-header">
                     <span class="mac-dot red"></span>
                     <span class="mac-dot yellow"></span>
                     <span class="mac-dot green"></span>
                 </div>
-<pre><code class="language-bash">Endpoint: https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:streamGenerateContent?alt=sse</code></pre>
+                <pre><code class="language-bash">Endpoint: https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:streamGenerateContent?alt=sse</code></pre>
             </div>
 
-<div class="mac-window">
+            <div class="mac-window">
                 <div class="mac-header">
                     <span class="mac-dot red"></span>
                     <span class="mac-dot yellow"></span>
                     <span class="mac-dot green"></span>
                 </div>
-<pre><code class="language-json">{
+                <pre><code class="language-json">{
     "contents": [ ... ],
     "systemInstruction": {
         "parts": [
@@ -248,13 +250,13 @@
             </div>
 
             <p><strong>Request 2 response (SSE Payloads):</strong></p>
-<div class="mac-window">
+            <div class="mac-window">
                 <div class="mac-header">
                     <span class="mac-dot red"></span>
                     <span class="mac-dot yellow"></span>
                     <span class="mac-dot green"></span>
                 </div>
-<pre><code class="language-json">data: {"candidates": [{"content": {"parts": [{"text": "**Establishing Initial Grounding** I'm now grounded in this context. I remember my name is Saeed, and ...","thought": true}],"role": "model"},"index": 0}],"usageMetadata": {"promptTokenCount": 12318,"totalTokenCount": 12318},"modelVersion": "gemini-3-flash-preview"}
+                <pre><code class="language-json">data: {"candidates": [{"content": {"parts": [{"text": "**Establishing Initial Grounding** I'm now grounded in this context. I remember my name is Saeed, and ...","thought": true}],"role": "model"},"index": 0}],"usageMetadata": {"promptTokenCount": 12318,"totalTokenCount": 12318},"modelVersion": "gemini-3-flash-preview"}
 
 data: {"candidates": [{"content": {"parts": [{"text": "Hello Saeed. How can I help"}],"role": "model"},"index": 0}],"usageMetadata": {"promptTokenCount": 12318,"candidatesTokenCount": 7,"totalTokenCount": 12385},"modelVersion": "gemini-3-flash-preview"}</code></pre>
             </div>
@@ -263,25 +265,26 @@ data: {"candidates": [{"content": {"parts": [{"text": "Hello Saeed. How can I he
 
             <h3>Iteration 2:</h3>
             <p>Later, you can ask a complex command like: <strong>"Analyze the current directory and architect a testing strategy..."</strong><br>
-            <em>Note: I don't put the whole logs here for more readability, the req/res structure is same as Iteration 1.</em></p>
+                <em>Note: I don't put the whole logs here for more readability, the req/res structure is same as Iteration 1.</em>
+            </p>
 
             <p><strong>Request 3 payload:</strong></p>
-<div class="mac-window">
+            <div class="mac-window">
                 <div class="mac-header">
                     <span class="mac-dot red"></span>
                     <span class="mac-dot yellow"></span>
                     <span class="mac-dot green"></span>
                 </div>
-<pre><code class="language-bash">Endpoint: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent</code></pre>
+                <pre><code class="language-bash">Endpoint: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent</code></pre>
             </div>
 
-<div class="mac-window">
+            <div class="mac-window">
                 <div class="mac-header">
                     <span class="mac-dot red"></span>
                     <span class="mac-dot yellow"></span>
                     <span class="mac-dot green"></span>
                 </div>
-<pre><code class="language-json">{
+                <pre><code class="language-json">{
     "contents": [
         { "parts": [{ "text": "Hi" }], "role": "user" },
         { "parts": [{ "text": "Hello Saeed. How can I help you today?" }], "role": "model" },
@@ -292,13 +295,13 @@ data: {"candidates": [{"content": {"parts": [{"text": "Hello Saeed. How can I he
             </div>
 
             <p><strong>Request 3 response:</strong></p>
-<div class="mac-window">
+            <div class="mac-window">
                 <div class="mac-header">
                     <span class="mac-dot red"></span>
                     <span class="mac-dot yellow"></span>
                     <span class="mac-dot green"></span>
                 </div>
-<pre><code class="language-json">{
+                <pre><code class="language-json">{
     "candidates": [
         {
             "content": {
@@ -323,23 +326,23 @@ data: {"candidates": [{"content": {"parts": [{"text": "Hello Saeed. How can I he
             <p>Now Gemini-CLI knows it should use <code>/gemini-3-pro-preview</code> to process user's command.</p>
 
             <p><strong>Request 4 payload:</strong></p>
-<div class="mac-window">
+            <div class="mac-window">
                 <div class="mac-header">
                     <span class="mac-dot red"></span>
                     <span class="mac-dot yellow"></span>
                     <span class="mac-dot green"></span>
                 </div>
-<pre><code class="language-bash">Endpoint: https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-preview:streamGenerateContent?alt=sse</code></pre>
+                <pre><code class="language-bash">Endpoint: https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-preview:streamGenerateContent?alt=sse</code></pre>
             </div>
 
             <p><strong>Request 4 response:</strong></p>
-<div class="mac-window">
+            <div class="mac-window">
                 <div class="mac-header">
                     <span class="mac-dot red"></span>
                     <span class="mac-dot yellow"></span>
                     <span class="mac-dot green"></span>
                 </div>
-<pre><code class="language-json">data: {"candidates": [{"content": {"parts": [{"text": "The current directory `/Users/saeed/Desktop` appears to be your desktop folder and not"}],"role": "model"},"index": 0}],"usageMetadata": {"promptTokenCount": 26840,"candidatesTokenCount": 19,"totalTokenCount": 27079},"modelVersion": "gemini-3-pro-preview"}</code></pre>
+                <pre><code class="language-json">data: {"candidates": [{"content": {"parts": [{"text": "The current directory `/Users/saeed/Desktop` appears to be your desktop folder and not"}],"role": "model"},"index": 0}],"usageMetadata": {"promptTokenCount": 26840,"candidatesTokenCount": 19,"totalTokenCount": 27079},"modelVersion": "gemini-3-pro-preview"}</code></pre>
             </div>
 
             <hr class="content-divider">
@@ -363,13 +366,13 @@ data: {"candidates": [{"content": {"parts": [{"text": "Hello Saeed. How can I he
 
             <h3>The "Cheat Code" (Manual Override)</h3>
             <p>Sometimes, the manager gets it wrong, or you just want the smartest model regardless of the cost. You can force the CLI to skip the router and lock onto the Pro model by typing:</p>
-<div class="mac-window">
+            <div class="mac-window">
                 <div class="mac-header">
                     <span class="mac-dot red"></span>
                     <span class="mac-dot yellow"></span>
                     <span class="mac-dot green"></span>
                 </div>
-<pre><code class="language-bash">/model gemini-3-pro-preview</code></pre>
+                <pre><code class="language-bash">/model gemini-3-pro-preview</code></pre>
             </div>
             <p>This bypasses the logic checks and gives you raw power for every interaction.</p>
         </article>
@@ -377,11 +380,12 @@ data: {"candidates": [{"content": {"parts": [{"text": "Hello Saeed. How can I he
 
     <footer>
         <div class="site-container">
-            <p>&copy; 2026 Saeed Vayghan. All rights reserved.</p>
+            <p>&copy; 2026 Saeed Vayghani. All rights reserved.</p>
         </div>
     </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
 </body>
+
 </html>

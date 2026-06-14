@@ -1,4 +1,4 @@
-# Saeed Vayghan - Personal Website & Blog
+# Saeed Vayghani - Personal Website & Blog
 
 This is the repository for my personal website, portfolio, and blog, deployed on GitHub Pages.
 

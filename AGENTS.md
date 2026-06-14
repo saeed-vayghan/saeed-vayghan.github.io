@@ -34,7 +34,7 @@ When asked to create a new project or a new blog post:
    - The `<time>` tag in `blog/index.html`.
    - The `<time class="post-date">` tag inside the post file's `.post-header`.
    - The parenthetical date annotation in `index.md` (e.g., `(Claude Code Best Practices guide - April 20, 2026)`).
-7. **RSS Feed**: After creating a new blog post and adding it to `blog/index.html`, you must update the RSS feed by running `python3 generate_rss.py`.
+7. **RSS Feed & Sitemap**: After creating or modifying a blog post or project page (including updating the lists in `blog/index.html` or `projects/index.html`), you must update both the RSS feed and the sitemap by running `python3 generate_rss.py`. This script dynamically builds `rss.xml` and `sitemap.xml` based on the content indexes.
 8. **SEO & Social Metadata**: Every new blog post or project page must include proper SEO metadata in the `<head>` block. Use the layout present in `blog/post-template.html` or `projects/project-template.html` and populate:
    - `<meta name="description" content="...">`: A concise summary of the post.
    - `<meta name="keywords" content="...">`: Main keywords related to the post context.

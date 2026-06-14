@@ -2,20 +2,20 @@
 <html lang="en">
 
 <head>
-    <title>Recursive Language Models (RLMs) Overview | Saeed Vayghan</title>
+    <title>Recursive Language Models (RLMs) Overview | Saeed Vayghani</title>
     <meta name="description" content="A brief overview of Recursive Language Models (RLMs) and how they solve the Context Rot problem.">
     <meta name="keywords" content="Recursive Language Models, RLM, context rot, LLM architecture, artificial intelligence">
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://saeed-vayghan.github.io/blog/recursive-language-models.html">
-    <meta property="og:title" content="Recursive Language Models (RLMs) Overview | Saeed Vayghan">
+    <meta property="og:title" content="Recursive Language Models (RLMs) Overview | Saeed Vayghani">
     <meta property="og:description" content="A brief overview of Recursive Language Models (RLMs) and how they solve the Context Rot problem.">
-    
+
     <!-- Twitter -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:url" content="https://saeed-vayghan.github.io/blog/recursive-language-models.html">
-    <meta name="twitter:title" content="Recursive Language Models (RLMs) Overview | Saeed Vayghan">
+    <meta name="twitter:title" content="Recursive Language Models (RLMs) Overview | Saeed Vayghani">
     <meta name="twitter:description" content="A brief overview of Recursive Language Models (RLMs) and how they solve the Context Rot problem.">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,24 +24,12 @@
     <link rel="stylesheet" href="../statics/styles.css">
     <script src="../statics/theme.js"></script>
     <style>
-        
-
-        
-
-        
-
-        
-
-        
-
         .blog-content img {
             max-width: 100%;
             height: auto;
             border-radius: 8px;
             margin-bottom: 0.5rem;
         }
-        
-        
     </style>
 </head>
 
@@ -95,14 +83,17 @@
                 </div>
             </div>
 
-            <p>Recursive Language Models (RLMs) represent a shift in how AI systems handle massive contexts. Rather than attempting to fit millions of tokens into a single model's window—which often leads to performance degradation known as "Context Rot"—RLMs use a recursive inference strategy to decompose and interact with context programmatically.</p>
+            <p>Recursive Language Models (RLMs) represent a shift in how AI systems handle massive contexts. Rather than attempting to fit millions of tokens into a single model's window—which often leads to performance degradation known as "Context
+                Rot"—RLMs use a recursive inference strategy to decompose and interact with context programmatically.</p>
 
             <h2>The Core Problem: Context Rot</h2>
-            <p>Traditional LLMs suffer from "Context Rot," where accuracy declines as the context window fills, even before reaching technical limits. This isn't just a capacity issue but a quality one; models become "dumber" or lose track of details as the conversation history or input data grows.</p>
+            <p>Traditional LLMs suffer from "Context Rot," where accuracy declines as the context window fills, even before reaching technical limits. This isn't just a capacity issue but a quality one; models become "dumber" or lose track of details
+                as the conversation history or input data grows.</p>
 
             <div class="figure-container">
                 <img src="https://alexzhang13.github.io/assets/img/rlm/teaser.png" alt="RLM Architecture Overview">
-                <p class="caption-text">Figure: An RLM interacts with a REPL environment to manage massive context, recursively sub-querying itself or other LMs to efficiently parse information. (Source: <a href="https://alexzhang13.github.io/blog/2025/rlm/" target="_blank">alexzhang13.github.io</a>)</p>
+                <p class="caption-text">Figure: An RLM interacts with a REPL environment to manage massive context, recursively sub-querying itself or other LMs to efficiently parse information. (Source: <a
+                        href="https://alexzhang13.github.io/blog/2025/rlm/" target="_blank">alexzhang13.github.io</a>)</p>
             </div>
 
             <h2>How RLMs Work</h2>
@@ -116,7 +107,8 @@
             </ul>
 
             <h3>2. The REPL Environment</h3>
-            <p>The RLM operates within a <strong>REPL (Read-Eval-Print Loop)</strong> environment, typically Python. The long context is loaded as a variable in this environment. The "Root LLM" does not see the entire context; instead, it writes code to explore it.</p>
+            <p>The RLM operates within a <strong>REPL (Read-Eval-Print Loop)</strong> environment, typically Python. The long context is loaded as a variable in this environment. The "Root LLM" does not see the entire context; instead, it writes code
+                to explore it.</p>
 
             <h3>3. Recursive Decomposition</h3>
             <p>The Root LLM can call other LLM instances (sub-calls) from within the REPL. This allows for a "divide and conquer" approach:</p>
@@ -138,7 +130,7 @@
 
             <h2>Getting Started with RLMs</h2>
             <p>You can easily spin up a new environment and run RLMs in Python.</p>
-            
+
             <h3>1. Setup your environment</h3>
             <div class="mac-window">
                 <div class="mac-header">
@@ -146,7 +138,7 @@
                     <span class="mac-dot yellow"></span>
                     <span class="mac-dot green"></span>
                 </div>
-<pre><code class="language-bash"># Create a new 3.14 environment
+                <pre><code class="language-bash"># Create a new 3.14 environment
 uv venv .venv
 
 # Activate it
@@ -163,7 +155,7 @@ uv pip install rlms</code></pre>
                     <span class="mac-dot yellow"></span>
                     <span class="mac-dot green"></span>
                 </div>
-<pre><code class="language-python">from rlm import RLM
+                <pre><code class="language-python">from rlm import RLM
 
 rlm = RLM(
     backend="gemini",
@@ -175,7 +167,8 @@ print(rlm.completion("find the nearest city to stockholm and tell me how far is 
             </div>
 
             <h2>The Future: Agent Discovery</h2>
-            <p>Beyond solving context limits, RLMs act as <strong>Agent Discovery Mechanisms</strong>. By observing the "traces" of how an RLM solves a complex problem—what strategies it tries, how it chunks data, and which sub-queries it makes—developers can identify repeating patterns. These patterns can then be "hard-coded" into optimized, low-latency agent architectures, effectively using RLMs to "invent" the best agent for a specific task.</p>
+            <p>Beyond solving context limits, RLMs act as <strong>Agent Discovery Mechanisms</strong>. By observing the "traces" of how an RLM solves a complex problem—what strategies it tries, how it chunks data, and which sub-queries it
+                makes—developers can identify repeating patterns. These patterns can then be "hard-coded" into optimized, low-latency agent architectures, effectively using RLMs to "invent" the best agent for a specific task.</p>
 
             <h2>Current Limitations</h2>
             <ul>
@@ -199,7 +192,7 @@ print(rlm.completion("find the nearest city to stockholm and tell me how far is 
 
     <footer>
         <div class="site-container">
-            <p>&copy; 2026 Saeed Vayghan. All rights reserved.</p>
+            <p>&copy; 2026 Saeed Vayghani. All rights reserved.</p>
         </div>
     </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
