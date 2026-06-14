@@ -35,6 +35,11 @@ When asked to create a new project or a new blog post:
    - The `<time class="post-date">` tag inside the post file's `.post-header`.
    - The parenthetical date annotation in `index.md` (e.g., `(Claude Code Best Practices guide - April 20, 2026)`).
 7. **RSS Feed**: After creating a new blog post and adding it to `blog/index.html`, you must update the RSS feed by running `python3 generate_rss.py`.
+8. **SEO & Social Metadata**: Every new blog post or project page must include proper SEO metadata in the `<head>` block. Use the layout present in `blog/post-template.html` or `projects/project-template.html` and populate:
+   - `<meta name="description" content="...">`: A concise summary of the post.
+   - `<meta name="keywords" content="...">`: Main keywords related to the post context.
+   - Open Graph (OG) tags (`og:title`, `og:description`, `og:url`, `og:type`) to render rich previews on LinkedIn/Facebook.
+   - Twitter Card tags (`twitter:card`, `twitter:url`, `twitter:title`, `twitter:description`) to optimize views on Twitter.
 
 ## 4. Styling & CSS Rules
 
