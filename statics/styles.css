@@ -578,13 +578,9 @@ nav ul li a:hover, nav ul li a.active { color: var(--text-color); }
 }
 .contact-section { margin-top: 0; padding-top: 0; border-top: none; }
 .contact-band .section-title { color: var(--mint-300); border-top: none; padding-top: 0; }
-.contact-desc {
-  color: rgba(232, 239, 237, 0.72);
-  font-size: 1.0625rem; max-width: 68ch;
-  margin-bottom: var(--s-10);
-}
+/* .contact-desc is styled in the contact composition block below */
 
-/* Hierarchy: Email is the primary action, the rest is a mono row */
+/* Tertiary tier: browsing links, quiet by design */
 .social-links { display: flex; flex-wrap: wrap; gap: var(--s-6) var(--s-8); align-items: center; }
 
 .social-link {
@@ -604,17 +600,45 @@ nav ul li a:hover, nav ul li a.active { color: var(--text-color); }
 /* Primary: the email address itself, shown in full.
    A bare "Email" mailto link gives people no way to read or copy the address,
    which is what most visitors actually want. */
-/* Resume and Email share one anatomy: icon + mono label on top, action below.
-   No rules anywhere in this band — grouping is carried by spacing alone. */
-.contact-primary {
-  flex: 1 0 100%;
-  display: flex; flex-direction: column;
-  gap: var(--s-10);
-  /* Bottom margin is deliberately larger than the internal gap. With the rules
-     gone, spacing is the only thing left to signal that the social row is a
-     lower tier and not a third equal item. */
-  margin: var(--s-8) 0 var(--s-16);
+/* Contact composition
+   -------------------------------------------------------------------------
+   Principle: match the affordance to the function. An email address is DATA
+   you read and copy, so it is set as prominent text with a copy control. A
+   resume is an ACTION you take, so it is a filled button — the only filled
+   element on the page, which makes the primary action unmistakable without
+   having to shout. Forcing the two into identical anatomy fought the
+   hierarchy instead of expressing it.
+
+   Layout: an asymmetric two-zone grid — invitation left, actions right —
+   so the eye reads "why" then "how", and the band uses its full width.
+   Grouping is carried by proximity and alignment, not rules. */
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: stretch;
+  margin: var(--s-10) 0 0;
 }
+
+.contact-desc {
+  font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+  line-height: 1.6;
+  color: rgba(232, 239, 237, 0.7);
+  max-width: 32ch;
+  margin: 0;
+}
+
+/* Left column carries the invitation + the quiet tertiary links, so both
+   columns hold weight instead of one sitting half empty. */
+.contact-intro {
+  display: flex; flex-direction: column;
+  justify-content: space-between;
+  gap: var(--s-12);
+  height: 100%;
+}
+
+.contact-actions { display: flex; flex-direction: column; gap: var(--s-8); }
 
 .contact-item { display: flex; flex-direction: column; gap: var(--s-3); }
 
@@ -629,31 +653,43 @@ nav ul li a:hover, nav ul li a.active { color: var(--text-color); }
 
 .contact-row { display: flex; align-items: center; gap: var(--s-4); flex-wrap: wrap; }
 
+/* Email = data: prominent, selectable, copyable */
 .contact-value {
-  display: inline-flex; align-items: center; gap: 0.7rem;
   font-family: var(--font-sans);
-  font-size: clamp(1.25rem, 3.2vw, 2.25rem);
+  font-size: clamp(1.15rem, 2.4vw, 1.85rem);
   font-weight: 800;
   letter-spacing: -0.03em;
   color: #fff;
   overflow-wrap: anywhere;
-}
-.contact-value:hover { color: #fff; }
-.contact-value-icon {
-  width: clamp(20px, 2.2vw, 30px); height: auto;
-  color: var(--mint-400); flex-shrink: 0;
-}
-/* underline wipe on the text only, so the icon stays put */
-.contact-value > span,
-.contact-value:not(:has(> span)) {
   background-image: linear-gradient(var(--mint-400), var(--mint-400));
   background-repeat: no-repeat; background-position: 0 100%;
   background-size: 0% 2px;
   transition: background-size var(--dur-base) var(--ease-out);
   padding-bottom: 4px;
 }
-.contact-value:hover > span,
-.contact-value:not(:has(> span)):hover { background-size: 100% 2px; }
+.contact-value:hover { color: #fff; background-size: 100% 2px; }
+
+/* Resume = action: the single filled element in the whole page */
+.contact-cta {
+  align-self: start;
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.7rem;
+  min-height: 56px;
+  padding: 1rem 1.75rem;
+  background: var(--mint-300);
+  color: var(--mint-950);            /* 9.2:1 ✅ */
+  border-radius: var(--r-md);
+  font-weight: 800;
+  font-size: 1.0625rem;
+  letter-spacing: -0.01em;
+  transition: background-color var(--dur-fast) ease,
+              transform var(--dur-fast) ease;
+}
+.contact-cta svg { flex-shrink: 0; }
+.contact-cta:hover {
+  background: #fff;
+  color: var(--mint-950);
+  transform: translateY(-2px);
+}
 
 .copy-email {
   flex-shrink: 0;
@@ -667,8 +703,7 @@ nav ul li a:hover, nav ul li a.active { color: var(--text-color); }
               background-color var(--dur-fast) ease;
 }
 .copy-email:hover {
-  color: #fff;
-  border-color: var(--mint-400);
+  color: #fff; border-color: var(--mint-400);
   background-color: rgba(42, 157, 143, 0.16);
 }
 .copy-email .icon-check { display: none; }
@@ -676,7 +711,7 @@ nav ul li a:hover, nav ul li a.active { color: var(--text-color); }
 .copy-email.is-copied .icon-copy { display: none; }
 .copy-email.is-copied .icon-check { display: block; }
 
-/* Resume now lives in .contact-primary alongside Email */
+
 
 footer {
   margin-top: 0;
@@ -872,9 +907,19 @@ img, svg { max-width: 100%; }
   nav ul li a { font-size: 0.6875rem; letter-spacing: 0.06em; }
 
 
+  /* Stack the two zones. .contact-intro becomes display:contents so its
+     children join the grid directly and can be reordered — otherwise the
+     tertiary social links would stack ABOVE the email and the CTA. */
+  .contact-grid { grid-template-columns: 1fr; gap: var(--s-8); }
+  .contact-intro { display: contents; }
+  .contact-desc   { order: 1; max-width: none; }
+  .contact-actions{ order: 2; }
+  .contact-grid .social-links { order: 3; margin-top: var(--s-4); }
+  .contact-cta { width: 100%; padding: 1rem; }   /* was overflowing at 320px */
+
   .social-links { gap: var(--s-4) var(--s-6); }
-  .social-links .social-link:first-child { font-size: 1.35rem; }
-  .social-links .social-link:first-child svg { width: 20px; height: 20px; }
+  /* (removed a stale :first-child rule that enlarged Email back when it lived
+     in this row — it was making LinkedIn oversized.) */
 
   .card { padding: var(--s-6) 0 !important; }
   .post-item-header { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
