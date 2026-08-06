@@ -81,7 +81,10 @@ html { scroll-behavior: smooth; scrollbar-gutter: stable; }
   --font-sans: 'Geist', 'Geist Fallback', system-ui, -apple-system, sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-  --fs-display: clamp(3rem, 9vw, 8rem);
+  /* Capped at 5rem: 8rem pushed everything below the fold. Boldness comes from
+     weight and contrast, not height — dial this + .about-me-title max-width
+     together, since line count drives the hero's height more than font-size. */
+  --fs-display: clamp(2.5rem, 6.5vw, 5rem);
   --fs-h1:      clamp(2.25rem, 5vw, 3.5rem);
   --fs-h2:      clamp(1.75rem, 3vw, 2.5rem);
   --fs-h3:      1.25rem;
@@ -308,18 +311,18 @@ nav ul li a:hover, nav ul li a.active { color: var(--text-color); }
    ========================================================================== */
 /* No bottom padding — .career-section supplies the gap, otherwise the two
    section paddings stack into a ~16rem dead zone. */
-.about-me-section { padding: clamp(3rem, 7vw, 6rem) 0 0; }
+.about-me-section { padding: clamp(2rem, 4vw, 3.5rem) 0 0; }
 
 /* THE hero statement. Existing string, promoted to <h1> at display scale. */
 .about-me-title {
   display: block;
   font-size: var(--fs-display);
   font-weight: 800;
-  line-height: 0.92;
-  letter-spacing: -0.04em;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
   color: var(--text-color);
   margin: 0 0 var(--s-8);
-  max-width: 15ch;
+  max-width: 21ch;   /* 15ch forced 4 lines; 21ch sets it in 2 on desktop */
   text-wrap: balance;
 }
 .about-me-title::before { content: none; } /* retire the old 28px bar */
@@ -860,6 +863,15 @@ img, svg { max-width: 100%; }
   .blog-content h2 { font-size: 1.3rem !important; }
   .post-header { display: flex; flex-direction: column; gap: 0.5rem; }
   .post-date { text-align: left; }
+}
+
+@media (max-width: 560px) {
+  /* Links + CTA + toggle share one full-width row, so the theme toggle
+     doesn't orphan onto a third line below the logo. */
+  nav ul { flex: 1 0 100%; justify-content: space-between; gap: 0.4rem; }
+  nav ul li a { font-size: 0.625rem; letter-spacing: 0.05em; }
+  .nav-cta { padding: 0.4rem 0.7rem; min-height: 34px; }
+  .theme-toggle { width: 34px; height: 34px; }
 }
 
 /* ==========================================================================
