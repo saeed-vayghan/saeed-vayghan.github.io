@@ -113,6 +113,60 @@
     sections.forEach(function (s) { spy.observe(s); });
   }
 
+  /* ------------------------------------------------------- copy to clipboard */
+  var copyBtns = document.querySelectorAll('[data-copy]');
+  copyBtns.forEach(function (btn) {
+    var timer = null;
+
+    var flash = function () {
+      btn.classList.add('is-copied');
+      clearTimeout(timer);
+      timer = setTimeout(function () { btn.classList.remove('is-copied'); }, 1800);
+    };
+
+    // execCommand path for non-secure contexts, where navigator.clipboard is absent
+    var legacyCopy = function (text) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.top = '-1000px';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      document.body.removeChild(ta);
+      return ok;
+    };
+
+    // Last resort: select the address so the user can press Cmd/Ctrl+C.
+    // Without this, a rejected clipboard write leaves the button doing nothing.
+    var selectAddress = function () {
+      var row = btn.closest('.email-row');
+      var addr = row && row.querySelector('.email-address');
+      if (!addr || !window.getSelection || !document.createRange) return;
+      var range = document.createRange();
+      range.selectNodeContents(addr);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    };
+
+    var fallback = function () {
+      if (legacyCopy(btn.getAttribute('data-copy'))) { flash(); return; }
+      selectAddress();
+    };
+
+    btn.addEventListener('click', function () {
+      var text = btn.getAttribute('data-copy');
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(flash, fallback);
+      } else {
+        fallback();
+      }
+    });
+  });
+
   /* ------------------------------------------------------ cursor spotlight */
   if (!reduced && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
     var spotlit = document.querySelectorAll('.card, .post-item, .competency-card');
