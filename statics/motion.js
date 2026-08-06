@@ -142,8 +142,8 @@
     // Last resort: select the address so the user can press Cmd/Ctrl+C.
     // Without this, a rejected clipboard write leaves the button doing nothing.
     var selectAddress = function () {
-      var row = btn.closest('.email-row');
-      var addr = row && row.querySelector('.email-address');
+      var row = btn.closest('.contact-row');
+      var addr = row && row.querySelector('.contact-value');
       if (!addr || !window.getSelection || !document.createRange) return;
       var range = document.createRange();
       range.selectNodeContents(addr);
