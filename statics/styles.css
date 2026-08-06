@@ -454,9 +454,10 @@ nav ul li a:hover, nav ul li a.active { color: var(--text-color); }
 }
 .competency-card:nth-child(odd) { border-right: 1px solid var(--border-color); padding-right: var(--s-10); }
 .competency-card:nth-child(even) { padding-left: var(--s-10); }
-/* Last row keeps no bottom rule — otherwise it stacks with the next section's
-   .section-title border-top into two hairlines separated by dead space. */
-.competency-card:nth-last-child(-n+2) { border-bottom: none; }
+/* Every card keeps its bottom rule so the grid closes as a symmetric box:
+   top rule + internal dividers + bottom rule. The doubled-hairline this used
+   to cause is now solved at the source — .career-section drops its
+   .section-title border-top instead (see below). */
 
 /* Numeral replaces the four arbitrary accent colours */
 .competency-card::before {
@@ -494,6 +495,9 @@ nav ul li a:hover, nav ul li a.active { color: var(--text-color); }
    6. HOMEPAGE — CAREER TIMELINE (weighted by recency)
    ========================================================================== */
 .career-section { padding: var(--section-pad) 0 0; margin-top: 0; border-top: none; }
+/* No rule above CAREER — the competency grid's own bottom rule already closes
+   that block, and two hairlines read as a mistake. */
+.career-section .section-title { border-top: none; padding-top: 0; }
 
 .timeline { list-style: none; padding: 0; margin: 0; position: relative; }
 .timeline-item {
@@ -838,9 +842,7 @@ img, svg { max-width: 100%; }
   .competency-card:nth-child(even) {
     padding: var(--s-6) 0; border-right: none;
   }
-  /* Single column: only the true last card drops its rule, not the last two */
-  .competency-card:nth-last-child(-n+2) { border-bottom: 1px solid var(--border-color); }
-  .competency-card:last-child { border-bottom: none; }
+  /* Single column: every card keeps its rule, so the stack still closes */
 
   /* Nav wraps to a second row rather than overflowing once the CTA is added */
   nav { flex-wrap: wrap; row-gap: 0.6rem; }
