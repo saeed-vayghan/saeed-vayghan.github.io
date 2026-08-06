@@ -604,13 +604,47 @@ nav ul li a:hover, nav ul li a.active { color: var(--text-color); }
 /* Primary: the email address itself, shown in full.
    A bare "Email" mailto link gives people no way to read or copy the address,
    which is what most visitors actually want. */
-.email-primary {
+/* Email and Resume are co-primary: the two things a hiring visitor actually
+   wants. Paired as opposite poles of one row so they read as equals rather
+   than two competing headlines. LinkedIn/GitHub/Medium/RSS stay secondary. */
+.contact-primary {
   flex: 1 0 100%;
-  display: flex; flex-direction: column; gap: var(--s-3);
+  display: flex; flex-wrap: wrap;
+  align-items: flex-end;              /* both actions share a baseline */
+  justify-content: space-between;
+  gap: var(--s-8) clamp(2rem, 5vw, 4rem);
   margin-bottom: var(--s-6);
   padding-bottom: var(--s-6);
   border-bottom: 1px solid rgba(232, 239, 237, 0.18);
 }
+
+.email-primary {
+  flex: 0 1 auto;
+  display: flex; flex-direction: column; gap: var(--s-3);
+}
+
+.resume-primary {
+  flex: 0 1 auto;
+  display: inline-flex; align-items: center; gap: 0.7rem;
+  font-family: var(--font-sans);
+  font-size: clamp(1.25rem, 3.6vw, 2.5rem);   /* matches .email-address */
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+.resume-primary svg {
+  width: clamp(20px, 2.2vw, 32px); height: auto;
+  color: var(--mint-400); flex-shrink: 0;
+}
+.resume-primary span {
+  background-image: linear-gradient(var(--mint-400), var(--mint-400));
+  background-repeat: no-repeat; background-position: 0 100%;
+  background-size: 0% 2px;
+  transition: background-size var(--dur-base) var(--ease-out);
+  padding-bottom: 4px;
+}
+.resume-primary:hover { color: #fff; }
+.resume-primary:hover span { background-size: 100% 2px; }
 .email-label {
   display: inline-flex; align-items: center; gap: 0.6rem;
   font-family: var(--font-mono);
@@ -658,9 +692,7 @@ nav ul li a:hover, nav ul li a.active { color: var(--text-color); }
 .copy-email.is-copied .icon-copy { display: none; }
 .copy-email.is-copied .icon-check { display: block; }
 
-/* Secondary: Resume */
-.social-link-secondary { color: var(--mint-300); font-weight: 500; }
-.social-link-secondary:hover { color: #fff; }
+/* Resume is no longer part of the secondary row — see .resume-primary above */
 
 footer {
   margin-top: 0;
