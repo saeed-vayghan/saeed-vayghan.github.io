@@ -1065,3 +1065,19 @@ img, svg { max-width: 100%; }
 .toc-container li::marker { color: var(--mint-500); font-family: var(--font-mono); font-weight: 400; }
 .toc-container a { font-weight: 500; color: var(--text-color); text-decoration: none !important; transition: color var(--dur-fast) ease; }
 .toc-container a:hover { color: var(--primary) !important; }
+
+/* ==========================================================================
+   13. LATE RESPONSIVE OVERRIDES
+   --------------------------------------------------------------------------
+   These have to live after section 12. The base .post-header / .post-date
+   rules are declared there at the same specificity (0,1,0) as the mobile
+   rules in section 11, so source order decides — and section 12 was winning.
+   Result: the post header stayed a two-column grid at every width and pushed
+   the date past the viewport (335px of content in a 320px window).
+   Pre-existing in the original stylesheet; fixed here rather than carried on.
+   ========================================================================== */
+@media (max-width: 768px) {
+  .post-header { display: flex; flex-direction: column; gap: 0.5rem; }
+  .post-date { text-align: left; white-space: normal; }
+  .tag-row { grid-column: auto; }
+}
