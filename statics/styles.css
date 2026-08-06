@@ -224,6 +224,24 @@ nav ul li a:hover::after,
 nav ul li a.active::after { transform: scaleX(1); }
 nav ul li a:hover, nav ul li a.active { color: var(--text-color); }
 
+/* Primary header CTA — reuses the existing "Get in Touch" string */
+.nav-cta {
+  display: inline-flex; align-items: center;
+  min-height: 40px;
+  padding: 0.5rem 1.05rem;
+  background: var(--mint-600);
+  color: #fff;
+  border-radius: var(--r-md);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  transition: background-color var(--dur-fast) ease, transform var(--dur-fast) ease;
+}
+.nav-cta::after { display: none; }              /* no underline wipe on a button */
+.nav-cta:hover { background: var(--mint-700); color: #fff; transform: translateY(-1px); }
+.nav-cta.active { color: #fff; }
+[data-theme="dark"] .nav-cta { background: var(--primary); color: var(--mint-950); }
+[data-theme="dark"] .nav-cta:hover { background: var(--primary-hover); color: var(--mint-950); }
+
 .theme-toggle {
   background: none; border: none; color: var(--text-muted);
   cursor: pointer; width: 44px; height: 44px; border-radius: var(--r-pill);
@@ -348,9 +366,10 @@ nav ul li a:hover, nav ul li a.active { color: var(--text-color); }
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
   gap: clamp(2rem, 6vw, 5rem);
-  align-items: start;
-  margin-bottom: var(--s-12);
+  align-items: center;   /* diagram centres against the taller text column */
+  margin-bottom: 0;
 }
+.lead-text { min-width: 0; }
 .about-me-intro {
   color: var(--text-description);
   font-size: 1.0625rem;
@@ -359,25 +378,30 @@ nav ul li a:hover, nav ul li a.active { color: var(--text-color); }
   margin: 0;
 }
 
-/* Skill tags — three typographic clusters, existing text only */
+/* Skill tags — flowing mono text with mint separators, not boxed chips.
+   Boxes read as form inputs and orphan a lone item onto a second row. */
 .skill-tags {
-  list-style: none; padding: 0; margin: 0;
-  display: flex; flex-wrap: wrap; gap: 0.4rem 0.5rem;
-}
-.skill-tags li {
+  list-style: none; padding: var(--s-6) 0 0; margin: var(--s-8) 0 0;
+  display: flex; flex-wrap: wrap;
+  align-items: baseline;
+  border-top: 1px solid var(--border-color);
   font-family: var(--font-mono);
   font-size: var(--fs-meta);
-  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
+  line-height: 1.9;
   color: var(--text-muted);
-  background: none;
-  border: 1px solid var(--border-color);
-  padding: 0.4rem 0.7rem;
-  border-radius: var(--r-sm);
-  transition: border-color var(--dur-fast) ease, color var(--dur-fast) ease;
 }
-.skill-tags li:hover { border-color: var(--mint-500); color: var(--text-color); }
+.skill-tags li {
+  display: inline-flex; align-items: baseline;
+  transition: color var(--dur-fast) ease;
+}
+.skill-tags li:hover { color: var(--text-color); }
+.skill-tags li:not(:last-child)::after {
+  content: '/';
+  color: var(--mint-500);
+  margin: 0 0.65rem;
+}
 
 /* --- Signature moment: animated system diagram --- */
 .hero-diagram { width: 100%; height: auto; overflow: visible; }
@@ -410,7 +434,7 @@ nav ul li a:hover, nav ul li a.active { color: var(--text-color); }
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0;
-  margin-top: var(--s-4);
+  margin-top: var(--s-16);
   counter-reset: competency;
   border-top: 1px solid var(--border-color);
 }
@@ -427,6 +451,9 @@ nav ul li a:hover, nav ul li a.active { color: var(--text-color); }
 }
 .competency-card:nth-child(odd) { border-right: 1px solid var(--border-color); padding-right: var(--s-10); }
 .competency-card:nth-child(even) { padding-left: var(--s-10); }
+/* Last row keeps no bottom rule — otherwise it stacks with the next section's
+   .section-title border-top into two hairlines separated by dead space. */
+.competency-card:nth-last-child(-n+2) { border-bottom: none; }
 
 /* Numeral replaces the four arbitrary accent colours */
 .competency-card::before {
@@ -761,15 +788,28 @@ img, svg { max-width: 100%; }
   .hero h1 { font-size: 2rem; }
   .hero p { font-size: 1rem; }
 
-  .metrics-container, .about-me-section .metrics-container { gap: var(--s-6) 0; }
-  .metric-box { padding-right: var(--s-6); margin-right: var(--s-6); }
+  /* Grid, not wrap — wrapping left a dangling divider after the 2nd metric */
+  .metrics-container, .about-me-section .metrics-container {
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0;
+  }
+  .metric-box { padding-right: var(--s-3); margin-right: var(--s-3); }
+  .metric-value { font-size: 1.75rem; }
+  .metric-label { font-size: 0.625rem; letter-spacing: 0.06em; }
 
-  .competency-grid { grid-template-columns: 1fr; }
+  .competency-grid { grid-template-columns: 1fr; margin-top: var(--s-12); }
   .competency-card,
   .competency-card:nth-child(odd),
   .competency-card:nth-child(even) {
     padding: var(--s-6) 0; border-right: none;
   }
+  /* Single column: only the true last card drops its rule, not the last two */
+  .competency-card:nth-last-child(-n+2) { border-bottom: 1px solid var(--border-color); }
+  .competency-card:last-child { border-bottom: none; }
+
+  /* Nav wraps to a second row rather than overflowing once the CTA is added */
+  nav { flex-wrap: wrap; row-gap: 0.6rem; }
+  nav ul { gap: 0.9rem; }
+  .nav-cta { padding: 0.45rem 0.8rem; min-height: 36px; }
 
   .timeline-item:first-child .timeline-role { font-size: 1.35rem; }
 
