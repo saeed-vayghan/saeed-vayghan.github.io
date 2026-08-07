@@ -97,6 +97,11 @@ html { scroll-behavior: smooth; scrollbar-gutter: stable; }
   --s-6: 1.5rem;  --s-8: 2rem;    --s-10: 2.5rem; --s-12: 3rem;
   --s-16: 4rem;   --s-20: 5rem;   --s-24: 6rem;
   --section-pad: clamp(4rem, 9vw, 8rem);
+  /* Page frame — the constant inset from the chrome to the content. Every page
+     type opens the same distance below the header and closes the same distance
+     above the footer, so the frame never shifts as you navigate. */
+  --page-top:    clamp(2rem, 4vw, 3.5rem);   /*  32 →  56 */
+  --page-bottom: clamp(3rem, 6vw, 5rem);     /*  48 →  80 */
 
   /* --- Form --- */
   --r-sm: 2px; --r-md: 6px; --r-pill: 999px;
@@ -165,7 +170,9 @@ a:hover { color: var(--primary); }
   border-radius: var(--r-sm);
 }
 
-.site-container { max-width: 1120px; margin: 0 auto; padding: 0 1.5rem; }
+/* padding-inline, not the shorthand: the shorthand also zeroed block padding,
+   which outranked the `main` page-frame rule below on specificity. */
+.site-container { max-width: 1120px; margin: 0 auto; padding-inline: 1.5rem; }
 
 /* Skip link (a11y) */
 .skip-link {
@@ -266,7 +273,28 @@ nav ul li a:hover, nav ul li a.active { color: var(--text-color); }
 /* ==========================================================================
    3. SHARED TYPOGRAPHY
    ========================================================================== */
-.hero { padding: var(--section-pad) 0 var(--s-12); }
+/* The page frame owns the space above the first block and below the last one,
+   so every page type (hero index, article, homepage) opens and closes alike.
+   Article pages used to start 7px under the sticky header and end 24px above
+   the footer; index pages opened at 128px. Now all three read as one system. */
+main { padding-top: var(--page-top); padding-bottom: var(--page-bottom); }
+/* Homepage only: the inverted contact band supplies the close, so main must
+   not add a second one. Degrades to a slightly roomier gap without :has(). */
+main:has(+ .contact-band) { padding-bottom: 0; }
+/* Trailing margins on the last block leak past the frame and make the closing
+   gap drift 80→120px page to page. Collapse them so every page closes on
+   exactly --page-bottom. */
+main > :last-child,
+.blog-content > :last-child,
+.project-content > :last-child,
+.post-list > :last-child,
+.project-list > :last-child { margin-bottom: 0; }
+
+.hero { padding: 0 0 var(--s-12); }
+/* The hero's padding owns the gap to the list. Without this, the subtitle's own
+   2rem trailing margin stacked on top of it for a 112px hand-off — 2x the
+   header inset directly above. */
+.hero > :last-child { margin-bottom: 0; }
 
 .hero h1 {
   font-size: var(--fs-h1);
@@ -309,9 +337,10 @@ nav ul li a:hover, nav ul li a.active { color: var(--text-color); }
 /* ==========================================================================
    4. HOMEPAGE — HERO
    ========================================================================== */
-/* No bottom padding — .career-section supplies the gap, otherwise the two
-   section paddings stack into a ~16rem dead zone. */
-.about-me-section { padding: clamp(2rem, 4vw, 3.5rem) 0 0; }
+/* No padding of its own: --page-top (above, on main) supplies the opening gap
+   and .career-section supplies the one below, otherwise the two section
+   paddings stack into a ~16rem dead zone. */
+.about-me-section { padding: 0; }
 
 /* THE hero statement. Existing string, promoted to <h1> at display scale. */
 .about-me-title {
@@ -453,7 +482,9 @@ nav ul li a:hover, nav ul li a.active { color: var(--text-color); }
   transition: background-color var(--dur-base) ease;
 }
 .competency-card:nth-child(odd) { border-right: 1px solid var(--border-color); padding-right: var(--s-10); }
-.competency-card:nth-child(even) { padding-left: var(--s-10); }
+/* padding-right:0 so both columns get an identical text measure — the right
+   column was 2rem narrower than the left, off-centring the whole grid. */
+.competency-card:nth-child(even) { padding-left: var(--s-10); padding-right: 0; }
 /* Every card keeps its bottom rule so the grid closes as a symmetric box:
    top rule + internal dividers + bottom rule. The doubled-hairline this used
    to cause is now solved at the source — .career-section drops its
@@ -572,7 +603,10 @@ nav ul li a:hover, nav ul li a.active { color: var(--text-color); }
    ========================================================================== */
 .contact-band {
   background: var(--mint-900);
-  margin-top: var(--section-pad);
+  /* The light region closes on --page-bottom, exactly as every other page
+     does; the band then opens on its own --section-pad. Previously both were
+     --section-pad, stacking 256px of void where the rhythm elsewhere is 128. */
+  margin-top: var(--page-bottom);
   padding: var(--section-pad) 0;
   color: #E8EFED;
 }
@@ -731,19 +765,25 @@ footer {
 /* ==========================================================================
    8. CARDS / INDEX ROWS  (/projects, /blog)
    ========================================================================== */
+/* .card (/projects) and .post-item (/blog) do the same job — a full-bleed index
+   row — so they share one anatomy: 2rem block padding, a 1rem inline inset
+   pulled back by a negative margin so the hover surface breathes past the text
+   without shifting it, and an 8px title→description step. */
 .card {
   background-color: transparent;
   border: none;
   border-bottom: 1px solid var(--border-color);
-  border-radius: 0;
-  padding: var(--s-8) 0;
+  border-radius: var(--r-sm);
+  padding: var(--s-8) var(--s-4);
+  margin: 0 calc(var(--s-4) * -1);
   position: relative;
-  transition: border-color var(--dur-base) ease;
+  transition: border-color var(--dur-base) ease, background-color var(--dur-base) ease;
 }
+.card:last-child { border-bottom: none; }   /* matches .post-item — no trailing rule */
 .card:hover { transform: none; box-shadow: none; border-color: var(--border-strong); }
 .card h2 {
   font-size: var(--fs-h3); font-weight: 700;
-  letter-spacing: -0.02em; margin-bottom: var(--s-3);
+  letter-spacing: -0.02em; margin-bottom: var(--s-2);
   transition: color var(--dur-fast) ease;
 }
 .card:hover h2 { color: var(--primary); }
@@ -755,10 +795,16 @@ footer {
   color: var(--primary); font-weight: 400;
 }
 .project-list { display: flex; flex-direction: column; gap: 0; }
+.project-list .card:hover { background-color: var(--card-bg); }
 
+/* Tags sit in a flex row with a real gap. They used to carry margin-right
+   0.35rem / margin-bottom 0.4rem — off the 4px scale, unequal in the two
+   axes, and leaving a phantom 5.6px after the final tag that broke alignment
+   against everything below it. */
+.tag-container { display: flex; flex-wrap: wrap; gap: var(--s-2); }
 .tag {
   display: inline-block;
-  padding: 0.25rem 0.55rem;
+  padding: 0.25rem 0.5rem;
   border-radius: var(--r-sm);
   background-color: transparent;
   border: 1px solid var(--border-color);
@@ -767,8 +813,6 @@ footer {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--text-muted);
-  margin-right: 0.35rem;
-  margin-bottom: 0.4rem;
   font-weight: 400;
 }
 
@@ -921,8 +965,9 @@ img, svg { max-width: 100%; }
   /* (removed a stale :first-child rule that enlarged Email back when it lived
      in this row — it was making LinkedIn oversized.) */
 
-  .card { padding: var(--s-6) 0 !important; }
-  .post-item-header { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
+  /* Both index rows tighten together and keep the inline hover inset */
+  .card, .post-item { padding: var(--s-6) var(--s-4); }
+  .post-item-header { flex-direction: column; align-items: flex-start; gap: var(--s-1); }
   .blog-content h1 { font-size: 2rem !important; }
   .blog-content h2 { font-size: 1.3rem !important; }
   .post-header { display: flex; flex-direction: column; gap: 0.5rem; }
@@ -1021,9 +1066,12 @@ img, svg { max-width: 100%; }
 .action-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
 
 /* Pill tags — retuned into the mint/neutral system (was blue/pink/orange) */
-.tag-row { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem; grid-column: 1 / span 2; }
+/* margin-top was declared here as 0.5rem and then overridden by an inline
+   style="margin-top: 1rem" on all 16 post pages — two sources of truth for one
+   gap. The inline styles are gone; --s-4 is the rendered value they produced. */
+.tag-row { display: flex; align-items: center; gap: var(--s-2); flex-wrap: wrap; margin-top: var(--s-4); grid-column: 1 / span 2; }
 .pill-tag {
-  padding: 0.25rem 0.6rem; border-radius: var(--r-sm);
+  padding: 0.25rem 0.5rem; border-radius: var(--r-sm);   /* matches .tag */
   font-size: 0.6875rem; font-weight: 500; font-family: var(--font-mono);
   text-transform: uppercase; letter-spacing: 0.08em;
   border: 1px solid transparent;
