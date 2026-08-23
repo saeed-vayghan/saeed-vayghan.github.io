@@ -55,6 +55,16 @@
   
   <!-- Blog Posts -->
   <url>
+    <loc>https://saeed-vayghan.github.io/blog/recursive-language-models-review.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://saeed-vayghan.github.io/blog/claude-code-context-management.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://saeed-vayghan.github.io/blog/git-submodule-vs-subtree.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>

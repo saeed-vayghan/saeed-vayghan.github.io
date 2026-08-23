@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Claude Code Context and Compact Management Guide | Saeed Vayghani</title>
+    <meta name="description" content="A developer's guide to managing context in Claude Code: understanding auto-compact settings, using /compact to prevent context rot, and space-saving tips.">
+    <meta name="keywords" content="Claude Code, context window, auto-compact, /compact, /context, LLMs, AI agents, context rot">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://saeed-vayghan.github.io/blog/claude-code-context-management.html">
+    <meta property="og:title" content="Claude Code Context and Compact Management Guide | Saeed Vayghani">
+    <meta property="og:description" content="A developer's guide to managing context in Claude Code: understanding auto-compact settings, using /compact to prevent context rot, and space-saving tips.">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:url" content="https://saeed-vayghan.github.io/blog/claude-code-context-management.html">
+    <meta name="twitter:title" content="Claude Code Context and Compact Management Guide | Saeed Vayghani">
+    <meta name="twitter:description" content="A developer's guide to managing context in Claude Code: understanding auto-compact settings, using /compact to prevent context rot, and space-saving tips.">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../statics/styles.css">
+    <script src="../statics/theme.js"></script>
+    <style>
+        .blog-content pre code {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="site-container">
+            <nav>
+                <div class="logo">Saeed Vayghani</div>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../projects/index.html">Projects</a></li>
+                    <li><a href="../blog/index.html" class="active">Blog</a></li>
+                    <li><a href="../index.html#contact" class="nav-cta">Get in Touch</a></li>
+                    <li>
+                        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                            <!-- Moon Icon -->
+                            <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                            <!-- Sun Icon -->
+                            <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="site-container">
+        <a href="./index.html" class="back-link">
+            &larr; Back to Blog
+        </a>
+
+        <article class="blog-content">
+            <div class="post-header">
+                <h1 class="post-title">Claude Code Context and Compact Management Guide</h1>
+                <time class="post-date">June 20, 2026</time>
+                <div class="tag-row">
+                    <span class="pill-tag pill-fintech">Claude Code</span>
+                    <span class="pill-tag pill-media">LLMs</span>
+                    <span class="pill-tag pill-realestate">Context Management</span>
+                </div>
+            </div>
+
+            <!-- Table of Contents -->
+            <div class="toc-container card">
+                <h3 style="margin-top: 0; margin-bottom: 1rem;">Table of Contents</h3>
+                <ol>
+                    <li><a href="#context-commands">1. Context Commands &amp; Usage</a></li>
+                    <li><a href="#auto-compact-config">2. Auto-Compact Window Configuration</a></li>
+                    <li><a href="#context-rot">3. Context Rot &amp; The 60% Rule</a></li>
+                    <li><a href="#preservation-instructions">4. Preservation Instructions Guide</a></li>
+                    <li><a href="#compaction-workflow">5. Practical Compaction Workflow</a></li>
+                    <li><a href="#saving-space-tips">6. Best Practices for Saving Context Space</a></li>
+                </ol>
+            </div>
+
+            <p>
+                Every file Claude reads, every command it runs, and every message you exchange consumes token space in the model's active working memory. Without proactive management, long sessions degrade as the context window approaches its limits. This guide covers how to monitor your context, configure auto-compaction rules, and use manual compaction tools to keep Claude sharp.
+            </p>
+
+            <!-- Section 1 -->
+            <h2 id="context-commands">1. Context Commands &amp; Usage</h2>
+            <p>
+                Claude Code provides built-in terminal commands to inspect, manage, and compress conversation history:
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Command</th>
+                        <th>Sample Usage</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>/context</code></td>
+                        <td><code>/context</code></td>
+                        <td>Displays a visual bar chart of active context usage and breakdowns (messages, files, tool outputs).</td>
+                    </tr>
+                    <tr>
+                        <td><code>/compact</code></td>
+                        <td><code>/compact</code></td>
+                        <td>Manually triggers compression of your conversation history to reclaim space.</td>
+                    </tr>
+                    <tr>
+                        <td><code>/clear</code></td>
+                        <td><code>/clear</code></td>
+                        <td>Resets the entire session memory, starting with a completely clean slate.</td>
+                    </tr>
+                    <tr>
+                        <td><code>/autocompact</code></td>
+                        <td><code>/autocompact</code></td>
+                        <td>Displays the token threshold for auto-compaction and the source setting that set it.</td>
+                    </tr>
+                    <tr>
+                        <td><code>/usage</code></td>
+                        <td><code>/usage</code></td>
+                        <td>Shows the details and percentages of API costs and limits eaten by context.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>For example, to manually query your active auto-compaction window and its source, execute:</p>
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-bash">/autocompact</code></pre>
+            </div>
+
+            <!-- Section 2 -->
+            <h2 id="auto-compact-config">2. Auto-Compact Window Configuration</h2>
+            <p>
+                Auto-compaction fires automatically once conversation size reaches a designated token threshold. Four distinct sources can define this window, and they resolve in a strict hierarchy:
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Source</th>
+                        <th>Priority</th>
+                        <th>Formats Accepted</th>
+                        <th>Validation &amp; Quirks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong><code>CLAUDE_CODE_AUTO_COMPACT_WINDOW</code></strong> (Env Var)</td>
+                        <td>1 (Highest)</td>
+                        <td>Bare integers only (e.g., <code>200000</code>)</td>
+                        <td><strong>No validation:</strong> Accepts invalid values (e.g. <code>"banana"</code>) without error, but overrides all commands.</td>
+                    </tr>
+                    <tr>
+                        <td><strong><code>--autocompact</code></strong> (CLI Flag)</td>
+                        <td>2</td>
+                        <td>Integers, shorthand (<code>500k</code>, <code>200</code>), <code>auto</code></td>
+                        <td>Overrides configuration settings for a single run. Validates inputs between 100k and 1M.</td>
+                    </tr>
+                    <tr>
+                        <td><strong><code>/autocompact</code></strong> (Command/Settings)</td>
+                        <td>3</td>
+                        <td>Integers, shorthand (<code>500k</code>, <code>200</code>), <code>auto</code></td>
+                        <td>Saves to user config files. Yields to CLI flags and environment variables.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Unset Default</strong></td>
+                        <td>4 (Lowest)</td>
+                        <td>N/A</td>
+                        <td>Uses the default token size tuned for the specific model. <strong>Recommended for best cost.</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>
+                Shorthand numbers (e.g., <code>200</code>) are automatically parsed as <code>200000</code> (200k tokens). If your configured threshold is greater than the model's actual physical capacity, it is capped, and the command output appends <code>· capped to X by model</code>.
+            </p>
+
+            <h3>How to Reset Overridden Settings</h3>
+            <p>
+                If an environment variable override is active, the interactive command cannot change it. You must find it in your environment:
+            </p>
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-bash">env | grep AUTO_COMPACT</code></pre>
+            </div>
+            <p>
+                Remove the export from your startup files (e.g., <code>~/.zshrc</code> or <code>~/.bashrc</code>), unset the variable, and open a fresh terminal session. Then run:
+            </p>
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-bash">/autocompact auto</code></pre>
+            </div>
+
+            <!-- Section 3 -->
+            <h2 id="context-rot">3. Context Rot &amp; The 60% Rule</h2>
+            <p>
+                <strong>Context Rot</strong> is the gradual degradation of session quality as the model's active window fills up. Older foundational guidelines, prompt files, and architecture rules get compressed or discarded automatically.
+            </p>
+            <ul>
+                <li><strong>Early signs:</strong> Slower responses, minor formatting discrepancies, forgetting directories or files, or repeating queries you already resolved.</li>
+                <li><strong>Late signs:</strong> Producing code that contradicts early decisions, optimizing for local scope while breaking global dependencies, or reintroducing bugs you already fixed.</li>
+            </ul>
+
+            <h3>The 60% Rule</h3>
+            <p>
+                Do not wait for Claude's automatic warning indicators (which display around 80%–95% capacity). Run the <code>/compact</code> command proactively when context utilization hits **60%**.
+            </p>
+            <blockquote>
+                At 60%, Claude still has clean, uncompressed access to your entire conversation. The summary it generates will be highly accurate. At 90%, Claude is already summarizing a degraded memory, causing important details to slip away.
+            </blockquote>
+            <p>
+                Note that compaction requires a new LLM call to summarize your history, which increases active token usage. Overriding settings to compact too frequently (e.g., at 10%–20%) is inefficient. For precise control, use the <code>CLAUDE_AUTOCOMPACT_PCT_OVERRIDE</code> environment variable to adjust the auto-compaction percentage.
+            </p>
+
+            <!-- Section 4 -->
+            <h2 id="preservation-instructions">4. Preservation Instructions Guide</h2>
+            <p>
+                Running <code>/compact</code> with no arguments lets the model decide what details to keep. To prevent losing critical data, append explicit preservation instructions.
+            </p>
+            <p>An example command with preservation parameters:</p>
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-bash">/compact Keep: current directory layout, the decision to use optimistic UI updates, and the open error in auth.ts.</code></pre>
+            </div>
+
+            <p>Focus your instructions on these four key categories:</p>
+            <ol>
+                <li><strong>Architectural decisions:</strong> Choices that aren't apparent from reading the raw source files (e.g., <em>"We handle authentication at the middleware level, not in controllers."</em>).</li>
+                <li><strong>Active debugging targets:</strong> Unresolved problems and things you have already tried (e.g., <em>"Debugging a 500 error on POST /api/orders; we verified connection pool is active."</em>).</li>
+                <li><strong>Active scope context:</strong> Which files have been modified, and which areas of the codebase are currently in scope.</li>
+                <li><strong>Technical constraints:</strong> Constraints limiting the solution space (e.g., <em>"Must maintain compatibility with Node 16."</em>).</li>
+            </ol>
+
+            <p><strong>What to leave out:</strong> Resolved logs, failed exploration paths that didn't work out, verbose terminal logs, or obsolete drafts of code.</p>
+
+            <!-- Section 5 -->
+            <h2 id="compaction-workflow">5. Practical Compaction Workflow</h2>
+            <p>
+                Incorporate these steps into your daily coding flow to maintain consistent session quality:
+            </p>
+            <ol>
+                <li><strong>Provide a Session Brief:</strong> Paste a short list of 2–5 bullets detailing your objectives and conventions at the start of your terminal run.</li>
+                <li><strong>Monitor and Pause:</strong> Periodically run <code>/context</code>. When it reaches 60%, prepare your preservation list.</li>
+                <li><strong>Run Compaction:</strong> Execute <code>/compact</code> with your preservation bullet points.</li>
+                <li><strong>Verify Post-Compaction State:</strong> Run a quick sanity check by asking Claude: <em>"Summarize where we are and what we are working on next."</em> Add back any critical items that were dropped.</li>
+                <li><strong>Reset:</strong> Continue working. The 60% threshold resets against the newly cleaned context allocation.</li>
+            </ol>
+
+            <!-- Section 6 -->
+            <h2 id="saving-space-tips">6. Best Practices for Saving Context Space</h2>
+            <ul>
+                <li><strong>Write Specific Prompts:</strong> Vague prompts require Claude to search the file system extensively and run extra tool calls, consuming large amounts of context. Clear, specific queries save space.</li>
+                <li><strong>Leverage <code>CLAUDE.md</code>:</strong> Instead of erasing everything with <code>/clear</code> and forcing Claude to rediscover boundaries, save persistent build commands and rules in a local <code>CLAUDE.md</code> file.</li>
+                <li><strong>Disable Unused MCP Servers:</strong> Model Context Protocol (MCP) servers load all available tools into the context window at startup. Disable unused MCP servers, or use **Skills** which load capabilities dynamically on-demand.</li>
+                <li><strong>Delegate to Subagents:</strong> Subagents run in a completely isolated, separate context window. Delegate lookup and research tasks (e.g., <em>"Search for references to UserSchema in the database directory"</em>) to subagents, so only the final results return to your primary session.</li>
+            </ul>
+        </article>
+    </main>
+
+    <footer>
+        <div class="site-container">
+            <p>&copy; 2026 Saeed Vayghani. All rights reserved.</p>
+        </div>
+    </footer >
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markdown.min.js"></script>
+</body>
+
+</html>

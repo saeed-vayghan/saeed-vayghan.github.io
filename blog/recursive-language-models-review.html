@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Recursive Language Models: A Simple Review | Saeed Vayghani</title>
+    <meta name="description" content="A simplified review of Recursive Language Models (RLMs), explaining how they solve Context Rot using programmatic environments.">
+    <meta name="keywords" content="Recursive Language Models, AI, LLM, Context Rot, REPL, Prompt Engineering">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://saeed-vayghan.github.io/blog/recursive-language-models-review.html">
+    <meta property="og:title" content="Recursive Language Models: A Simple Review | Saeed Vayghani">
+    <meta property="og:description" content="A simplified review of Recursive Language Models (RLMs), explaining how they solve Context Rot using programmatic environments.">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://saeed-vayghan.github.io/blog/recursive-language-models-review.html">
+    <meta name="twitter:title" content="Recursive Language Models: A Simple Review | Saeed Vayghani">
+    <meta name="twitter:description" content="A simplified review of Recursive Language Models (RLMs), explaining how they solve Context Rot using programmatic environments.">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../statics/styles.css">
+    <script src="../statics/theme.js"></script>
+
+</head>
+
+<body>
+    <header>
+        <div class="site-container">
+            <nav>
+                <div class="logo">Saeed Vayghani</div>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../projects/index.html">Projects</a></li>
+                    <li><a href="../blog/index.html" class="active">Blog</a></li>
+                    <li><a href="../index.html#contact" class="nav-cta">Get in Touch</a></li>
+                    <li>
+                        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                            <!-- Moon Icon -->
+                            <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                            <!-- Sun Icon -->
+                            <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="site-container">
+        <a href="./index.html" class="back-link">
+            &larr; Back to Blog
+        </a>
+
+        <article class="blog-content">
+            <div class="post-header">
+                <h1 class="post-title">Recursive Language Models: A Simple Review</h1>
+                <time class="post-date">August 23, 2026</time>
+                <div class="tag-row" style="margin-top: 1rem;">
+                    <span class="pill-tag pill-media">AI</span>
+                    <span class="pill-tag pill-fintech">LLMs</span>
+                </div>
+            </div>
+            
+            <div class="toc-container">
+                <ol>
+                    <li><a href="#the-problem">The Problem: Context Rot</a></li>
+                    <li><a href="#how-rlms-work">How RLMs Work</a></li>
+                    <li><a href="#performance">Performance and Benefits</a></li>
+                    <li><a href="#limitations">Limitations</a></li>
+                    <li><a href="#references">References</a></li>
+                </ol>
+            </div>
+
+            <p>
+                Have you ever noticed that when you chat with an AI for a long time or give it a massive amount of text, it starts to "forget" details or make silly mistakes? This is a known issue called <strong>Context Rot</strong>. As the input (context) grows, the AI's accuracy drops, even if it hasn't hit its official memory limit.
+            </p>
+
+            <h2 id="the-problem">The Problem: Context Rot</h2>
+            <p>
+                Traditional Large Language Models (LLMs) try to stuff all information into a single context window. When faced with millions of words, they become overwhelmed. <strong>Recursive Language Models (RLMs)</strong> offer a smart solution: instead of reading everything at once, they use a small program to explore and chunk the data recursively.
+            </p>
+
+            <figure>
+                <img src="../statics/rlm-teaser.png" alt="RLM Architecture Overview" style="max-width: 100%; border-radius: 8px;">
+                <figcaption style="font-size: 0.9em; color: var(--text-description); text-align: center; margin-top: 0.5rem;">
+                    An RLM interacting with a REPL environment. Source: <a href="https://alexzhang13.github.io/blog/2025/rlm/" target="_blank">alexzhang13.github.io</a>
+                </figcaption>
+            </figure>
+
+            <h2 id="how-rlms-work">How RLMs Work</h2>
+            <p>
+                An RLM is like an AI wrapped in a programming environment (usually a Python REPL). It doesn't look at all your data directly. Instead, the data is loaded as a variable in Python. The "Root AI" writes small scripts to search, filter, and summarize the data before giving you an answer.
+            </p>
+
+            <div class="mermaid">
+            graph TD
+                A[User Query] --> B[Root LLM]
+                B --> C{Python REPL Environment}
+                C -->|Reads/Filters Data| D[Massive Context]
+                C -->|Spawns Sub-Tasks| E[Sub-LLM 1]
+                C -->|Spawns Sub-Tasks| F[Sub-LLM 2]
+                E --> B
+                F --> B
+                B --> G[Final Answer]
+            </div>
+            
+            <script>mermaid.initialize({startOnLoad:true, theme: 'dark'});</script>
+
+            <p>
+                Here is a simple example of how you might interact with an RLM in your code:
+            </p>
+
+            <div class="mac-window">
+                <div class="mac-header">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                </div>
+                <pre><code class="language-python"># Traditional LLM Call (Context Rot Risk)
+response = gpt5.completion(massive_context_and_query)
+
+# Recursive LM Call (Safe for massive contexts)
+# The RLM handles the context via a REPL environment automatically
+response = rlm.completion(massive_context_and_query)
+</code></pre>
+            </div>
+
+            <h2 id="performance">Performance and Benefits</h2>
+            <p>
+                RLMs are extremely efficient for massive tasks. When tested on very long contexts (like the OOLONG benchmark), an RLM using a smaller model can actually outperform a giant model trying to read everything at once.
+            </p>
+
+            <table style="width:100%; border-collapse: collapse; margin-bottom: 2rem;">
+                <thead>
+                    <tr style="border-bottom: 2px solid var(--text-description); text-align: left;">
+                        <th style="padding: 0.5rem;">Model Strategy</th>
+                        <th style="padding: 0.5rem;">Context Handling</th>
+                        <th style="padding: 0.5rem;">Performance (132k+ tokens)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td style="padding: 0.5rem;">Standard GPT-5</td>
+                        <td style="padding: 0.5rem;">Reads all tokens at once</td>
+                        <td style="padding: 0.5rem;">Struggles with Context Rot</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;">RLM (GPT-5-mini)</td>
+                        <td style="padding: 0.5rem;">Uses REPL & Sub-calls</td>
+                        <td style="padding: 0.5rem;"><strong>+114% Improvement</strong> over GPT-5</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <ul>
+                <li><strong>Unbounded Context:</strong> Can process over 10 million tokens without crashing.</li>
+                <li><strong>Deterministic Accuracy:</strong> Uses exact code (like regular expressions) to search data before reading it.</li>
+                <li><strong>Cost Efficient:</strong> Can use smaller, cheaper models for the heavy lifting sub-tasks.</li>
+            </ul>
+
+            <h2 id="limitations">Limitations</h2>
+            <p>
+                While powerful, RLMs are not perfect yet. Because they run multiple steps and wait for sub-AIs to finish, they are <strong>slower</strong> than getting a single direct answer. Also, the Root AI managing everything needs to be very smart (a "frontier" model) to write good code and manage the environment.
+            </p>
+
+            <h2 id="references">References</h2>
+            <ul>
+                <li><a href="https://alexzhang13.github.io/blog/2025/rlm/" target="_blank">Recursive Language Models by Alex Zhang</a></li>
+                <li><a href="https://www.dbreunig.com/2026/02/09/the-potential-of-rlms.html" target="_blank">The Potential of RLMs (dbreunig.com)</a></li>
+                <li><a href="https://www.cmpnd.ai/blog/rlms-in-dspy.html" target="_blank">DSPy is the easiest way to use RLMs</a></li>
+            </ul>
+
+            <!-- Scripts required for code highlighting at the bottom of the article -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+        </article>
+    </main>
+
+    <footer>
+        <div class="site-container">
+            <p>&copy; 2026 Saeed Vayghani. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>
