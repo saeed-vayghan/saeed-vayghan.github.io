@@ -10,7 +10,7 @@ with open('blog/index.html', 'r', encoding='utf-8') as f:
 
 # We need to extract post items
 post_pattern = re.compile(
-    r'<li class="post-item[^>]*>.*?<a href="\./([^"]+)">(.*?)</a>.*?<time>(.*?)</time>.*?<p>(.*?)</p>', 
+    r'<li class="post-item[^>]*>.*?<a href="([^"]+)".*?>(.*?)</a>.*?<time>(.*?)</time>.*?<p>(.*?)</p>', 
     re.DOTALL
 )
 
@@ -40,9 +40,19 @@ items = ""
 blog_posts = []
 
 for match in matches:
-    filename = match[0]
-    link = "https://saeed-vayghan.github.io/blog/" + filename
-    blog_posts.append(filename)
+    raw_href = match[0]
+    is_external = raw_href.startswith('http')
+    
+    if is_external:
+        link = raw_href
+        filename = None
+    else:
+        # Strip the './' if present
+        clean_filename = raw_href[2:] if raw_href.startswith('./') else raw_href
+        link = "https://saeed-vayghan.github.io/blog/" + clean_filename
+        filename = clean_filename
+        blog_posts.append(filename)
+        
     # Clean up the title by stripping tags if any
     title = re.sub(r'<[^>]+>', '', match[1]).strip()
     date_str = match[2].strip()
@@ -54,13 +64,14 @@ for match in matches:
     
     # Extract full content
     full_content = ""
-    post_path = os.path.join('blog', filename)
-    if os.path.exists(post_path):
-        with open(post_path, 'r', encoding='utf-8') as pf:
-            post_html = pf.read()
-            article_match = article_pattern.search(post_html)
-            if article_match:
-                full_content = article_match.group(1).strip()
+    if not is_external and filename:
+        post_path = os.path.join('blog', filename)
+        if os.path.exists(post_path):
+            with open(post_path, 'r', encoding='utf-8') as pf:
+                post_html = pf.read()
+                article_match = article_pattern.search(post_html)
+                if article_match:
+                    full_content = article_match.group(1).strip()
     
     items += f"""
     <item>
